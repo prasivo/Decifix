@@ -1,47 +1,37 @@
 /**
- * DECIFIX PRO ENGINE - Optimized for 1000+ Categories
+ * DECIFIX PRO ENGINE - Sync with HTML & Data
  */
 
 const DECIFIX = {
     currentCategory: null,
     answers: [],
-
-    init() {
-        this.cacheDOM();
-        this.bindEvents();
-        console.log("DECIFIX Engine Loaded: 1000+ Categories Ready.");
-    },
-
+    
+    // HTML ke IDs ke sath match kiya gaya
     cacheDOM() {
-        this.searchBtn = document.getElementById('search-btn');
-        this.searchInput = document.getElementById('search-input');
-        this.searchContainer = document.getElementById('search-container');
-        this.quizContainer = document.getElementById('quiz-container');
-    },
-
-    bindEvents() {
-        this.searchBtn.addEventListener('click', () => this.handleSearch());
-        this.searchInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') this.handleSearch();
-        });
+        this.searchInput = document.getElementById('userInput');
+        this.searchContainer = document.getElementById('phase-input');
+        this.quizContainer = document.getElementById('phase-audit');
+        this.loadingScreen = document.getElementById('phase-loading');
     },
 
     handleSearch() {
+        this.cacheDOM();
         const query = this.searchInput.value.toUpperCase().trim();
-        if (!query) return alert("Likho bhai - Abhi Faisla karte hain !");
+        if (!query) return alert("Bhai, kuch topic toh dalo!");
+
+        // Loading Phase dikhana
+        this.searchContainer.classList.add('hidden');
+        this.loadingScreen.classList.remove('hidden');
 
         let bestMatch = null;
         let maxScore = 0;
 
-        // Advanced Search Algorithm (Direct Match > Keyword Match)
-        for (const key in DECIFIX_DATA) {
+        // data.js ke DECIFIX_DATABASE se match karna
+        for (const key in DECIFIX_DATABASE) {
             let score = 0;
-            const category = DECIFIX_DATA[key];
+            const category = DECIFIX_DATABASE[key];
 
-            // 1. Direct Category Key Match
             if (key.includes(query)) score += 100;
-
-            // 2. Keyword Deep Search
             category.keywords.forEach(kw => {
                 if (query.includes(kw.toUpperCase()) || kw.toUpperCase().includes(query)) {
                     score += 50;
@@ -54,37 +44,39 @@ const DECIFIX = {
             }
         }
 
-        if (bestMatch && maxScore > 0) {
-            this.startFlow(bestMatch);
-        } else {
-            alert("Bhai, ye topic filhal database mein nahi hai. Kuch aur try karo!");
-        }
+        setTimeout(() => {
+            if (bestMatch && maxScore > 0) {
+                this.loadingScreen.classList.add('hidden');
+                this.quizContainer.classList.remove('hidden');
+                this.startFlow(bestMatch);
+            } else {
+                alert("Bhai, ye topic nahi mila. Kuch aur try karo!");
+                location.reload();
+            }
+        }, 2000); // 2 second ka professional scan delay
     },
 
     startFlow(key) {
-        this.currentCategory = DECIFIX_DATA[key];
+        this.currentCategory = DECIFIX_DATABASE[key];
         this.answers = [];
-        this.searchContainer.classList.add('hidden');
-        this.quizContainer.classList.remove('hidden');
         this.renderQuestion(0);
     },
 
     renderQuestion(index) {
         const qData = this.currentCategory.sub.CORE[index];
-        const progress = ((index / this.currentCategory.sub.CORE.length) * 100).toFixed(0);
-
-        this.quizContainer.innerHTML = `
-            <div class="progress-bar" style="width: ${progress}%"></div>
-            <div class="question-box">
-                <p class="category-label">Category: ${this.currentCategory.keywords[0]}</p>
-                <h2>${qData.q}</h2>
-                <div class="options-grid">
-                    ${qData.o.map((opt, i) => `
-                        <button class="opt-btn" onclick="DECIFIX.handleAnswer(${index}, ${i})">${opt}</button>
-                    `).join('')}
-                </div>
-            </div>
-        `;
+        document.getElementById('q-header').innerText = `FILTER ${index + 1}/${this.currentCategory.sub.CORE.length}`;
+        document.getElementById('q-text').innerText = qData.q;
+        
+        const optCont = document.getElementById('q-options');
+        optCont.innerHTML = '';
+        
+        qData.o.forEach((opt, i) => {
+            const btn = document.createElement('div');
+            btn.className = 'option-btn'; // CSS class match
+            btn.innerText = opt;
+            btn.onclick = () => this.handleAnswer(index, i);
+            optCont.appendChild(btn);
+        });
     },
 
     handleAnswer(qIndex, oIndex) {
@@ -97,37 +89,28 @@ const DECIFIX = {
     },
 
     showFinalResult() {
-        // Calculation: 0 is Positive (Green), 1 is Negative (Red)
+        const reportPhase = document.getElementById('phase-report');
+        const auditResults = document.getElementById('audit-results');
+        this.quizContainer.classList.add('hidden');
+        reportPhase.classList.remove('hidden');
+
         const redFlags = this.answers.filter(a => a === 1).length;
-        const total = this.answers.length;
-        
-        let title, message, colorClass;
+        let verdict = "";
 
-        if (redFlags === 0) {
-            title = "FULL GREEN SIGNAL! 🟢";
-            message = "Logic ke hisab se ye faisla ekdum sahi hai. Bina darr ke aage badho.";
-            colorClass = "res-green";
-        } else if (redFlags <= 2) {
-            title = "PROCEED WITH CAUTION 🟡";
-            message = "Faisla bura nahi hai, par kuch risks hain. Ek baar phir se sochiye.";
-            colorClass = "res-yellow";
-        } else {
-            title = "RED SIGNAL: STOP! 🔴";
-            message = "Logic is faisle ke khilaaf hai. Isme nuksan hone ke chances zyada hain.";
-            colorClass = "res-red";
-        }
+        if (redFlags === 0) verdict = "GO AHEAD: HIGH PROBABILITY OF SUCCESS";
+        else if (redFlags <= 2) verdict = "PROCEED WITH CAUTION: REVIEW RISKS";
+        else verdict = "ABORT: SYSTEM DETECTED CRITICAL FAILURES";
 
-        this.quizContainer.innerHTML = `
-            <div class="result-screen ${colorClass}">
-                <h1>${title}</h1>
-                <p>${message}</p>
-                <div class="stats">Aapne ${redFlags} warning signs ko acknowledge kiya hai.</div>
-                <button class="reload-btn" onclick="location.reload()">Naya Faisla Karein</button>
+        auditResults.innerHTML = `
+            <div style="text-align:center; margin-bottom:40px; border: 1px solid white; padding: 25px;">
+                <h2 style="font-size:20px; letter-spacing:4px;">${verdict}</h2>
             </div>
+            <button class="btn" onclick="location.reload()">RE-INITIALIZE SYSTEM</button>
         `;
     }
 };
 
-// Start DECIFIX
-document.addEventListener('DOMContentLoaded', () => DECIFIX.init());
-        
+// HTML button ke liye globally available function
+function startAudit() {
+    DECIFIX.handleSearch();
+        }
