@@ -1,42 +1,42 @@
-const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch(...args));
+const https = require('https');
 
 exports.handler = async (event) => {
-    // सिर्फ POST रिक्वेस्ट को अनुमति दें
-    if (event.httpMethod !== "POST") {
-        return { statusCode: 405, body: "Method Not Allowed" };
-    }
+    if (event.httpMethod !== "POST") return { statusCode: 405, body: "Method Not Allowed" };
 
-    try {
-        const { prompt } = JSON.parse(event.body);
-        const API_KEY = process.env.GEMINI_API_KEY; // यह Netlify Settings से चाबी उठाएगा
+    const { prompt } = JSON.parse(event.body);
+    const API_KEY = process.env.GEMINI_API_KEY; // पक्का करें कि Netlify में यह की (Key) सेव है
 
-        if (!API_KEY) {
-            return { statusCode: 500, body: JSON.stringify({ error: "API Key missing in Netlify" }) };
-        }
+    const promptText = `You are 'Decifix Authority'. For: "${prompt}", generate 5 ruthless elimination questions in Hinglish. Format strictly as JSON array: [{"q":"question", "o":["opt1", "opt2"]}]`;
 
-        // Decifix Strategic Prompt
-        const promptText = `You are 'Decifix Authority'. For: "${prompt}", generate 5 ruthless elimination questions in Hinglish. Format strictly as JSON array: [{"q":"question", "o":["opt1", "opt2"]}]`;
+    const postData = JSON.stringify({
+        contents: [{ parts: [{ text: promptText }] }]
+    });
 
-        const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${API_KEY}`, {
+    return new Promise((resolve, reject) => {
+        const options = {
+            hostname: 'generativelanguage.googleapis.com',
+            path: `/v1beta/models/gemini-pro:generateContent?key=${API_KEY}`,
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ 
-                contents: [{ parts: [{ text: promptText }] }] 
-            })
+            headers: { 'Content-Type': 'application/json' }
+        };
+
+        const req = https.request(options, (res) => {
+            let body = '';
+            res.on('data', (d) => body += d);
+            res.on('end', () => {
+                resolve({
+                    statusCode: 200,
+                    headers: { "Content-Type": "application/json" },
+                    body: body
+                });
+            });
         });
 
-        const data = await response.json();
-        
-        return {
-            statusCode: 200,
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(data)
-        };
-    } catch (e) {
-        return { 
-            statusCode: 500, 
-            body: JSON.stringify({ error: "Server Error", details: e.message }) 
-        };
-    }
-};
+        req.on('error', (e) => {
+            resolve({ statusCode: 500, body: JSON.stringify({ error: e.message }) });
+        });
 
+        req.write(postData);
+        req.end();
+    });
+};
