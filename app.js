@@ -1,41 +1,25 @@
-/**
- * DECIFIX PRO ENGINE - Sync with HTML & Data
- */
-
 const DECIFIX = {
     currentCategory: null,
     answers: [],
-    
-    // HTML ke IDs ke sath match kiya gaya
-    cacheDOM() {
-        this.searchInput = document.getElementById('userInput');
-        this.searchContainer = document.getElementById('phase-input');
-        this.quizContainer = document.getElementById('phase-audit');
-        this.loadingScreen = document.getElementById('phase-loading');
-    },
 
-    handleSearch() {
-        this.cacheDOM();
-        const query = this.searchInput.value.toUpperCase().trim();
-        if (!query) return alert("Bhai, kuch topic toh dalo!");
+    startAudit() {
+        const input = document.getElementById('userInput').value.toUpperCase().trim();
+        if (input.length < 2) return alert("Kuch toh likho bhai!");
 
-        // Loading Phase dikhana
-        this.searchContainer.classList.add('hidden');
-        this.loadingScreen.classList.remove('hidden');
+        // Switch to Loading
+        document.getElementById('phase-input').classList.add('hidden');
+        document.getElementById('phase-loading').classList.remove('hidden');
 
         let bestMatch = null;
         let maxScore = 0;
 
-        // data.js ke DECIFIX_DATABASE se match karna
+        // Data search logic (DECIFIX_DATABASE is used from data.js)
         for (const key in DECIFIX_DATABASE) {
             let score = 0;
             const category = DECIFIX_DATABASE[key];
-
-            if (key.includes(query)) score += 100;
+            if (key.includes(input)) score += 100;
             category.keywords.forEach(kw => {
-                if (query.includes(kw.toUpperCase()) || kw.toUpperCase().includes(query)) {
-                    score += 50;
-                }
+                if (input.includes(kw.toUpperCase())) score += 50;
             });
 
             if (score > maxScore) {
@@ -44,27 +28,23 @@ const DECIFIX = {
             }
         }
 
+        // Fast Scan (1 second delay only)
         setTimeout(() => {
-            if (bestMatch && maxScore > 0) {
-                this.loadingScreen.classList.add('hidden');
-                this.quizContainer.classList.remove('hidden');
-                this.startFlow(bestMatch);
+            if (bestMatch) {
+                this.currentCategory = DECIFIX_DATABASE[bestMatch];
+                document.getElementById('phase-loading').classList.add('hidden');
+                document.getElementById('phase-audit').classList.remove('hidden');
+                this.showQuestion(0);
             } else {
-                alert("Bhai, ye topic nahi mila. Kuch aur try karo!");
+                alert("Topic nahi mila! 'Relationship' ya 'Startup' jaise keyword try karein.");
                 location.reload();
             }
-        }, 2000); // 2 second ka professional scan delay
+        }, 1000);
     },
 
-    startFlow(key) {
-        this.currentCategory = DECIFIX_DATABASE[key];
-        this.answers = [];
-        this.renderQuestion(0);
-    },
-
-    renderQuestion(index) {
+    showQuestion(index) {
         const qData = this.currentCategory.sub.CORE[index];
-        document.getElementById('q-header').innerText = `FILTER ${index + 1}/${this.currentCategory.sub.CORE.length}`;
+        document.getElementById('q-header').innerText = `RULE ${index + 1}/${this.currentCategory.sub.CORE.length}`;
         document.getElementById('q-text').innerText = qData.q;
         
         const optCont = document.getElementById('q-options');
@@ -72,7 +52,7 @@ const DECIFIX = {
         
         qData.o.forEach((opt, i) => {
             const btn = document.createElement('div');
-            btn.className = 'option-btn'; // CSS class match
+            btn.className = 'option-btn';
             btn.innerText = opt;
             btn.onclick = () => this.handleAnswer(index, i);
             optCont.appendChild(btn);
@@ -82,35 +62,28 @@ const DECIFIX = {
     handleAnswer(qIndex, oIndex) {
         this.answers.push(oIndex);
         if (qIndex + 1 < this.currentCategory.sub.CORE.length) {
-            this.renderQuestion(qIndex + 1);
+            this.showQuestion(qIndex + 1);
         } else {
-            this.showFinalResult();
+            this.showResult();
         }
     },
 
-    showFinalResult() {
-        const reportPhase = document.getElementById('phase-report');
-        const auditResults = document.getElementById('audit-results');
-        this.quizContainer.classList.add('hidden');
-        reportPhase.classList.remove('hidden');
+    showResult() {
+        document.getElementById('phase-audit').classList.add('hidden');
+        document.getElementById('phase-report').classList.remove('hidden');
 
         const redFlags = this.answers.filter(a => a === 1).length;
-        let verdict = "";
+        let verdict = redFlags === 0 ? "GO AHEAD: SECURE" : (redFlags < 3 ? "CAUTION: RISKY" : "ABORT: DANGER");
 
-        if (redFlags === 0) verdict = "GO AHEAD: HIGH PROBABILITY OF SUCCESS";
-        else if (redFlags <= 2) verdict = "PROCEED WITH CAUTION: REVIEW RISKS";
-        else verdict = "ABORT: SYSTEM DETECTED CRITICAL FAILURES";
-
-        auditResults.innerHTML = `
-            <div style="text-align:center; margin-bottom:40px; border: 1px solid white; padding: 25px;">
-                <h2 style="font-size:20px; letter-spacing:4px;">${verdict}</h2>
-            </div>
-            <button class="btn" onclick="location.reload()">RE-INITIALIZE SYSTEM</button>
+        document.getElementById('audit-results').innerHTML = `
+            <h1 style="letter-spacing:5px; margin-bottom:20px;">${verdict}</h1>
+            <p style="color:#888;">Detected ${redFlags} critical warnings during analysis.</p>
         `;
     }
 };
 
-// HTML button ke liye globally available function
+// Global function link
 function startAudit() {
-    DECIFIX.handleSearch();
+    DECIFIX.startAudit();
         }
+            
