@@ -208,3 +208,84 @@ const DECIFIX_DATABASE = {
             ]
         }
     },
+    "DARK_WEB_SAFETY": {
+        "keywords": ["TOR", "ONION", "DARK WEB", "DEEP WEB", "ANONYMOUS", "CYBER SAFETY"],
+        "sub": { "CORE": [
+            { q: "Kya aapne 'Tail OS' ya kisi secure environment ka use kiya?", o: ["Haan, fully secure hoon", "Nahi, normal Windows/Mac hai"] },
+            { q: "Kya aapne apne laptop ka camera 'Tape' se cover kiya hai?", o: ["Haan, safety first", "Nahi, dhyan nahi diya"] },
+            { q: "Kya aap kisi anjaan link (onion) par click karne wale hain?", o: ["Nahi, sirf verified sites", "Haan, curiosity mein"] },
+            { q: "Kya aapne apni asli identity (Email/Name) kahin use ki?", o: ["Nahi, alias use kiya", "Haan, galti se"] },
+            { q: "Kya aapka VPN 'Kill Switch' ke sath on hai?", o: ["Haan", "Nahi"] }
+        ]}
+    },
+    "ALIEN_ENCOUNTER_LOGIC": {
+        "keywords": ["UFO", "ALIEN", "EXTRATERRESTRIAL", "FIRST CONTACT", "UAP", "SPACE SIGNAL"],
+        "sub": { "CORE": [
+            { q: "Kya signal 'Repeating Pattern' (Maths) mein hai?", o: ["Haan, binary/prime numbers hain", "Nahi, random noise hai"] },
+            { q: "Kya object 'Physics' ke laws ko todta hua dikh raha hai?", o: ["Haan, instant acceleration hai", "Nahi, normal flight hai"] },
+            { q: "Kya aapne 'Global Protocol' (SETI) ko report kiya?", o: ["Haan", "Nahi, secret rakhna hai"] },
+            { q: "Kya encounter 'Physical' hai ya sirf visual?", o: ["Visual (Door se)", "Physical (Paas mein hai)"] },
+            { q: "Kya aapne communication ke liye 'Light/Sound' signals try kiye?", o: ["Haan", "Nahi"] }
+        ]}
+    },
+    "HEARTBREAK_RECOVERY": {
+        "keywords": ["BREAKUP", "EX", "HEARTBREAK", "MOVING ON", "SADNESS", "RELATIONSHIP END"],
+        "sub": { "CORE": [
+            { q: "Kya aap unhe 'Stalk' (social media check) kar rahe hain?", o: ["Nahi, block/mute kiya hai", "Haan, baar-baar dekhta hoon"] },
+            { q: "Kya aapne unki purani yaadein (photos/gifts) hata di hain?", o: ["Haan, move on ke liye", "Nahi, abhi bhi paas hain"] },
+            { q: "Kya aap 'Rebound' relationship (turant naya partner) dhoond rahe hain?", o: ["Nahi, khud par focus hai", "Haan, akela feel ho raha hai"] },
+            { q: "Kya aapne doston ya family se baat ki?", o: ["Haan, support system hai", "Nahi, akela jhel raha hoon"] },
+            { q: "Kya aapko lagta hai ki waqt ke sath sab theek ho jayega?", o: ["Haan, bharosa hai", "Nahi, kabhi theek nahi hoga"] }
+        ]}
+    },
+     "CRIME_INVESTIGATION_PRO": {
+        "keywords": ["FORENSIC", "DETECTIVE", "EVIDENCE", "FINGERPRINT", "CCTV", "SUSPECT", "CRIME SCENE"],
+        "sub": { "CORE": [
+            { q: "Kya crime scene 'Contaminate' (kharaab) toh nahi hua?", o: ["Nahi, turant seal kiya tha", "Haan, kaafi log andar gaye the"] },
+            { q: "Kya suspect ka 'Motive' (wajah) clear hai?", o: ["Haan, solid dushmani/lalach hai", "Nahi, random lag raha hai"] },
+            { q: "Kya aapke paas 'Circumstantial' evidence ke alawa 'DNA/Physical' proof hai?", o: ["Haan, forensic report hai", "Nahi, sirf shak hai"] },
+            { q: "Kya 'Alibi' (mauke par na hona) verify ho gaya hai?", o: ["Haan, CCTV/Phone record se", "Nahi, sirf keh raha hai"] },
+            { q: "Kya isme kisi 'Insider' (apne aadmi) ka hath ho sakta hai?", o: ["Haan, chances hain", "Nahi, bahar wala hai"] }
+        ]}
+    },
+    "DEEP_SPACE_COLONIZATION": {
+        "keywords": ["MARS", "COLONY", "TERRAFORMING", "OXYGEN", "RADIATION", "SPACE SETTLEMENT"],
+        "sub": { "CORE": [
+            { q: "Kya colony ka 'Life Support System' 100% redundant (backup) hai?", o: ["Haan, 3 level backup hai", "Nahi, single system hai"] },
+            { q: "Kya 'Radiation Shielding' cosmic rays ko rokne ke liye kaafi hai?", o: ["Haan, lead/water shielding hai", "Nahi, weak hai"] },
+            { q: "Kya wahan 'Self-Sustaining' food (hydroponics) shuru ho gaya hai?", o: ["Haan", "Nahi, Earth se supply chahiye"] },
+            { q: "Kya gravity ki kami se 'Bone Density' ka solution nikal liya gaya?", o: ["Haan, exercise/meds hai", "Nahi, risk hai"] },
+            { q: "Kya settlers ki 'Mental Health' ka psychological assessment hua?", o: ["Haan", "Nahi, abhi nahi"] }
+        ]}
+    },
+    "RELATIONSHIP_LONG_DISTANCE": {
+        "keywords": ["LDR", "LONG DISTANCE", "TRUST", "VIDEO CALL", "PARTNER", "RELATIONSHIP"],
+        "sub": { "CORE": [
+            { q: "Kya aap dono ke beech 'End Date' (milne ka plan) tay hai?", o: ["Haan, hum jald milenge", "Nahi, pata nahi kab"] },
+            { q: "Kya 'Trust' level itna hai ki bina pooche din guzar sakein?", o: ["Haan, poora bharosa hai", "Nahi, insecurity hoti hai"] },
+            { q: "Kya aap din mein kam se kam 1 ghanta quality baat karte hain?", o: ["Haan", "Nahi, busy rehte hain"] },
+            { q: "Kya 'Communication Gap' hone par aap ladayi shuru kar dete hain?", o: ["Nahi, samajhta/samajhti hoon", "Haan, gussa aata hai"] },
+            { q: "Kya aap dono ka 'Future Goal' ek hi shehar mein rehne ka hai?", o: ["Haan, plan ready hai", "Nahi, dono alag raste par hain"] }
+        ]}
+    },
+    "CYBER_CRIME_DEFENSE": {
+        "keywords": ["HACKING", "PHISHING", "RANSOMWARE", "SCAM", "DARK WEB", "FRAUD"],
+        "sub": { "CORE": [
+            { q: "Kya aapne unknown attachment open kiya?", o: ["Nahi, turant delete kiya", "Haan, galti se ho gaya"] },
+            { q: "Kya aapka bank account 'MFA' (Double lock) se secure hai?", o: ["Haan, hamesha", "Nahi, sirf password hai"] },
+            { q: "Kya scammer aapse 'Urgency' mein paise maang raha hai?", o: ["Haan, darr dikha raha hai", "Nahi, normal baat hai"] },
+            { q: "Kya aapne Cyber Cell (1930) mein report kiya?", o: ["Haan", "Nahi, abhi karunga"] },
+            { q: "Kya aapne apna system format/clean kiya?", o: ["Haan", "Nahi"] }
+        ]}
+    },
+    "LOVE_COMPATIBILITY_LOGIC": {
+        "keywords": ["COMPATIBILITY", "VALES", "MARRIAGE", "FUTURE", "PARTNER CHECK"],
+        "sub": { "CORE": [
+            { q: "Kya aapke 'Core Values' (Family/Money/Religion) milte hain?", o: ["Haan, bilkul", "Nahi, bahut fark hai"] },
+            { q: "Kya aap unke saath 'Bore' huye bina 5 ghante baith sakte hain?", o: ["Haan, aaram se", "Nahi, topics khatam ho jate hain"] },
+            { q: "Kya wo aapke 'Growth' mein support karte hain ya taang khinchte hain?", o: ["Support karte hain", "Demotivate karte hain"] },
+            { q: "Kya aap sirf unke 'Look' se pyaar karte hain ya 'Nature' se?", o: ["Nature aur Personality", "Sirf Looks/Status"] },
+            { q: "Kya mushkil waqt mein wo aapke saath khade rahe?", o: ["Haan, hamesha", "Nahi, bhaag gaye"] }
+        ]}
+                                                                               }
+                    
