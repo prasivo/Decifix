@@ -6,39 +6,58 @@
     <title>DECIFIX — Decision Filter System</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700;900&display=swap" rel="stylesheet">
     <style>
-        :root { --primary: #ffffff; --bg: #000000; --gray: #666666; --dark-gray: #1a1a1a; }
+        :root { --primary: #ffffff; --bg: #000000; --gray: #888888; --dark-gray: #1a1a1a; }
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+        
         body { background: var(--bg); color: var(--primary); min-height: 100vh; display: flex; align-items: center; justify-content: center; overflow: hidden; position: relative; }
+        
+        /* Scanning Animation */
         body::after { content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 1px; background: rgba(255, 255, 255, 0.2); box-shadow: 0 0 10px white; animation: scan 6s linear infinite; z-index: 100; }
         @keyframes scan { 0% { top: 0%; } 100% { top: 100%; } }
+        
         .grid { position: fixed; inset: 0; background-image: radial-gradient(circle, rgba(255,255,255,0.05) 1px, transparent 1px); background-size: 40px 40px; z-index: 1; }
         .container { position: relative; z-index: 10; width: 90%; max-width: 600px; text-align: center; padding: 40px 20px; }
         
-        /* LOGO CLICKABLE STYLE */
-        .logo-link { cursor: pointer; text-decoration: none; display: inline-block; transition: 0.3s; }
-        .logo-link:hover { opacity: 0.7; transform: scale(0.98); }
+        /* LOGO STYLE - Made Lighter and Sharper */
+        .logo-link { cursor: pointer; text-decoration: none; display: inline-block; transition: 0.3s; margin-bottom: 10px; }
+        .logo-link:hover { opacity: 0.8; transform: scale(0.98); }
         
-        h1 { font-size: clamp(50px, 10vw, 80px); font-weight: 900; letter-spacing: 12px; text-transform: uppercase; margin: 0; background: linear-gradient(to right, #444, #fff, #444); background-size: 200% auto; -webkit-background-clip: text; -webkit-text-fill-color: transparent; animation: shine 4s linear infinite; }
-        @keyframes shine { to { background-position: 200% center; } }
-        .subtitle { font-size: 14px; letter-spacing: 6px; color: var(--gray); text-transform: uppercase; margin-top: 10px; }
-        .divider { width: 80px; height: 1px; background: white; margin: 40px auto; }
-        textarea { width: 100%; background: transparent; border: none; border-bottom: 1px solid var(--dark-gray); padding: 20px; color: white; font-size: 18px; text-align: center; outline: none; text-transform: uppercase; resize: none; }
+        h1 { 
+            font-size: clamp(50px, 10vw, 85px); 
+            font-weight: 900; 
+            letter-spacing: 15px; 
+            text-transform: uppercase; 
+            margin: 0; 
+            color: #ffffff;
+            text-shadow: 0 0 20px rgba(255,255,255,0.3);
+            background: linear-gradient(to bottom, #ffffff 0%, #bbbbbb 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .subtitle { font-size: 12px; letter-spacing: 8px; color: var(--gray); text-transform: uppercase; margin-top: 5px; font-weight: 300; }
+        .divider { width: 60px; height: 1px; background: rgba(255,255,205,0.5); margin: 35px auto; }
+        
+        textarea { width: 100%; background: transparent; border: none; border-bottom: 1px solid var(--dark-gray); padding: 20px; color: white; font-size: 18px; text-align: center; outline: none; text-transform: uppercase; resize: none; transition: 0.3s; }
         textarea:focus { border-bottom: 1px solid white; }
-        .btn { margin-top: 40px; padding: 16px 45px; background: white; color: black; border: none; font-weight: 900; font-size: 12px; letter-spacing: 3px; text-transform: uppercase; cursor: pointer; transition: 0.3s; }
-        .btn:hover { background: transparent; color: white; outline: 1px solid white; }
         
-        /* BACK TO HOME BUTTON SPECIAL STYLE */
-        .btn-home { background: transparent; color: white; border: 1px solid white; margin-top: 20px; }
+        .btn { margin-top: 40px; padding: 16px 45px; background: white; color: black; border: none; font-weight: 900; font-size: 11px; letter-spacing: 3px; text-transform: uppercase; cursor: pointer; transition: 0.3s; }
+        .btn:hover { background: transparent; color: white; border: 1px solid white; }
+        
+        .btn-home { background: transparent; color: white; border: 1px solid white; margin-top: 30px; }
         .btn-home:hover { background: white; color: black; }
 
         .option-btn { background: transparent; border: 1px solid var(--dark-gray); padding: 18px; color: white; width: 100%; margin-bottom: 12px; cursor: pointer; text-align: left; font-size: 14px; font-weight: 600; transition: 0.3s; }
         .option-btn:hover { background: white; color: black; transform: translateX(10px); }
+        
         .hidden { display: none !important; }
-        .status-text { font-size: 10px; color: var(--gray); margin-top: 25px; letter-spacing: 2px; }
-        footer { position: fixed; bottom: 20px; width: 100%; text-align: center; font-size: 9px; color: #333; letter-spacing: 4px; }
-        table { width:100%; border-collapse: collapse; font-size: 11px; text-align: left; margin-top: 20px; }
-        th { padding: 10px; color: #555; border-bottom: 1px solid #333; }
-        td { padding: 12px 10px; border-bottom: 1px solid #111; }
+        .status-text { font-size: 9px; color: var(--gray); margin-top: 25px; letter-spacing: 2px; }
+        
+        footer { position: fixed; bottom: 20px; width: 100%; text-align: center; font-size: 8px; color: #444; letter-spacing: 5px; text-transform: uppercase; }
+        
+        table { width:100%; border-collapse: collapse; font-size: 11px; text-align: left; margin-top: 25px; }
+        th { padding: 10px; color: #666; border-bottom: 1px solid #333; text-transform: uppercase; letter-spacing: 1px; }
+        td { padding: 12px 10px; border-bottom: 1px solid #111; color: #ccc; }
     </style>
 </head>
 <body>
@@ -66,14 +85,14 @@
     </div>
 
     <div id="phase-audit" class="hidden">
-        <div id="q-header" style="font-size: 11px; color: var(--gray); margin-bottom: 20px;">FILTER 1/5</div>
-        <div id="q-text" style="font-size: 22px; font-weight: 700; margin-bottom: 40px; line-height: 1.4;">...</div>
+        <div id="q-header" style="font-size: 10px; color: var(--gray); margin-bottom: 20px; letter-spacing: 2px;">FILTER 1/5</div>
+        <div id="q-text" style="font-size: 20px; font-weight: 700; margin-bottom: 40px; line-height: 1.5; letter-spacing: 1px;">...</div>
         <div id="q-options"></div>
     </div>
 
     <div id="phase-report" class="hidden">
         <div id="report-content">
-            <h2 style="letter-spacing: 5px; margin-bottom: 30px;">AUDIT VERDICT</h2>
+            <h2 style="letter-spacing: 8px; margin-bottom: 30px; font-size: 18px;">AUDIT VERDICT</h2>
             <div id="audit-results"></div>
         </div>
         <button class="btn btn-home" onclick="location.reload()">BACK TO HOME</button>
@@ -83,154 +102,8 @@
 
 <footer>© DECIFIX CORE LOGIC // PRASOON GUPTA</footer>
 
-<script>
-    const DECIFIX_DATABASE = {
-        "BUSINESS": [
-            { q: "क्या यह आईडिया अगले 3 साल तक प्रॉफिट दे सकता है?", o: ["हाँ, पूरी तरह", "नहीं, सिर्फ अभी का ट्रेंड है"] },
-            { q: "क्या आप इसे बिना किसी बाहरी फण्ड के शुरू कर सकते हैं?", o: ["हाँ", "नहीं, पैसा चाहिए ही"] },
-            { q: "क्या आपके पास इस फील्ड का गहरा अनुभव है?", o: ["हाँ, एक्सपर्ट हूँ", "नहीं, अभी सीख रहा हूँ"] },
-            { q: "अगर यह फेल हुआ, तो क्या आपके पास प्लान-B है?", o: ["हाँ, तैयार है", "नहीं, सब इसी पर टिका है"] },
-            { q: "क्या मार्केट में इसकी असली डिमांड है?", o: ["हाँ, बहुत ज़्यादा", "नहीं, बस अंदाज़ा है"] }
-        ],
-        "CAREER": [
-            { q: "क्या यह फैसला सिर्फ ज्यादा पैसों के लिए है?", o: ["नहीं, ग्रोथ भी है", "हाँ, सिर्फ सैलरी देख रहा हूँ"] },
-            { q: "क्या आप 5 साल बाद खुद को यहाँ देख सकते हैं?", o: ["बिल्कुल", "नहीं, यह बस एक पड़ाव है"] },
-            { q: "क्या काम के साथ सुकून भी मिलेगा?", o: ["हाँ", "नहीं, बहुत स्ट्रेस है"] },
-            { q: "क्या यह आपकी असली स्किल्स का इस्तेमाल करेगा?", o: ["हाँ", "नहीं, काम बोरिंग है"] },
-            { q: "क्या रिस्क लेने का सही समय है?", o: ["हाँ, अभी ले सकता हूँ", "नहीं, ज़िम्मेदारियाँ हैं"] }
-        ],
-        "GENERAL": [
-            { q: "क्या यह फैसला आपके लॉन्ग-टर्म गोल्स से मिलता है?", o: ["हाँ", "नहीं, भटक रहा हूँ"] },
-            { q: "क्या आप किसी के दबाव में यह कर रहे हैं?", o: ["नहीं, खुद का फैसला है", "हाँ, दूसरों की वजह से"] },
-            { q: "क्या आपको इस पर 100% भरोसा है?", o: ["हाँ", "थोड़ा शक है"] },
-            { q: "क्या आपने इसके नुकसानों के बारे में सोचा है?", o: ["हाँ, सब कैलकुलेटेड है", "नहीं, सिर्फ फायदे देखे हैं"] },
-            { q: "क्या कल सुबह उठकर आपको इस पर गर्व होगा?", o: ["बिल्कुल", "शायद पछतावा हो"] }
-        ],
-        "RELATIONSHIP": [
-            { q: "क्या यह व्यक्ति आपके लॉन्ग-टर्म विज़न में फिट है?", o: ["हाँ, हम साथ हैं", "नहीं, विचार अलग हैं"] },
-            { q: "क्या आप किसी अकेलेपन की वजह से यह फैसला ले रहे हैं?", o: ["नहीं, होश में हूँ", "शायद हाँ"] },
-            { q: "क्या इसमें आपसी सम्मान (Mutual Respect) है?", o: ["पूरी तरह", "नहीं, कम है"] },
-            { q: "क्या आप इनके साथ अपनी कमियाँ शेयर कर सकते हैं?", o: ["हाँ", "नहीं, डर लगता है"] },
-            { q: "क्या यह रिश्ता आपको बेहतर इंसान बना रहा है?", o: ["हाँ", "नहीं, टॉक्सिक है"] }
-        ],
-        "MONEY": [
-            { q: "क्या यह खर्चा आपकी 'Need' है या 'Want'?", o: ["ज़रूरी ज़रूरत है", "बस शौक है"] },
-            { q: "क्या इसे खरीदने के बाद आपके पास इमरजेंसी फंड बचेगा?", o: ["हाँ", "नहीं, बजट हिल जाएगा"] },
-            { q: "क्या यह चीज़ समय के साथ अपनी वैल्यू बढ़ाएगी (Asset)?", o: ["हाँ", "नहीं, वैल्यू कम होगी (Liability)"] },
-            { q: "क्या आप इसे दो बार खरीदने की औकात रखते हैं?", o: ["हाँ", "नहीं, अभी मुश्किल है"] },
-            { q: "क्या इसके लिए कर्ज़ (EMI) लेना पड़ रहा है?", o: ["नहीं, कैश है", "हाँ, लोन लेना पड़ेगा"] }
-        ],
-        "HEALTH": [
-            { q: "क्या यह आपकी ऊर्जा (Energy) बढ़ाएगा?", o: ["हाँ", "नहीं, सुस्ती आएगी"] },
-            { q: "क्या आप इसे अगले 6 महीने तक फॉलो कर सकते हैं?", o: ["हाँ, पक्का", "नहीं, मुश्किल लग रहा है"] },
-            { q: "क्या यह फैसला किसी एक्सपर्ट की सलाह पर आधारित है?", o: ["हाँ", "नहीं, इंटरनेट से देखा है"] },
-            { q: "क्या आपकी बॉडी को सच में इसकी ज़रूरत है?", o: ["हाँ", "नहीं, बस दिखावा है"] },
-            { q: "क्या इसके साइड-इफेक्ट्स के बारे में पता है?", o: ["हाँ, सब जानता हूँ", "नहीं, अभी चेक करना है"] }
-        ],
-        "EDUCATION": [
-            { q: "क्या यह डिग्री/कोर्स आज के मार्केट में वैलिड है?", o: ["हाँ", "पुराना हो चुका है"] },
-            { q: "क्या आप सिर्फ प्रेशर में पढ़ रहे हैं?", o: ["नहीं, खुद की पसंद है", "हाँ, घर वालों का दबाव है"] },
-            { q: "क्या आप इसे खुद से भी सीख सकते हैं?", o: ["नहीं, गाइडेंस चाहिए", "हाँ, यूट्यूब पर फ्री है"] },
-            { q: "क्या इसका ROI (Return on Investment) सही है?", o: ["हाँ", "नहीं, बहुत महंगा है"] },
-            { q: "क्या आप इस विषय में गहराई तक जाने को तैयार हैं?", o: ["हाँ", "सिर्फ डिग्री चाहिए"] }
-        ],
-        "TRAVEL": [
-            { q: "क्या यह ट्रिप आपके बजट के अंदर है?", o: ["हाँ", "कर्ज़ लेना पड़ेगा"] },
-            { q: "क्या आप वहां शांति के लिए जा रहे हैं या फोटो के लिए?", o: ["सुकून के लिए", "सोशल मीडिया के लिए"] },
-            { q: "क्या आपने वहां की सेफ्टी के बारे में पढ़ा है?", o: ["हाँ, सब सुरक्षित है", "नहीं, अभी देखना है"] },
-            { q: "क्या आपके काम पर इसका असर पड़ेगा?", o: ["नहीं, सब मैनेज है", "हाँ, काम रुकेगा"] },
-            { q: "क्या वहां जाने का यह सही मौसम है?", o: ["हाँ", "नहीं, ऑफ-सीजन है"] }
-        ],
-        "INVESTMENT": [
-            { q: "क्या आप इस पैसे को 5 साल तक भूल सकते हैं?", o: ["हाँ", "नहीं, जल्द चाहिए"] },
-            { q: "क्या आपको पता है कि यह पैसा कहाँ लग रहा है?", o: ["हाँ, पूरी रिसर्च है", "नहीं, किसी के कहने पर"] },
-            { q: "रिस्क लेवल क्या है?", o: ["लो/मीडियम", "बहुत हाई"] },
-            { q: "क्या यह आपके पोर्टफोलियो को बैलेंस करेगा?", o: ["हाँ", "नहीं, एक ही जगह सारा पैसा है"] },
-            { q: "क्या इन्फ्लेशन (Inflation) को हरा पाएगा?", o: ["हाँ", "शायद नहीं"] }
-        ],
-        "HABIT": [
-            { q: "क्या यह आदत आपकी पहचान का हिस्सा बनेगी?", o: ["हाँ", "नहीं, बस थोड़े दिन के लिए"] },
-            { q: "क्या इसे शुरू करना आसान है?", o: ["हाँ, 2 मिनट लगेंगे", "नहीं, बहुत मेहनत है"] },
-            { q: "क्या इसका रिवॉर्ड तुरंत मिलेगा?", o: ["नहीं, लॉन्ग-टर्म है", "हाँ, तुरंत खुशी मिलेगी"] },
-            { q: "क्या यह आपकी किसी बुरी आदत को रिप्लेस करेगी?", o: ["हाँ", "नहीं, बस एक एक्स्ट्रा चीज़ है"] },
-            { q: "क्या आप इसके लिए रोज़ समय निकाल पाएंगे?", o: ["हाँ", "कभी-कभी"] }
-        ],
-        "TIME": [
-            { q: "क्या यह काम आपके टॉप 3 गोल्स में आता है?", o: ["हाँ", "नहीं, फालतू है"] },
-            { q: "क्या इसे कोई और कर सकता है?", o: ["नहीं, मुझे ही करना है", "हाँ, किसी को दे सकता हूँ"] },
-            { q: "क्या यह 'Productive' होने के लिए है?", o: ["हाँ, प्रोडक्टिव", "नहीं, बस टाइम पास"] },
-            { q: "इसे टालने का क्या नुकसान होगा?", o: ["बहुत बड़ा नुकसान", "खास कुछ नहीं"] },
-            { q: "क्या इसके लिए आपके पास अभी सही ऊर्जा है?", o: ["हाँ", "नहीं, थका हुआ हूँ"] }
-        ]
-    };
+<script src="data.js"></script>
+<script src="app.js"></script>
 
-    let step = 0;
-    let customRules = [];
-    let history = [];
-    let score = 0;
-
-    function startAudit() {
-        const input = document.getElementById('userInput').value.toUpperCase();
-        if(!input) return;
-        showPhase('phase-loading');
-        setTimeout(() => {
-            if(input.includes("BUSINESS") || input.includes("STARTUP") || input.includes("DUKAN")) { customRules = DECIFIX_DATABASE.BUSINESS; }
-            else if(input.includes("JOB") || input.includes("CAREER") || input.includes("WORK")) { customRules = DECIFIX_DATABASE.CAREER; }
-            else if(input.includes("LOVE") || input.includes("SHADI") || input.includes("FRIEND") || input.includes("RELATIONSHIP")) { customRules = DECIFIX_DATABASE.RELATIONSHIP; }
-            else if(input.includes("PAISA") || input.includes("KHARCHA") || input.includes("MONEY")) { customRules = DECIFIX_DATABASE.MONEY; }
-            else if(input.includes("HEALTH") || input.includes("GYM") || input.includes("DIET")) { customRules = DECIFIX_DATABASE.HEALTH; }
-            else if(input.includes("PADHAI") || input.includes("EDUCATION")) { customRules = DECIFIX_DATABASE.EDUCATION; }
-            else if(input.includes("TRAVEL") || input.includes("TRIP")) { customRules = DECIFIX_DATABASE.TRAVEL; }
-            else if(input.includes("INVEST") || input.includes("STOCKS")) { customRules = DECIFIX_DATABASE.INVESTMENT; }
-            else if(input.includes("HABIT") || input.includes("ADAT")) { customRules = DECIFIX_DATABASE.HABIT; }
-            else if(input.includes("TIME") || input.includes("WAQT")) { customRules = DECIFIX_DATABASE.TIME; }
-            else { customRules = DECIFIX_DATABASE.GENERAL; }
-            showPhase('phase-audit');
-            loadQuestion();
-        }, 1500);
-    }
-
-    function loadQuestion() {
-        const qData = customRules[step];
-        if (!qData) { renderFinal(); return; }
-        document.getElementById('q-header').innerText = `FILTER ${step + 1}/5`;
-        document.getElementById('q-text').innerText = qData.q;
-        const optCont = document.getElementById('q-options');
-        optCont.innerHTML = '';
-        qData.o.forEach((opt, index) => {
-            const div = document.createElement('div');
-            div.className = 'option-btn';
-            div.innerText = opt;
-            div.onclick = () => {
-                if(index === 0) score++; 
-                history.push({ q: qData.q, a: opt, status: index === 0 ? "✅ POSITIVE" : "❌ RISK DETECTED" });
-                if(step < 4) { step++; loadQuestion(); } else { renderFinal(); }
-            };
-            optCont.appendChild(div);
-        });
-    }
-
-    function renderFinal() {
-        showPhase('phase-report');
-        const resDiv = document.getElementById('audit-results');
-        let verdict = (score >= 4) ? "GO AHEAD: EXECUTE NOW" : (score === 3) ? "PROCEED WITH CAUTION" : "ABORT: SYSTEM DENIED";
-        resDiv.innerHTML = `
-            <div style="text-align:center; margin-bottom:40px; border: 1px solid white; padding: 20px;">
-                <p style="font-size:10px; letter-spacing:3px; color:#666;">FINAL VERDICT</p>
-                <h2 style="font-size:22px; letter-spacing:5px; margin-top:10px;">${verdict}</h2>
-            </div>
-            <table><thead><tr><th>AUTHORITY RULE</th><th>USER INPUT</th><th>STATUS</th></tr></thead><tbody id="table-body"></tbody></table>
-        `;
-        const tableBody = document.getElementById('table-body');
-        history.forEach(item => {
-            tableBody.innerHTML += `<tr><td style="color: #888;">${item.q}</td><td style="color: white; font-weight: 700;">${item.a}</td><td style="font-size: 9px;">${item.status}</td></tr>`;
-        });
-    }
-
-    function showPhase(id) {
-        ['phase-input', 'phase-loading', 'phase-audit', 'phase-report'].forEach(p => { document.getElementById(p).classList.add('hidden'); });
-        document.getElementById(id).classList.remove('hidden');
-    }
-</script>
 </body>
 </html>
