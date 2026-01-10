@@ -1,0 +1,59 @@
+"use client";
+
+export default function Home() {
+  return (
+    <main className="relative min-h-screen bg-[#0B0B0F] overflow-hidden flex items-center justify-center">
+      
+      {/* BACKGROUND GRID */}
+      <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.04)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.04)_1px,transparent_1px)] bg-[size:40px_40px] opacity-20" />
+
+      {/* GLOW ORBS */}
+      <div className="absolute w-[600px] h-[600px] bg-indigo-600/20 rounded-full blur-3xl animate-pulse -top-40 -left-40" />
+      <div className="absolute w-[500px] h-[500px] bg-indigo-500/10 rounded-full blur-3xl animate-pulse bottom-0 right-0" />
+
+      {/* CENTER CONTENT */}
+      <div className="relative z-10 text-center px-6">
+
+        {/* LOGO NAME */}
+        <h1 className="text-6xl md:text-7xl font-extrabold tracking-tight text-white">
+          DECIFIX
+        </h1>
+
+        {/* SUBTITLE */}
+        <p className="mt-3 text-lg md:text-xl text-gray-400">
+          Decision Filter System
+        </p>
+
+        {/* DIVIDER */}
+        <div className="mt-8 flex justify-center">
+          <div className="h-px w-32 bg-gradient-to-r from-transparent via-indigo-500 to-transparent" />
+        </div>
+
+        {/* TAGLINE */}
+        <p className="mt-8 max-w-xl mx-auto text-gray-500 leading-relaxed">
+          A rule-based system designed to eliminate wrong decisions  
+          before they destroy time, money, relationships, and life direction.
+        </p>
+
+        {/* SYSTEM STATUS */}
+        <div className="mt-10 text-sm text-indigo-400 tracking-wide uppercase">
+          System Status: Initializing Authority Rules
+        </div>
+
+        {/* CTA (LOCKED) */}
+        <button
+          disabled
+          className="mt-12 px-10 py-3 rounded-xl border border-indigo-500 text-indigo-400 opacity-50 cursor-not-allowed"
+        >
+          Start Filtering
+        </button>
+
+      </div>
+
+      {/* FOOTER SIGNAL */}
+      <div className="absolute bottom-6 text-xs text-gray-600 tracking-widest">
+        DECIFIX © Rule-Driven Decision Authority
+      </div>
+    </main>
+  );
+}
