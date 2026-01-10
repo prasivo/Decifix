@@ -162,7 +162,7 @@
 
         showPhase('phase-loading');
 
-        // कीवर्ड स्कैनर: आपके इनपुट के हिसाब से कैटेगरी चुनता है
+        // Keywords ke basis par category select karne ka logic
         setTimeout(() => {
             if(input.includes("BUSINESS") || input.includes("STARTUP") || input.includes("DUKAN")) {
                 customRules = DECIFIX_DATABASE.BUSINESS;
@@ -195,6 +195,8 @@
 
     function loadQuestion() {
         const qData = customRules[step];
+        if (!qData) { renderFinal(); return; } // Safety check
+
         document.getElementById('q-header').innerText = `FILTER ${step + 1}/5`;
         document.getElementById('q-text').innerText = qData.q;
         const optCont = document.getElementById('q-options');
@@ -205,7 +207,7 @@
             div.className = 'option-btn';
             div.innerText = opt;
             div.onclick = () => {
-                // लॉजिक: पहला ऑप्शन चुनने पर +1 स्कोर
+                // Pehla option hamesha positive (+1 score)
                 if(index === 0) score++; 
                 
                 history.push({
@@ -214,7 +216,7 @@
                     status: index === 0 ? "✅ POSITIVE" : "❌ RISK DETECTED"
                 });
 
-                if(step < 4) { 
+                if(step < 4 && step < customRules.length - 1) { 
                     step++; 
                     loadQuestion(); 
                 } else { 
@@ -229,6 +231,7 @@
         showPhase('phase-report');
         const resDiv = document.getElementById('audit-results');
         
+        // Final Verdict Logic based on Score
         let verdict = "";
         if(score >= 4) { verdict = "GO AHEAD: EXECUTE NOW"; } 
         else if(score === 3) { verdict = "PROCEED WITH CAUTION"; } 
