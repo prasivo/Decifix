@@ -154,6 +154,7 @@
     let step = 0;
     let customRules = [];
     let history = [];
+    let score = 0; 
 
     function startAudit() {
         const input = document.getElementById('userInput').value.toUpperCase();
@@ -161,19 +162,35 @@
 
         showPhase('phase-loading');
 
-        // KEYWORD SCANNER: शब्दों के आधार पर कैटेगरी चुनना
+        // कीवर्ड स्कैनर: आपके इनपुट के हिसाब से कैटेगरी चुनता है
         setTimeout(() => {
-            if(input.includes("BUSINESS") || input.includes("STARTUP") || input.includes("PAISA")) {
+            if(input.includes("BUSINESS") || input.includes("STARTUP") || input.includes("DUKAN")) {
                 customRules = DECIFIX_DATABASE.BUSINESS;
-            } else if(input.includes("JOB") || input.includes("CAREER") || input.includes("OFFICE")) {
+            } else if(input.includes("JOB") || input.includes("CAREER") || input.includes("WORK")) {
                 customRules = DECIFIX_DATABASE.CAREER;
+            } else if(input.includes("LOVE") || input.includes("SHADI") || input.includes("FRIEND")) {
+                customRules = DECIFIX_DATABASE.RELATIONSHIP;
+            } else if(input.includes("PAISA") || input.includes("KHARCHA") || input.includes("SHOPPING")) {
+                customRules = DECIFIX_DATABASE.MONEY;
+            } else if(input.includes("HEALTH") || input.includes("GYM") || input.includes("DIET")) {
+                customRules = DECIFIX_DATABASE.HEALTH;
+            } else if(input.includes("PADHAI") || input.includes("COLLEGE") || input.includes("COURSE")) {
+                customRules = DECIFIX_DATABASE.EDUCATION;
+            } else if(input.includes("GHUMNA") || input.includes("TRAVEL") || input.includes("TRIP")) {
+                customRules = DECIFIX_DATABASE.TRAVEL;
+            } else if(input.includes("STOCKS") || input.includes("INVEST") || input.includes("CRYPTO")) {
+                customRules = DECIFIX_DATABASE.INVESTMENT;
+            } else if(input.includes("ADAT") || input.includes("HABIT") || input.includes("ROUTINE")) {
+                customRules = DECIFIX_DATABASE.HABIT;
+            } else if(input.includes("TIME") || input.includes("WAQT") || input.includes("SCHEDULE")) {
+                customRules = DECIFIX_DATABASE.TIME;
             } else {
                 customRules = DECIFIX_DATABASE.GENERAL;
             }
             
             showPhase('phase-audit');
             loadQuestion();
-        }, 1500); // Realistic Simulation Delay
+        }, 1500);
     }
 
     function loadQuestion() {
@@ -183,14 +200,26 @@
         const optCont = document.getElementById('q-options');
         optCont.innerHTML = '';
         
-        qData.o.forEach(opt => {
+        qData.o.forEach((opt, index) => {
             const div = document.createElement('div');
             div.className = 'option-btn';
             div.innerText = opt;
             div.onclick = () => {
-                history.push({q: qData.q, a: opt});
-                if(step < 4) { step++; loadQuestion(); } 
-                else { renderFinal(); }
+                // लॉजिक: पहला ऑप्शन चुनने पर +1 स्कोर
+                if(index === 0) score++; 
+                
+                history.push({
+                    q: qData.q, 
+                    a: opt, 
+                    status: index === 0 ? "✅ POSITIVE" : "❌ RISK DETECTED"
+                });
+
+                if(step < 4) { 
+                    step++; 
+                    loadQuestion(); 
+                } else { 
+                    renderFinal(); 
+                }
             };
             optCont.appendChild(div);
         });
@@ -199,12 +228,38 @@
     function renderFinal() {
         showPhase('phase-report');
         const resDiv = document.getElementById('audit-results');
+        
+        let verdict = "";
+        if(score >= 4) { verdict = "GO AHEAD: EXECUTE NOW"; } 
+        else if(score === 3) { verdict = "PROCEED WITH CAUTION"; } 
+        else { verdict = "ABORT: SYSTEM DENIED"; }
+
+        resDiv.innerHTML = `
+            <div style="text-align:center; margin-bottom:40px; border: 1px solid white; padding: 20px;">
+                <p style="font-size:10px; letter-spacing:3px; color:#666;">FINAL VERDICT</p>
+                <h2 style="font-size:22px; letter-spacing:5px; margin-top:10px;">${verdict}</h2>
+            </div>
+            
+            <table style="width:100%; border-collapse: collapse; font-size: 11px; text-align: left;">
+                <thead>
+                    <tr style="border-bottom: 1px solid #333; color: #555;">
+                        <th style="padding: 10px;">AUTHORITY RULE</th>
+                        <th style="padding: 10px;">USER INPUT</th>
+                        <th style="padding: 10px;">STATUS</th>
+                    </tr>
+                </thead>
+                <tbody id="table-body"></tbody>
+            </table>
+        `;
+
+        const tableBody = document.getElementById('table-body');
         history.forEach(item => {
-            resDiv.innerHTML += `
-                <div style="margin-bottom: 25px; border-left: 2px solid #333; padding-left: 15px;">
-                    <div style="font-size: 10px; color: #555; text-transform: uppercase;">${item.q}</div>
-                    <div style="font-size: 16px; font-weight: 700; margin-top: 5px;">${item.a}</div>
-                </div>`;
+            tableBody.innerHTML += `
+                <tr style="border-bottom: 1px solid #111;">
+                    <td style="padding: 12px 10px; color: #888;">${item.q}</td>
+                    <td style="padding: 12px 10px; color: white; font-weight: 700;">${item.a}</td>
+                    <td style="padding: 12px 10px; font-size: 9px;">${item.status}</td>
+                </tr>`;
         });
     }
 
