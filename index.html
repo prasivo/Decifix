@@ -1,59 +1,168 @@
-"use client";
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DECIFIX — Decision Filter System</title>
 
-export default function Home() {
-  return (
-    <main className="relative min-h-screen bg-[#0B0B0F] overflow-hidden flex items-center justify-center">
-      
-      {/* BACKGROUND GRID */}
-      <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.04)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.04)_1px,transparent_1px)] bg-[size:40px_40px] opacity-20" />
+  <!-- FONT -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
 
-      {/* GLOW ORBS */}
-      <div className="absolute w-[600px] h-[600px] bg-indigo-600/20 rounded-full blur-3xl animate-pulse -top-40 -left-40" />
-      <div className="absolute w-[500px] h-[500px] bg-indigo-500/10 rounded-full blur-3xl animate-pulse bottom-0 right-0" />
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', sans-serif;
+    }
 
-      {/* CENTER CONTENT */}
-      <div className="relative z-10 text-center px-6">
+    body {
+      background: #0B0B0F;
+      color: white;
+      height: 100vh;
+      overflow: hidden;
+    }
 
-        {/* LOGO NAME */}
-        <h1 className="text-6xl md:text-7xl font-extrabold tracking-tight text-white">
-          DECIFIX
-        </h1>
+    /* BACKGROUND GRID */
+    body::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px);
+      background-size: 40px 40px;
+      opacity: 0.25;
+    }
 
-        {/* SUBTITLE */}
-        <p className="mt-3 text-lg md:text-xl text-gray-400">
-          Decision Filter System
-        </p>
+    /* GLOW ORBS */
+    .glow {
+      position: absolute;
+      width: 500px;
+      height: 500px;
+      background: rgba(79, 70, 229, 0.25);
+      filter: blur(120px);
+      border-radius: 50%;
+      animation: pulse 6s infinite alternate;
+    }
 
-        {/* DIVIDER */}
-        <div className="mt-8 flex justify-center">
-          <div className="h-px w-32 bg-gradient-to-r from-transparent via-indigo-500 to-transparent" />
-        </div>
+    .glow.one {
+      top: -150px;
+      left: -150px;
+    }
 
-        {/* TAGLINE */}
-        <p className="mt-8 max-w-xl mx-auto text-gray-500 leading-relaxed">
-          A rule-based system designed to eliminate wrong decisions  
-          before they destroy time, money, relationships, and life direction.
-        </p>
+    .glow.two {
+      bottom: -150px;
+      right: -150px;
+      animation-delay: 3s;
+    }
 
-        {/* SYSTEM STATUS */}
-        <div className="mt-10 text-sm text-indigo-400 tracking-wide uppercase">
-          System Status: Initializing Authority Rules
-        </div>
+    @keyframes pulse {
+      from { transform: scale(1); opacity: 0.6; }
+      to { transform: scale(1.2); opacity: 1; }
+    }
 
-        {/* CTA (LOCKED) */}
-        <button
-          disabled
-          className="mt-12 px-10 py-3 rounded-xl border border-indigo-500 text-indigo-400 opacity-50 cursor-not-allowed"
-        >
-          Start Filtering
-        </button>
+    /* CENTER CONTENT */
+    .container {
+      position: relative;
+      z-index: 2;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 20px;
+    }
 
+    h1 {
+      font-size: 64px;
+      font-weight: 800;
+      letter-spacing: 2px;
+    }
+
+    .subtitle {
+      margin-top: 10px;
+      font-size: 20px;
+      color: #9CA3AF;
+    }
+
+    .divider {
+      margin: 30px auto;
+      width: 140px;
+      height: 1px;
+      background: linear-gradient(to right, transparent, #4F46E5, transparent);
+    }
+
+    .tagline {
+      max-width: 520px;
+      margin: 0 auto;
+      font-size: 16px;
+      color: #9CA3AF;
+      line-height: 1.6;
+    }
+
+    .status {
+      margin-top: 30px;
+      font-size: 12px;
+      color: #6366F1;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+    }
+
+    button {
+      margin-top: 40px;
+      padding: 14px 36px;
+      background: transparent;
+      border: 1px solid #4F46E5;
+      color: #6366F1;
+      border-radius: 12px;
+      font-size: 14px;
+      cursor: not-allowed;
+      opacity: 0.6;
+    }
+
+    footer {
+      position: absolute;
+      bottom: 20px;
+      width: 100%;
+      text-align: center;
+      font-size: 11px;
+      color: #6B7280;
+      letter-spacing: 2px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- GLOWS -->
+  <div class="glow one"></div>
+  <div class="glow two"></div>
+
+  <!-- CONTENT -->
+  <div class="container">
+    <div>
+      <h1>DECIFIX</h1>
+      <div class="subtitle">Decision Filter System</div>
+
+      <div class="divider"></div>
+
+      <div class="tagline">
+        A rule-based system designed to eliminate wrong decisions
+        before they destroy time, money, relationships, and life direction.
       </div>
 
-      {/* FOOTER SIGNAL */}
-      <div className="absolute bottom-6 text-xs text-gray-600 tracking-widest">
-        DECIFIX © Rule-Driven Decision Authority
+      <div class="status">
+        System Status: Initializing Authority Rules
       </div>
-    </main>
-  );
-}
+
+      <button disabled>Start Filtering</button>
+    </div>
+  </div>
+
+  <footer>
+    DECIFIX © Rule-Driven Decision Authority
+  </footer>
+
+</body>
+</html>
