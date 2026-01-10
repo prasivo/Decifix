@@ -3,107 +3,79 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>DECIFIX — Decision Filter System</title>
+    <title>DECIFIX — Global Logic Authority</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700;900&display=swap" rel="stylesheet">
     <style>
-        :root { --primary: #ffffff; --bg: #000000; --gray: #888888; --dark-gray: #1a1a1a; }
+        :root { --primary: #ffffff; --bg: #000000; --gray: #888888; --dark-gray: #1a1a1a; --accent: #00FF41; }
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
         
         body { background: var(--bg); color: var(--primary); min-height: 100vh; display: flex; align-items: center; justify-content: center; overflow: hidden; position: relative; }
         
-        /* Scanning Animation */
-        body::after { content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 1px; background: rgba(255, 255, 255, 0.2); box-shadow: 0 0 10px white; animation: scan 6s linear infinite; z-index: 100; }
+        /* Scanning Bar Animation */
+        body::after { content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 2px; background: var(--accent); box-shadow: 0 0 15px var(--accent); animation: scan 4s linear infinite; z-index: 100; opacity: 0.3; pointer-events: none; }
         @keyframes scan { 0% { top: 0%; } 100% { top: 100%; } }
-        
-        .grid { position: fixed; inset: 0; background-image: radial-gradient(circle, rgba(255,255,255,0.05) 1px, transparent 1px); background-size: 40px 40px; z-index: 1; }
-        .container { position: relative; z-index: 10; width: 90%; max-width: 600px; text-align: center; padding: 40px 20px; }
-        
-        /* LOGO STYLE - Made Lighter and Sharper */
-        .logo-link { cursor: pointer; text-decoration: none; display: inline-block; transition: 0.3s; margin-bottom: 10px; }
-        .logo-link:hover { opacity: 0.8; transform: scale(0.98); }
-        
-        h1 { 
-            font-size: clamp(50px, 10vw, 85px); 
-            font-weight: 900; 
-            letter-spacing: 15px; 
-            text-transform: uppercase; 
-            margin: 0; 
-            color: #ffffff;
-            text-shadow: 0 0 20px rgba(255,255,255,0.3);
-            background: linear-gradient(to bottom, #ffffff 0%, #bbbbbb 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
 
-        .subtitle { font-size: 12px; letter-spacing: 8px; color: var(--gray); text-transform: uppercase; margin-top: 5px; font-weight: 300; }
-        .divider { width: 60px; height: 1px; background: rgba(255,255,205,0.5); margin: 35px auto; }
+        #decifix-ui { width: 90%; max-width: 600px; padding: 40px; border: 1px solid var(--dark-gray); position: relative; z-index: 10; background: rgba(0,0,0,0.9); }
         
-        textarea { width: 100%; background: transparent; border: none; border-bottom: 1px solid var(--dark-gray); padding: 20px; color: white; font-size: 18px; text-align: center; outline: none; text-transform: uppercase; resize: none; transition: 0.3s; }
-        textarea:focus { border-bottom: 1px solid white; }
-        
-        .btn { margin-top: 40px; padding: 16px 45px; background: white; color: black; border: none; font-weight: 900; font-size: 11px; letter-spacing: 3px; text-transform: uppercase; cursor: pointer; transition: 0.3s; }
-        .btn:hover { background: transparent; color: white; border: 1px solid white; }
-        
-        .btn-home { background: transparent; color: white; border: 1px solid white; margin-top: 30px; }
-        .btn-home:hover { background: white; color: black; }
+        .header { margin-bottom: 60px; }
+        .brand { font-weight: 900; letter-spacing: 12px; font-size: 24px; text-transform: uppercase; }
+        .divider { width: 40px; height: 4px; background: var(--primary); margin-top: 15px; }
 
-        .option-btn { background: transparent; border: 1px solid var(--dark-gray); padding: 18px; color: white; width: 100%; margin-bottom: 12px; cursor: pointer; text-align: left; font-size: 14px; font-weight: 600; transition: 0.3s; }
-        .option-btn:hover { background: white; color: black; transform: translateX(10px); }
-        
+        /* Input Styles */
+        textarea { width: 100%; background: transparent; border: none; border-left: 2px solid var(--dark-gray); padding: 10px 20px; color: white; font-size: 18px; outline: none; resize: none; margin-bottom: 30px; transition: 0.3s; }
+        textarea:focus { border-left-color: var(--accent); }
+
+        /* Button Styles */
+        .btn { width: 100%; padding: 20px; border: 1px solid var(--primary); background: transparent; color: white; cursor: pointer; text-transform: uppercase; letter-spacing: 4px; font-weight: 700; transition: 0.4s; }
+        .btn:hover { background: white; color: black; }
+
         .hidden { display: none !important; }
-        .status-text { font-size: 9px; color: var(--gray); margin-top: 25px; letter-spacing: 2px; }
+
+        /* Quiz UI */
+        .option-btn { border: 1px solid var(--dark-gray); padding: 15px; margin-bottom: 10px; cursor: pointer; transition: 0.3s; font-size: 14px; text-transform: uppercase; letter-spacing: 1px; }
+        .option-btn:hover { background: var(--dark-gray); border-color: var(--gray); }
+
+        .status-text { font-size: 10px; color: var(--gray); margin-top: 20px; letter-spacing: 2px; }
+
+        /* Result Styles */
+        .verdict-box { border: 1px solid white; padding: 30px; text-align: center; margin-top: 20px; }
         
-        footer { position: fixed; bottom: 20px; width: 100%; text-align: center; font-size: 8px; color: #444; letter-spacing: 5px; text-transform: uppercase; }
-        
-        table { width:100%; border-collapse: collapse; font-size: 11px; text-align: left; margin-top: 25px; }
-        th { padding: 10px; color: #666; border-bottom: 1px solid #333; text-transform: uppercase; letter-spacing: 1px; }
-        td { padding: 12px 10px; border-bottom: 1px solid #111; color: #ccc; }
+        @keyframes blink { 50% { opacity: 0; } }
     </style>
 </head>
 <body>
 
-<div class="grid"></div>
-
-<div class="container">
-    <div id="header-section">
-        <div class="logo-link" onclick="location.reload()">
-            <h1>DECIFIX</h1>
+    <div id="decifix-ui">
+        <div class="header">
+            <div class="brand">DECIFIX</div>
+            <div class="status-text">SYSTEM READY // 1000_CAT_LOADED</div>
+            <div class="divider"></div>
         </div>
-        <div class="subtitle">Decision Filter System</div>
-        <div class="divider"></div>
-    </div>
 
-    <div id="phase-input">
-        <textarea id="userInput" rows="2" placeholder="STATE THE DECISION..."></textarea>
-        <div class="status-text">PRASOON GUPTA // CORE AUTHORITY // STANDBY</div>
-        <button class="btn" onclick="startAudit()">INITIALIZE FILTER</button>
-    </div>
+        <div id="phase-input">
+            <textarea id="userInput" rows="2" placeholder="STATE THE DECISION..."></textarea>
+            <div class="status-text" style="margin-bottom: 20px;">AUTHORITY LEVEL: CORE_ADMIN</div>
+            <button class="btn" onclick="startAudit()">INITIALIZE FILTER</button>
+        </div>
 
-    <div id="phase-loading" class="hidden">
-        <h2 style="letter-spacing: 10px; font-size: 14px;">SCANNING LOGIC...</h2>
-        <div class="status-text" style="animation: blink 1s infinite;">ELIMINATING EMOTIONAL BIAS_</div>
-    </div>
+        <div id="phase-loading" class="hidden">
+            <h2 style="letter-spacing: 8px; font-size: 14px;">SCANNING LOGIC VAULT...</h2>
+            <div class="status-text" style="animation: blink 0.5s infinite;">ELIMINATING EMOTIONAL BIAS_</div>
+        </div>
 
-    <div id="phase-audit" class="hidden">
-        <div id="q-header" style="font-size: 10px; color: var(--gray); margin-bottom: 20px; letter-spacing: 2px;">FILTER 1/5</div>
-        <div id="q-text" style="font-size: 20px; font-weight: 700; margin-bottom: 40px; line-height: 1.5; letter-spacing: 1px;">...</div>
-        <div id="q-options"></div>
-    </div>
+        <div id="phase-audit" class="hidden">
+            <div id="q-header" style="font-size: 10px; color: var(--gray); margin-bottom: 20px; letter-spacing: 2px;">RULE ANALYSIS</div>
+            <div id="q-text" style="font-size: 18px; font-weight: 700; margin-bottom: 40px; line-height: 1.6;">...</div>
+            <div id="q-options"></div>
+        </div>
 
-    <div id="phase-report" class="hidden">
-        <div id="report-content">
-            <h2 style="letter-spacing: 8px; margin-bottom: 30px; font-size: 18px;">AUDIT VERDICT</h2>
+        <div id="phase-report" class="hidden">
+            <h2 style="letter-spacing: 8px; margin-bottom: 30px; font-size: 18px; text-align: center;">AUDIT VERDICT</h2>
             <div id="audit-results"></div>
         </div>
-        <button class="btn btn-home" onclick="location.reload()">BACK TO HOME</button>
-        <div class="status-text" style="margin-top: 20px;">SESSION COMPLETE // LOGGED</div>
     </div>
-</div>
 
-<footer>© DECIFIX CORE LOGIC // PRASOON GUPTA</footer>
-
-<script src="data.js"></script>
-<script src="app.js"></script>
-
+    <script src="data (3).js"></script>
+    <script src="app (4).js"></script>
 </body>
 </html>
