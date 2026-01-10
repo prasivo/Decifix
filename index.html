@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DECIFIX — Decision Filter System</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700;900&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary: #ffffff;
+            --bg: #000000;
+            --gray: #666666;
+            --dark-gray: #1a1a1a;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+
+        body {
+            background: var(--bg);
+            color: var(--primary);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* SCANNER LINE ANIMATION */
+        body::after {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 1px;
+            background: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 0 10px white;
+            animation: scan 6s linear infinite;
+            z-index: 100;
+        }
+
+        @keyframes scan { 0% { top: 0%; } 100% { top: 100%; } }
+
+        /* GRID BACKDROP */
+        .grid {
+            position: fixed; inset: 0;
+            background-image: radial-gradient(circle, rgba(255,255,255,0.05) 1px, transparent 1px);
+            background-size: 40px 40px;
+            z-index: 1;
+        }
+
+        .container {
+            position: relative; z-index: 10;
+            width: 90%; max-width: 600px;
+            text-align: center; padding: 40px 20px;
+        }
+
+        /* TITLES */
+        h1 {
+            font-size: clamp(50px, 10vw, 80px);
+            font-weight: 900; letter-spacing: 12px;
+            text-transform: uppercase; margin: 0;
+            background: linear-gradient(to right, #444, #fff, #444);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: shine 4s linear infinite;
+        }
+
+        @keyframes shine { to { background-position: 200% center; } }
+
+        .subtitle {
+            font-size: 14px; letter-spacing: 6px;
+            color: var(--gray); text-transform: uppercase;
+            margin-top: 10px; font-weight: 400;
+        }
+
+        .divider {
+            width: 80px; height: 1px; background: white;
+            margin: 40px auto; position: relative;
+        }
+
+        /* INPUT AREA */
+        #input-container { margin-top: 20px; transition: 0.5s; }
+
+        textarea {
+            width: 100%; background: transparent;
+            border: none; border-bottom: 1px solid var(--dark-gray);
+            padding: 20px; color: white; font-size: 18px;
+            text-align: center; outline: none; transition: 0.4s;
+            text-transform: uppercase; resize: none;
+        }
+
+        textarea:focus { border-bottom: 1px solid white; }
+
+        /* BUTTONS */
+        .btn {
+            margin-top: 40px; padding: 16px 45px;
+            background: white; color: black;
+            border: none; font-weight: 900;
+            font-size: 12px; letter-spacing: 3px;
+            text-transform: uppercase; cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .btn:hover {
+            background: transparent; color: white;
+            outline: 1px solid white; transform: scale(1.05);
+        }
+
+        /* AUDIT BOX */
+        .option-btn {
+            background: transparent; border: 1px solid var(--dark-gray);
+            padding: 18px; color: white; width: 100%;
+            margin-bottom: 12px; cursor: pointer; transition: 0.2s;
+            text-align: left; font-size: 14px; font-weight: 600;
+        }
+
+        .option-btn:hover { background: white; color: black; transform: translateX(10px); }
+
+        .hidden { display: none !important; }
+
+        /* STATUS BOX */
+        .status-text {
+            font-size: 10px; color: var(--gray);
+            margin-top: 25px; letter-spacing: 2px;
+        }
+
+        footer {
+            position: fixed; bottom: 20px; width: 100%;
+            text-align: center; font-size: 9px;
+            color: #333; letter-spacing: 4px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="grid"></div>
+
+<div class="container">
+    <div id="header-section">
+        <h1>DECIFIX</h1>
+        <div class="subtitle">Decision Filter System</div>
+        <div class="divider"></div>
+    </div>
+
+    <div id="phase-input">
+        <textarea id="userInput" rows="2" placeholder="STATE THE DECISION..."></textarea>
+        <div class="status-text">PRASOON GUPTA // CORE AUTHORITY // STANDBY</div>
+        <button class="btn" onclick="startAudit()">INITIALIZE FILTER</button>
+    </div>
+
+    <div id="phase-loading" class="hidden">
+        <h2 style="letter-spacing: 10px; font-size: 14px;">ANALYZING NEURAL PATHS...</h2>
+        <div class="status-text" style="animation: blink 1s infinite;">BYPASSING EMOTIONAL BIAS_</div>
+    </div>
+
+    <div id="phase-audit" class="hidden">
+        <div id="q-header" style="font-size: 11px; color: var(--gray); margin-bottom: 20px;">FILTER 1/5</div>
+        <div id="q-text" style="font-size: 22px; font-weight: 700; margin-bottom: 40px; line-height: 1.4;">...</div>
+        <div id="q-options"></div>
+    </div>
+
+    <div id="phase-report" class="hidden">
+        <div id="report-content">
+            <h2 style="letter-spacing: 5px; margin-bottom: 30px;">AUDIT VERDICT</h2>
+            <div id="audit-results" style="text-align: left;"></div>
+        </div>
+        <button class="btn" onclick="location.reload()">NEW SESSION</button>
+    </div>
+</div>
+
+<footer>© DECIFIX CORE LOGIC // SYSTEM V1.0</footer>
+
+<script>
+    let step = 0;
+    let customRules = [];
+    let history = [];
+
+    async function startAudit() {
+        const input = document.getElementById('userInput').value;
+        if(!input) return;
+
+        showPhase('phase-loading');
+
+        try {
+            // Netlify Function call
+            const response = await fetch('/.netlify/functions/generate', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ prompt: input })
+            });
+            const data = await response.json();
+            
+            const rawText = data.candidates[0].content.parts[0].text;
+            customRules = JSON.parse(rawText.replace(/```json|```/g, ""));
+            
+            showPhase('phase-audit');
+            loadQuestion();
+        } catch (e) {
+            console.error(e);
+            alert("SYSTEM ERROR: UNABLE TO CONNECT TO CORE LOGIC.");
+            showPhase('phase-input');
+        }
+    }
+
+    function loadQuestion() {
+        const qData = customRules[step];
+        document.getElementById('q-header').innerText = `FILTER ${step + 1}/5`;
+        document.getElementById('q-text').innerText = qData.q;
+        
+        const optCont = document.getElementById('q-options');
+        optCont.innerHTML = '';
+        
+        qData.o.forEach(opt => {
+            const div = document.createElement('div');
+            div.className = 'option-btn';
+            div.innerText = opt;
+            div.onclick = () => {
+                history.push({q: qData.q, a: opt});
+                if(step < 4) {
+                    step++;
+                    loadQuestion();
+                } else {
+                    renderFinal();
+                }
+            };
+            optCont.appendChild(div);
+        });
+    }
+
+    function renderFinal() {
+        showPhase('phase-report');
+        const resDiv = document.getElementById('audit-results');
+        history.forEach(item => {
+            resDiv.innerHTML += `
+                <div style="margin-bottom: 25px; border-left: 2px solid #333; padding-left: 15px;">
+                    <div style="font-size: 10px; color: #555; text-transform: uppercase;">${item.q}</div>
+                    <div style="font-size: 16px; font-weight: 700; margin-top: 5px;">${item.a}</div>
+                </div>`;
+        });
+    }
+
+    function showPhase(id) {
+        ['phase-input', 'phase-loading', 'phase-audit', 'phase-report'].forEach(p => {
+            document.getElementById(p).classList.add('hidden');
+        });
+        document.getElementById(id).classList.remove('hidden');
+    }
+</script>
+
+</body>
+</html>
+
