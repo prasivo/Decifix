@@ -4,133 +4,29 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>DECIFIX — Decision Filter System</title>
-
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700;900&display=swap" rel="stylesheet">
-
     <style>
-        :root {
-            --primary: #ffffff;
-            --bg: #000000;
-            --gray: #666666;
-            --dark-gray: #1a1a1a;
-        }
-
+        /* CSS Same as your previous professional design */
+        :root { --primary: #ffffff; --bg: #000000; --gray: #666666; --dark-gray: #1a1a1a; }
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
-
-        body {
-            background: var(--bg);
-            color: var(--primary);
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow-x: hidden;
-            position: relative;
-        }
-
-        /* SCANNER LINE ANIMATION */
-        body::after {
-            content: "";
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 1px;
-            background: rgba(255, 255, 255, 0.2);
-            box-shadow: 0 0 10px white;
-            animation: scan 6s linear infinite;
-            z-index: 100;
-        }
-
+        body { background: var(--bg); color: var(--primary); min-height: 100vh; display: flex; align-items: center; justify-content: center; overflow: hidden; position: relative; }
+        body::after { content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 1px; background: rgba(255, 255, 255, 0.2); box-shadow: 0 0 10px white; animation: scan 6s linear infinite; z-index: 100; }
         @keyframes scan { 0% { top: 0%; } 100% { top: 100%; } }
-
-        /* GRID BACKDROP */
-        .grid {
-            position: fixed; inset: 0;
-            background-image: radial-gradient(circle, rgba(255,255,255,0.05) 1px, transparent 1px);
-            background-size: 40px 40px;
-            z-index: 1;
-        }
-
-        .container {
-            position: relative; z-index: 10;
-            width: 90%; max-width: 600px;
-            text-align: center; padding: 40px 20px;
-        }
-
-        /* TITLES */
-        h1 {
-            font-size: clamp(50px, 10vw, 80px);
-            font-weight: 900; letter-spacing: 12px;
-            text-transform: uppercase; margin: 0;
-            background: linear-gradient(to right, #444, #fff, #444);
-            background-size: 200% auto;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            animation: shine 4s linear infinite;
-        }
-
+        .grid { position: fixed; inset: 0; background-image: radial-gradient(circle, rgba(255,255,255,0.05) 1px, transparent 1px); background-size: 40px 40px; z-index: 1; }
+        .container { position: relative; z-index: 10; width: 90%; max-width: 600px; text-align: center; padding: 40px 20px; }
+        h1 { font-size: clamp(50px, 10vw, 80px); font-weight: 900; letter-spacing: 12px; text-transform: uppercase; margin: 0; background: linear-gradient(to right, #444, #fff, #444); background-size: 200% auto; -webkit-background-clip: text; -webkit-text-fill-color: transparent; animation: shine 4s linear infinite; }
         @keyframes shine { to { background-position: 200% center; } }
-
-        .subtitle {
-            font-size: 14px; letter-spacing: 6px;
-            color: var(--gray); text-transform: uppercase;
-            margin-top: 10px; font-weight: 400;
-        }
-
-        .divider {
-            width: 80px; height: 1px; background: white;
-            margin: 40px auto; position: relative;
-        }
-
-        /* INPUT AREA */
-        #input-container { margin-top: 20px; transition: 0.5s; }
-
-        textarea {
-            width: 100%; background: transparent;
-            border: none; border-bottom: 1px solid var(--dark-gray);
-            padding: 20px; color: white; font-size: 18px;
-            text-align: center; outline: none; transition: 0.4s;
-            text-transform: uppercase; resize: none;
-        }
-
+        .subtitle { font-size: 14px; letter-spacing: 6px; color: var(--gray); text-transform: uppercase; margin-top: 10px; }
+        .divider { width: 80px; height: 1px; background: white; margin: 40px auto; }
+        textarea { width: 100%; background: transparent; border: none; border-bottom: 1px solid var(--dark-gray); padding: 20px; color: white; font-size: 18px; text-align: center; outline: none; text-transform: uppercase; resize: none; }
         textarea:focus { border-bottom: 1px solid white; }
-
-        /* BUTTONS */
-        .btn {
-            margin-top: 40px; padding: 16px 45px;
-            background: white; color: black;
-            border: none; font-weight: 900;
-            font-size: 12px; letter-spacing: 3px;
-            text-transform: uppercase; cursor: pointer;
-            transition: 0.3s;
-        }
-
-        .btn:hover {
-            background: transparent; color: white;
-            outline: 1px solid white; transform: scale(1.05);
-        }
-
-        /* AUDIT BOX */
-        .option-btn {
-            background: transparent; border: 1px solid var(--dark-gray);
-            padding: 18px; color: white; width: 100%;
-            margin-bottom: 12px; cursor: pointer; transition: 0.2s;
-            text-align: left; font-size: 14px; font-weight: 600;
-        }
-
+        .btn { margin-top: 40px; padding: 16px 45px; background: white; color: black; border: none; font-weight: 900; font-size: 12px; letter-spacing: 3px; text-transform: uppercase; cursor: pointer; }
+        .btn:hover { background: transparent; color: white; outline: 1px solid white; }
+        .option-btn { background: transparent; border: 1px solid var(--dark-gray); padding: 18px; color: white; width: 100%; margin-bottom: 12px; cursor: pointer; text-align: left; font-size: 14px; font-weight: 600; transition: 0.3s; }
         .option-btn:hover { background: white; color: black; transform: translateX(10px); }
-
         .hidden { display: none !important; }
-
-        /* STATUS BOX */
-        .status-text {
-            font-size: 10px; color: var(--gray);
-            margin-top: 25px; letter-spacing: 2px;
-        }
-
-        footer {
-            position: fixed; bottom: 20px; width: 100%;
-            text-align: center; font-size: 9px;
-            color: #333; letter-spacing: 4px;
-        }
+        .status-text { font-size: 10px; color: var(--gray); margin-top: 25px; letter-spacing: 2px; }
+        footer { position: fixed; bottom: 20px; width: 100%; text-align: center; font-size: 9px; color: #333; letter-spacing: 4px; }
     </style>
 </head>
 <body>
@@ -151,8 +47,8 @@
     </div>
 
     <div id="phase-loading" class="hidden">
-        <h2 style="letter-spacing: 10px; font-size: 14px;">ANALYZING NEURAL PATHS...</h2>
-        <div class="status-text" style="animation: blink 1s infinite;">BYPASSING EMOTIONAL BIAS_</div>
+        <h2 style="letter-spacing: 10px; font-size: 14px;">SCANNING LOGIC...</h2>
+        <div class="status-text" style="animation: blink 1s infinite;">ELIMINATING EMOTIONAL BIAS_</div>
     </div>
 
     <div id="phase-audit" class="hidden">
@@ -170,45 +66,63 @@
     </div>
 </div>
 
-<footer>© DECIFIX CORE LOGIC // SYSTEM V1.0</footer>
+<footer>© DECIFIX CORE LOGIC // PRASOON GUPTA</footer>
 
 <script>
+    // --- MANUAL RULE ENGINE ---
+    const DECIFIX_DATABASE = {
+        "BUSINESS": [
+            { q: "क्या यह आईडिया अगले 3 साल तक प्रॉफिट दे सकता है?", o: ["हाँ, पूरी तरह", "नहीं, सिर्फ अभी का ट्रेंड है"] },
+            { q: "क्या आप इसे बिना किसी बाहरी फण्ड के शुरू कर सकते हैं?", o: ["हाँ", "नहीं, पैसा चाहिए ही"] },
+            { q: "क्या आपके पास इस फील्ड का गहरा अनुभव है?", o: ["हाँ, एक्सपर्ट हूँ", "नहीं, अभी सीख रहा हूँ"] },
+            { q: "अगर यह फेल हुआ, तो क्या आपके पास प्लान-B है?", o: ["हाँ, तैयार है", "नहीं, सब इसी पर टिका है"] },
+            { q: "क्या मार्केट में इसकी असली डिमांड है?", o: ["हाँ, बहुत ज़्यादा", "नहीं, बस अंदाज़ा है"] }
+        ],
+        "CAREER": [
+            { q: "क्या यह फैसला सिर्फ ज्यादा पैसों के लिए है?", o: ["नहीं, ग्रोथ भी है", "हाँ, सिर्फ सैलरी देख रहा हूँ"] },
+            { q: "क्या आप 5 साल बाद खुद को यहाँ देख सकते हैं?", o: ["बिल्कुल", "नहीं, यह बस एक पड़ाव है"] },
+            { q: "क्या काम के साथ सुकून भी मिलेगा?", o: ["हाँ", "नहीं, बहुत स्ट्रेस है"] },
+            { q: "क्या यह आपकी असली स्किल्स का इस्तेमाल करेगा?", o: ["हाँ", "नहीं, काम बोरिंग है"] },
+            { q: "क्या रिस्क लेने का सही समय है?", o: ["हाँ, अभी ले सकता हूँ", "नहीं, ज़िम्मेदारियाँ हैं"] }
+        ],
+        "GENERAL": [
+            { q: "क्या यह फैसला आपके लॉन्ग-टर्म गोल्स से मिलता है?", o: ["हाँ", "नहीं, भटक रहा हूँ"] },
+            { q: "क्या आप किसी के दबाव में यह कर रहे हैं?", o: ["नहीं, खुद का फैसला है", "हाँ, दूसरों की वजह से"] },
+            { q: "क्या आपको इस पर 100% भरोसा है?", o: ["हाँ", "थोड़ा शक है"] },
+            { q: "क्या आपने इसके नुकसानों के बारे में सोचा है?", o: ["हाँ, सब कैलकुलेटेड है", "नहीं, सिर्फ फायदे देखे हैं"] },
+            { q: "क्या कल सुबह उठकर आपको इस पर गर्व होगा?", o: ["बिल्कुल", "शायद पछतावा हो"] }
+        ]
+    };
+
     let step = 0;
     let customRules = [];
     let history = [];
 
-    async function startAudit() {
-        const input = document.getElementById('userInput').value;
+    function startAudit() {
+        const input = document.getElementById('userInput').value.toUpperCase();
         if(!input) return;
 
         showPhase('phase-loading');
 
-        try {
-            // Netlify Function call
-            const response = await fetch('/.netlify/functions/generate', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ prompt: input })
-            });
-            const data = await response.json();
-            
-            const rawText = data.candidates[0].content.parts[0].text;
-            customRules = JSON.parse(rawText.replace(/```json|```/g, ""));
+        // KEYWORD SCANNER: शब्दों के आधार पर कैटेगरी चुनना
+        setTimeout(() => {
+            if(input.includes("BUSINESS") || input.includes("STARTUP") || input.includes("PAISA")) {
+                customRules = DECIFIX_DATABASE.BUSINESS;
+            } else if(input.includes("JOB") || input.includes("CAREER") || input.includes("OFFICE")) {
+                customRules = DECIFIX_DATABASE.CAREER;
+            } else {
+                customRules = DECIFIX_DATABASE.GENERAL;
+            }
             
             showPhase('phase-audit');
             loadQuestion();
-        } catch (e) {
-            console.error(e);
-            alert("SYSTEM ERROR: UNABLE TO CONNECT TO CORE LOGIC.");
-            showPhase('phase-input');
-        }
+        }, 1500); // Realistic Simulation Delay
     }
 
     function loadQuestion() {
         const qData = customRules[step];
         document.getElementById('q-header').innerText = `FILTER ${step + 1}/5`;
         document.getElementById('q-text').innerText = qData.q;
-        
         const optCont = document.getElementById('q-options');
         optCont.innerHTML = '';
         
@@ -218,12 +132,8 @@
             div.innerText = opt;
             div.onclick = () => {
                 history.push({q: qData.q, a: opt});
-                if(step < 4) {
-                    step++;
-                    loadQuestion();
-                } else {
-                    renderFinal();
-                }
+                if(step < 4) { step++; loadQuestion(); } 
+                else { renderFinal(); }
             };
             optCont.appendChild(div);
         });
@@ -248,7 +158,5 @@
         document.getElementById(id).classList.remove('hidden');
     }
 </script>
-
 </body>
 </html>
-
