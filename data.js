@@ -1129,5 +1129,8 @@ const DECIFIX_DATABASE = {
             { q: "Kya team ko 'Social Engineering' attacks ki training hai?", o: ["Haan", "Nahi, log click kar dete hain"] },
             { q: "Kya aapne critical infrastructure (Power/Water) ko isolate kiya?", o: ["Haan", "Nahi"] }
         ]}
-    },
-  };  
+       }
+    ]
+  }
+
+ };  
