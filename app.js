@@ -1,98 +1,70 @@
-// app.js — PHONE SAFE DECIFIX ENGINE
+// FORCE VERSION — DECIFIX APP.JS
+alert("APP JS VERSION 10 RULES LOADED");
 
 const QUESTIONS = [
-  "Kya ye faisla gusse, darr ya pressure me liya ja raha hai?",
-  "Kya iska worst-case scenario aap jhel sakte ho?",
-  "Kya ye decision irreversible hai (wapas lena mushkil)?",
-  "Kya ye faisla paison par zyada depend karta hai?",
-  "Kya aapne is faisle ke liye poori information verify ki hai?",
-  "Kya aap kisi aur ki life/control par over-depend ho rahe ho?",
-  "Kya ye decision sirf short-term relief de raha hai?",
-  "Kya past me aisa decision lene par nuksan hua tha?",
-  "Kya is faisle se aapki health/mental peace kharab hogi?",
-  "Kya aap is faisle ko 6 mahine baad bhi justify kar paoge?"
+  "Rule 1: Kya ye faisla gusse ya pressure me liya ja raha hai?",
+  "Rule 2: Kya iska worst case aap jhel sakte ho?",
+  "Rule 3: Kya ye decision irreversible hai?",
+  "Rule 4: Kya ye paison par zyada depend karta hai?",
+  "Rule 5: Kya poori information verify ki gayi hai?",
+  "Rule 6: Kya kisi aur par dependency ban rahi hai?",
+  "Rule 7: Kya ye sirf short-term relief hai?",
+  "Rule 8: Kya past me aisa decision fail hua tha?",
+  "Rule 9: Kya health ya mental peace kharab hogi?",
+  "Rule 10: Kya 6 mahine baad bhi ye decision sahi lagega?"
 ];
 
-let currentIndex = 0;
-let riskCount = 0;
+let index = 0;
+let risk = 0;
 
-// BUTTON SE CALL HONE WALA FUNCTION
 function startFilter() {
-  const inputBox = document.getElementById("userInput");
-
-  if (!inputBox) {
-    alert("userInput element nahi mila");
+  const input = document.getElementById("userInput").value.trim();
+  if (input.length < 2) {
+    alert("Decision likho pehle");
     return;
   }
 
-  const decision = inputBox.value.trim();
-
-  if (decision.length < 2) {
-    alert("Pehle decision likho");
-    return;
-  }
-
-  // UI SWITCH
   document.getElementById("phaseInput").classList.add("hidden");
   document.getElementById("phaseQuestion").classList.remove("hidden");
 
-  currentIndex = 0;
-  riskCount = 0;
-
+  index = 0;
+  risk = 0;
   showQuestion();
 }
 
-// QUESTION DIKHANE KA FUNCTION
 function showQuestion() {
-  const qBox = document.getElementById("question");
-  const optBox = document.getElementById("options");
+  document.getElementById("question").innerText = QUESTIONS[index];
+  const box = document.getElementById("options");
+  box.innerHTML = "";
 
-  qBox.innerText = "RULE " + (currentIndex + 1) + ": " + QUESTIONS[currentIndex];
-  optBox.innerHTML = "";
-
-  // YES / NO OPTIONS
-  const yes = document.createElement("div");
-  yes.className = "option";
-  yes.innerText = "YES";
-  yes.onclick = function () {
-    answerQuestion(true);
-  };
-
-  const no = document.createElement("div");
-  no.className = "option";
-  no.innerText = "NO";
-  no.onclick = function () {
-    answerQuestion(false);
-  };
-
-  optBox.appendChild(yes);
-  optBox.appendChild(no);
+  ["YES", "NO"].forEach((txt, i) => {
+    const d = document.createElement("div");
+    d.className = "option";
+    d.innerText = txt;
+    d.onclick = () => answer(i);
+    box.appendChild(d);
+  });
 }
 
-// ANSWER HANDLE
-function answerQuestion(isYes) {
-  if (isYes) {
-    riskCount++;
-  }
+function answer(choice) {
+  if (choice === 0) risk++;
+  index++;
 
-  currentIndex++;
-
-  if (currentIndex < QUESTIONS.length) {
+  if (index < QUESTIONS.length) {
     showQuestion();
   } else {
     showResult();
   }
 }
 
-// FINAL RESULT
 function showResult() {
   document.getElementById("phaseQuestion").classList.add("hidden");
   document.getElementById("phaseResult").classList.remove("hidden");
 
   let verdict = "GO AHEAD";
+  if (risk >= 3) verdict = "USE CAUTION";
+  if (risk >= 5) verdict = "ABORT";
 
-  if (riskCount === 1) verdict = "USE CAUTION";
-  if (riskCount >= 2) verdict = "ABORT";
-
-  document.getElementById("finalResult").innerText = verdict;
+  document.getElementById("finalResult").innerText =
+    verdict + " (" + QUESTIONS.length + " RULES CHECKED)";
 }
