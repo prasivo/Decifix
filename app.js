@@ -1,78 +1,92 @@
-alert("APP JS LOADED");
-const ENGINE = {
-  category: null,
-  answers: [],
+// app.js — PHONE SAFE DECIFIX ENGINE
 
-  startAudit() {
-    const input = document.getElementById("userInput").value
-      .toUpperCase()
-      .trim();
+// BASIC QUESTIONS (abhi test ke liye)
+const QUESTIONS = [
+  "Kya ye faisla gusse ya darr mein liya ja raha hai?",
+  "Kya iska worst case aap jhel sakte ho?",
+  "Kya ye faisla 1 saal baad bhi important rahega?"
+];
 
-    if (input.length < 2) {
-      alert("Decision likho");
-      return;
-    }
+let currentIndex = 0;
+let riskCount = 0;
 
-    // Category detect
-    for (const key in DECIFIX_DATABASE) {
-      const cat = DECIFIX_DATABASE[key];
-      for (const word of cat.keywords) {
-        if (input.includes(word)) {
-          this.category = cat;
-          break;
-        }
-      }
-    }
+// BUTTON SE CALL HONE WALA FUNCTION
+function startFilter() {
+  const inputBox = document.getElementById("userInput");
 
-    if (!this.category) {
-      alert("Decision samajh nahi aaya");
-      return;
-    }
-
-    document.getElementById("phase-input").classList.add("hidden");
-    document.getElementById("phase-audit").classList.remove("hidden");
-
-    this.showQuestion(0);
-  },
-
-  showQuestion(index) {
-    const q = this.category.sub.CORE[index];
-    document.getElementById("q-text").innerText = q.q;
-
-    const optBox = document.getElementById("q-options");
-    optBox.innerHTML = "";
-
-    q.o.forEach((opt, i) => {
-      const btn = document.createElement("div");
-      btn.className = "option-btn";
-      btn.innerText = opt;
-      btn.onclick = () => this.saveAnswer(index, i);
-      optBox.appendChild(btn);
-    });
-  },
-
-  saveAnswer(qIndex, optIndex) {
-    this.answers.push(optIndex);
-
-    if (qIndex + 1 < this.category.sub.CORE.length) {
-      this.showQuestion(qIndex + 1);
-    } else {
-      this.showResult();
-    }
-  },
-
-  showResult() {
-    let risk = this.answers.filter(a => a === 1).length;
-
-    let verdict = "GO AHEAD";
-    if (risk === 1) verdict = "USE CAUTION";
-    if (risk >= 2) verdict = "ABORT";
-
-    document.getElementById("q-text").innerText = verdict;
-    document.getElementById("q-options").innerHTML = "";
+  if (!inputBox) {
+    alert("userInput element nahi mila");
+    return;
   }
-};
 
-function startEngine() {
-  ENGINE.startAudit();
+  const decision = inputBox.value.trim();
+
+  if (decision.length < 2) {
+    alert("Pehle decision likho");
+    return;
+  }
+
+  // UI SWITCH
+  document.getElementById("phaseInput").classList.add("hidden");
+  document.getElementById("phaseQuestion").classList.remove("hidden");
+
+  currentIndex = 0;
+  riskCount = 0;
+
+  showQuestion();
+}
+
+// QUESTION DIKHANE KA FUNCTION
+function showQuestion() {
+  const qBox = document.getElementById("question");
+  const optBox = document.getElementById("options");
+
+  qBox.innerText = "RULE " + (currentIndex + 1) + ": " + QUESTIONS[currentIndex];
+  optBox.innerHTML = "";
+
+  // YES / NO OPTIONS
+  const yes = document.createElement("div");
+  yes.className = "option";
+  yes.innerText = "YES";
+  yes.onclick = function () {
+    answerQuestion(true);
+  };
+
+  const no = document.createElement("div");
+  no.className = "option";
+  no.innerText = "NO";
+  no.onclick = function () {
+    answerQuestion(false);
+  };
+
+  optBox.appendChild(yes);
+  optBox.appendChild(no);
+}
+
+// ANSWER HANDLE
+function answerQuestion(isYes) {
+  if (isYes) {
+    riskCount++;
+  }
+
+  currentIndex++;
+
+  if (currentIndex < QUESTIONS.length) {
+    showQuestion();
+  } else {
+    showResult();
+  }
+}
+
+// FINAL RESULT
+function showResult() {
+  document.getElementById("phaseQuestion").classList.add("hidden");
+  document.getElementById("phaseResult").classList.remove("hidden");
+
+  let verdict = "GO AHEAD";
+
+  if (riskCount === 1) verdict = "USE CAUTION";
+  if (riskCount >= 2) verdict = "ABORT";
+
+  document.getElementById("finalResult").innerText = verdict;
 }
