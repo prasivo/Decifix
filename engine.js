@@ -1,129 +1,118 @@
-/* ========= DECIFIX ENGINE ========= */
-/* ONE ENGINE • ALL DOMAINS */
+/* ==================================================
+   DECIFIX ENGINE V2
+   Reality-based Decision Filter
+   ================================================== */
 
-let DOMAIN = {
-  title: "Sample Domain",
-  rules: [
-    {
-      time: "past",
-      question: "Kya pehle bhi aisi situation ho chuki hai?",
-      yes: "Past pattern repeat ho sakta hai",
-      no: "Past se koi strong warning nahi"
-    },
-    {
-      time: "past",
-      question: "Kya same problem baar-baar aayi hai?",
-      yes: "Pattern strong ho chuka hai",
-      no: "Pattern stable nahi hai"
-    },
-    {
-      time: "past",
-      question: "Kya past me loss ya damage hua hai?",
-      yes: "Ignore karna future ko harm karega",
-      no: "Past damage limited tha"
-    },
-    {
-      time: "present",
-      question: "Kya aaj ki reality clear hai?",
-      yes: "Reality visible hai",
-      no: "Reality unclear hai"
-    },
-    {
-      time: "present",
-      question: "Kya decision darr ya pressure me hai?",
-      yes: "Fear-driven decision unstable hota hai",
-      no: "Decision conscious lagta hai"
-    },
-    {
-      time: "present",
-      question: "Kya tum is situation par control me ho?",
-      yes: "Control tumhare haath me hai",
-      no: "Control bahar ke factors ke paas hai"
-    },
-    {
-      time: "present",
-      question: "Kya tumhe support mil raha hai?",
-      yes: "Support system available hai",
-      no: "Support ki kami future me issue ban sakti hai"
-    },
-    {
-      time: "future",
-      question: "Kya iske baad regret ho sakta hai?",
-      yes: "Regret decision ko poison karega",
-      no: "Outcome accept kar paoge"
-    },
-    {
-      time: "future",
-      question: "Worst case hua to kya jhel paoge?",
-      yes: "Worst case manageable hai",
-      no: "Worst case unacceptable hai"
-    },
-    {
-      time: "future",
-      question: "Jo hoga uske liye mentally ready ho?",
-      yes: "Acceptance mode me ho",
-      no: "Mental readiness abhi nahi hai"
-    }
-  ]
-};
+/* DOMAIN DATA (must be loaded before this file) */
+const DOMAIN = window.DOMAIN_DATA;
 
-let index = 0;
-let answers = [];
-
-document.getElementById("domainTitle").innerText = DOMAIN.title;
-renderRule();
-
-/* ===== FUNCTIONS ===== */
-
-function renderRule(){
-  const rule = DOMAIN.rules[index];
-  document.getElementById("qText").innerText =
-    `Rule ${index + 1} (${rule.time.toUpperCase()})`;
-
-  document.getElementById("explainText").innerText =
-    rule.question;
+/* SAFETY CHECK */
+if (!DOMAIN || !DOMAIN.rules || DOMAIN.rules.length !== 10) {
+  alert("Domain data missing or invalid.");
 }
 
-function answer(choice){
-  const rule = DOMAIN.rules[index];
+/* STATE */
+let currentRule = 0;
+let answers = [];
+let decisionSafe = true; // overall safety flag
 
+/* UI ELEMENTS */
+const titleEl = document.getElementById("domainTitle");
+const ruleMetaEl = document.getElementById("ruleMeta");
+const questionEl = document.getElementById("ruleQuestion");
+const positiveEl = document.getElementById("positiveCase");
+const negativeEl = document.getElementById("negativeCase");
+
+const ruleSection = document.getElementById("ruleSection");
+const resultSection = document.getElementById("resultSection");
+const verdictEl = document.getElementById("finalVerdict");
+const noteEl = document.getElementById("finalNote");
+const tableBody = document.getElementById("summaryTable");
+
+/* INIT */
+titleEl.innerText = DOMAIN.title;
+renderRule();
+
+/* ==================================================
+   RENDER RULE
+   ================================================== */
+function renderRule() {
+  const rule = DOMAIN.rules[currentRule];
+
+  ruleMetaEl.innerText =
+    `Rule ${currentRule + 1} • ${rule.time.toUpperCase()}`;
+
+  questionEl.innerText = rule.question;
+  positiveEl.innerText = rule.positive;
+  negativeEl.innerText = rule.negative;
+}
+
+/* ==================================================
+   USER CHOICE
+   ================================================== */
+function choose(choice) {
+  const rule = DOMAIN.rules[currentRule];
+
+  /* Store answer */
   answers.push({
-    slot: index + 1,
+    index: currentRule + 1,
     time: rule.time,
     question: rule.question,
-    choice: choice ? "YES" : "NO"
+    choice: choice ? "YES" : "NO",
+    weight: rule.weight || "normal",
+    safeChoice: rule.safeChoice // expected safe side
   });
 
-  index++;
+  /* CRITICAL RULE CHECK */
+  if (rule.weight === "critical") {
+    const userSafe =
+      (choice === true && rule.safeChoice === "yes") ||
+      (choice === false && rule.safeChoice === "no");
 
-  if(index < DOMAIN.rules.length){
+    if (!userSafe) {
+      decisionSafe = false;
+    }
+  }
+
+  /* NEXT */
+  currentRule++;
+
+  if (currentRule < DOMAIN.rules.length) {
     renderRule();
-  }else{
+  } else {
     showResult();
   }
 }
 
-function showResult(){
-  document.getElementById("rulePhase").classList.add("hidden");
-  document.getElementById("resultPhase").classList.remove("hidden");
+/* ==================================================
+   RESULT LOGIC
+   ================================================== */
+function showResult() {
+  ruleSection.classList.add("hidden");
+  resultSection.classList.remove("hidden");
 
-  let yesCount = answers.filter(a => a.choice === "YES").length;
+  /* FINAL VERDICT */
+  if (decisionSafe) {
+    verdictEl.innerText = "GO AHEAD (SAFE ENOUGH)";
+    noteEl.innerText =
+      "Is situation me koi critical red flag detect nahi hua. " +
+      "Decision lene ka control tumhare haath me hai.";
+  } else {
+    verdictEl.innerText = "NOT SAFE RIGHT NOW";
+    noteEl.innerText =
+      "Is situation me kuch serious risks clear dikh rahe hain. " +
+      "Agar phir bhi decision lete ho, to responsibility tumhari hogi.";
+  }
 
-  let verdict = "NOT NOW";
-  if(yesCount >= 7) verdict = "KARNA CHAHIYE";
-  if(yesCount <= 3) verdict = "ABHI NAHI KARNA CHAHIYE";
-
-  document.getElementById("finalResult").innerText = verdict;
-
-  const table = document.getElementById("summaryTable");
-  answers.forEach(a=>{
+  /* SUMMARY TABLE */
+  answers.forEach(a => {
     const tr = document.createElement("tr");
     tr.innerHTML = `
-      <td>${a.slot}</td>
+      <td>${a.index}</td>
       <td>${a.time}</td>
       <td>${a.question}</td>
       <td>${a.choice}</td>
     `;
-    table.appendChild(tr);
+    tableBody.appendChild(tr);
   });
 }
