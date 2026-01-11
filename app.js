@@ -1,10 +1,16 @@
 // app.js — PHONE SAFE DECIFIX ENGINE
 
-// BASIC QUESTIONS (abhi test ke liye)
 const QUESTIONS = [
-  "Kya ye faisla gusse ya darr mein liya ja raha hai?",
-  "Kya iska worst case aap jhel sakte ho?",
-  "Kya ye faisla 1 saal baad bhi important rahega?"
+  "Kya ye faisla gusse, darr ya pressure me liya ja raha hai?",
+  "Kya iska worst-case scenario aap jhel sakte ho?",
+  "Kya ye decision irreversible hai (wapas lena mushkil)?",
+  "Kya ye faisla paison par zyada depend karta hai?",
+  "Kya aapne is faisle ke liye poori information verify ki hai?",
+  "Kya aap kisi aur ki life/control par over-depend ho rahe ho?",
+  "Kya ye decision sirf short-term relief de raha hai?",
+  "Kya past me aisa decision lene par nuksan hua tha?",
+  "Kya is faisle se aapki health/mental peace kharab hogi?",
+  "Kya aap is faisle ko 6 mahine baad bhi justify kar paoge?"
 ];
 
 let currentIndex = 0;
