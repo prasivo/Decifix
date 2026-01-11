@@ -238,20 +238,39 @@ th, td{
 
 </div>
 
-<!-- DOMAIN FILE (example) -->
-<!-- <script src="domains/marriage.js"></script> -->
-
-<!-- ENGINE LOGIC -->
-<script src="domains/marriage.js"></script>
-<script src="engine.js"></script>
+<!-- DOMAIN MAP -->
+<script src="domain-map.js"></script>
 
 <script>
-/* Show user-written situation */
-const situation = localStorage.getItem("decifix_situation");
+function detectDomain(userText){
+  if(!userText) return "general";
+  for (let domain in DOMAIN_MAP) {
+    for (let alias of DOMAIN_MAP[domain]) {
+      if (userText.includes(alias)) {
+        return domain;
+      }
+    }
+  }
+  return "general";
+}
+
+const situation = localStorage.getItem("decifix_situation") || "";
 if (situation) {
   document.getElementById("userContext").innerText =
     "Tum jis situation par decision lene ja rahe ho: “" + situation + "”";
 }
+
+const domainName = detectDomain(situation);
+const domainScript = document.createElement("script");
+domainScript.src = `domains/${domainName}.js`;
+
+domainScript.onload = () => {
+  const engineScript = document.createElement("script");
+  engineScript.src = "engine.js";
+  document.body.appendChild(engineScript);
+};
+
+document.body.appendChild(domainScript);
 </script>
 
 </body>
