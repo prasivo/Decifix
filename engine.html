@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DECIFIX ENGINE</title>
+
+<style>
+body{
+  background:#050509;
+  color:#fff;
+  font-family:Arial, Helvetica, sans-serif;
+  min-height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+.box{
+  width:92%;
+  max-width:700px;
+  border:1px solid #222;
+  padding:30px;
+  background:#0c0c14;
+}
+.hidden{display:none}
+
+h2{
+  letter-spacing:3px;
+  margin-bottom:10px;
+}
+.sub{
+  font-size:12px;
+  color:#9ca3af;
+  letter-spacing:2px;
+  margin-bottom:20px;
+}
+
+.question{
+  font-size:18px;
+  margin-bottom:10px;
+}
+.explain{
+  font-size:14px;
+  color:#d1d5db;
+  margin-bottom:20px;
+  line-height:1.5;
+}
+
+.option{
+  border:1px solid #333;
+  padding:14px;
+  margin-bottom:12px;
+  cursor:pointer;
+}
+.option:hover{
+  border-color:#6366f1;
+  color:#6366f1;
+}
+
+table{
+  width:100%;
+  border-collapse:collapse;
+  margin-top:20px;
+  font-size:13px;
+}
+th,td{
+  border:1px solid #333;
+  padding:8px;
+  text-align:left;
+}
+
+.final{
+  margin-top:25px;
+  font-size:16px;
+  letter-spacing:2px;
+}
+
+.lock{
+  margin-top:15px;
+  font-size:14px;
+  color:#9ca3af;
+  line-height:1.6;
+}
+</style>
+</head>
+
+<body>
+
+<div class="box">
+
+  <!-- HEADER -->
+  <h2 id="domainTitle">DECIFIX ENGINE</h2>
+  <div class="sub">Rule-by-rule decision filter</div>
+
+  <!-- RULE RUNNER -->
+  <div id="rulePhase">
+    <div class="question" id="qText"></div>
+    <div class="explain" id="explainText"></div>
+
+    <div class="option" onclick="answer(true)">YES</div>
+    <div class="option" onclick="answer(false)">NO</div>
+  </div>
+
+  <!-- RESULT -->
+  <div id="resultPhase" class="hidden">
+    <h3 id="finalResult"></h3>
+
+    <table>
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Time</th>
+          <th>Question</th>
+          <th>Your Choice</th>
+        </tr>
+      </thead>
+      <tbody id="summaryTable"></tbody>
+    </table>
+
+    <div class="lock">
+      Decision lene ke baad regret mat karna<br>
+      Jo hoga, dekha jayega
+    </div>
+  </div>
+
+</div>
+
+<script src="engine.js"></script>
+</body>
+</html>
