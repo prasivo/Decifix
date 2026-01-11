@@ -20,7 +20,7 @@ body{
   overflow:hidden;
 }
 
-/* Background animated grid */
+/* Animated grid background */
 .grid{
   position:absolute;
   inset:0;
@@ -28,15 +28,15 @@ body{
     linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px),
     linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px);
   background-size:40px 40px;
-  animation: move 20s linear infinite;
+  animation: move 22s linear infinite;
 }
 
 @keyframes move{
-  from{background-position:0 0, 0 0;}
-  to{background-position:400px 400px, 400px 400px;}
+  from{background-position:0 0,0 0;}
+  to{background-position:400px 400px,400px 400px;}
 }
 
-/* Center system */
+/* Center card */
 .center{
   position:relative;
   z-index:2;
@@ -47,22 +47,21 @@ body{
 }
 
 .card{
-  text-align:center;
-  padding:60px 40px;
+  width:92%;
+  max-width:560px;
+  padding:55px 40px;
+  background:rgba(10,10,20,0.92);
   border:1px solid #222;
-  background:rgba(10,10,20,0.9);
-  width:90%;
-  max-width:520px;
+  text-align:center;
 }
 
-/* DECIFIX */
+/* Logo */
 .logo{
   font-size:52px;
   letter-spacing:6px;
   font-weight:700;
 }
 
-/* Subtitle */
 .sub{
   margin-top:10px;
   font-size:12px;
@@ -83,11 +82,27 @@ body{
   font-size:14px;
   line-height:1.6;
   color:#d1d5db;
+  margin-bottom:25px;
+}
+
+/* Input */
+input{
+  width:100%;
+  padding:14px;
+  background:#050509;
+  border:1px solid #333;
+  color:#fff;
+  font-size:14px;
+  outline:none;
+}
+
+input::placeholder{
+  color:#6b7280;
 }
 
 /* Button */
 .btn{
-  margin-top:35px;
+  margin-top:25px;
   padding:14px 0;
   width:100%;
   background:transparent;
@@ -103,7 +118,7 @@ body{
   color:#000;
 }
 
-/* Footer rule */
+/* Footer */
 .footer{
   position:absolute;
   bottom:18px;
@@ -133,7 +148,13 @@ body{
       Responsibility stays with you.
     </div>
 
-    <button class="btn" onclick="enterSystem()">
+    <input
+      id="userSituation"
+      type="text"
+      placeholder="Apni situation ek line me likho"
+    />
+
+    <button class="btn" onclick="startFilter()">
       START FILTER
     </button>
   </div>
@@ -144,8 +165,18 @@ body{
 </div>
 
 <script>
-function enterSystem(){
-  // next screen (engine UI)
+function startFilter(){
+  const text = document.getElementById("userSituation").value.trim();
+
+  if(!text){
+    alert("Pehle apni situation likho.");
+    return;
+  }
+
+  // store user context
+  localStorage.setItem("decifix_situation", text);
+
+  // go to engine v2
   window.location.href = "engine.html";
 }
 </script>
