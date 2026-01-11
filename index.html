@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
+<meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>DECIFIX</title>
 
@@ -15,55 +15,32 @@
 
 body{
   background:#050509;
-  color:#fff;
-  height:100vh;
-  overflow:hidden;
-}
-
-/* Animated grid background */
-.grid{
-  position:absolute;
-  inset:0;
-  background:
-    linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px);
-  background-size:40px 40px;
-  animation: move 22s linear infinite;
-}
-
-@keyframes move{
-  from{background-position:0 0,0 0;}
-  to{background-position:400px 400px,400px 400px;}
-}
-
-/* Center card */
-.center{
-  position:relative;
-  z-index:2;
-  height:100%;
+  color:#ffffff;
+  min-height:100vh;
   display:flex;
   align-items:center;
   justify-content:center;
 }
 
+/* Card */
 .card{
   width:92%;
   max-width:560px;
-  padding:55px 40px;
-  background:rgba(10,10,20,0.92);
+  padding:42px 38px;
+  background:#0c0c14;
   border:1px solid #222;
   text-align:center;
 }
 
 /* Logo */
 .logo{
-  font-size:52px;
+  font-size:48px;
   letter-spacing:6px;
   font-weight:700;
 }
 
 .sub{
-  margin-top:10px;
+  margin-top:8px;
   font-size:12px;
   letter-spacing:4px;
   color:#9ca3af;
@@ -74,20 +51,20 @@ body{
   width:120px;
   height:1px;
   background:linear-gradient(to right, transparent, #6366f1, transparent);
-  margin:30px auto;
+  margin:28px auto;
 }
 
-/* System text */
-.system-text{
+/* Text */
+.info{
   font-size:14px;
   line-height:1.6;
   color:#d1d5db;
-  margin-bottom:25px;
 }
 
 /* Input */
 input{
   width:100%;
+  margin-top:22px;
   padding:14px;
   background:#050509;
   border:1px solid #333;
@@ -101,29 +78,25 @@ input::placeholder{
 }
 
 /* Button */
-.btn{
-  margin-top:25px;
-  padding:14px 0;
+button{
+  margin-top:24px;
   width:100%;
+  padding:14px 0;
   background:transparent;
   border:1px solid #6366f1;
   color:#6366f1;
   letter-spacing:3px;
   cursor:pointer;
-  transition:0.3s;
 }
 
-.btn:hover{
+button:hover{
   background:#6366f1;
   color:#000;
 }
 
 /* Footer */
 .footer{
-  position:absolute;
-  bottom:18px;
-  width:100%;
-  text-align:center;
+  margin-top:22px;
   font-size:11px;
   letter-spacing:2px;
   color:#6b7280;
@@ -133,50 +106,53 @@ input::placeholder{
 
 <body>
 
-<div class="grid"></div>
+<div class="card">
+  <div class="logo">DECIFIX</div>
+  <div class="sub">DECISION FILTER SYSTEM</div>
 
-<div class="center">
-  <div class="card">
-    <div class="logo">DECIFIX</div>
-    <div class="sub">DECISION FILTER SYSTEM</div>
+  <div class="line"></div>
 
-    <div class="line"></div>
+  <div class="info">
+    Ye system advice nahi deta.<br>
+    Ye sirf decision ko filter karta hai.<br>
+    Zimmedari tumhari hi rahegi.
+  </div>
 
-    <div class="system-text">
-      This system does not give advice.<br>
-      It filters decisions through rules.<br>
-      Responsibility stays with you.
-    </div>
+  <input
+    id="situation"
+    type="text"
+    placeholder="Apni situation ek line me likho"
+  />
 
-    <input
-      id="userSituation"
-      type="text"
-      placeholder="Apni situation ek line me likho"
-    />
+  <button onclick="startFilter()">
+    START FILTER
+  </button>
 
-    <button class="btn" onclick="startFilter()">
-      START FILTER
-    </button>
+  <div class="footer">
+    NO ADVICE • NO REGRET PROMISE • ONLY CLARITY
   </div>
 </div>
 
-<div class="footer">
-  RULE-DRIVEN • NO REGRET • NO ADVICE
-</div>
-
 <script>
-function startFilter(){
-  const text = document.getElementById("userSituation").value.trim();
+function normalizeText(text){
+  return text
+    .toLowerCase()
+    .replace(/[^a-z0-9\s]/gi, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+}
 
-  if(!text){
-    alert("Pehle apni situation likho.");
+function startFilter(){
+  let text = document.getElementById("situation").value;
+
+  if(!text || text.trim().length < 5){
+    alert("Apni situation thodi clear likho.");
     return;
   }
 
-  // store user context
-  localStorage.setItem("decifix_situation", text);
+  text = normalizeText(text);
 
-  // go to engine v2
+  localStorage.setItem("decifix_situation", text);
   window.location.href = "engine.html";
 }
 </script>
