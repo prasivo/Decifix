@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
+<meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>DECIFIX ENGINE</title>
 
@@ -15,25 +15,26 @@
 
 body{
   background:#050509;
-  color:#fff;
+  color:#ffffff;
   min-height:100vh;
   display:flex;
   justify-content:center;
   align-items:flex-start;
 }
 
+/* Main container */
 .container{
   width:94%;
   max-width:760px;
-  margin:30px auto;
+  margin:28px auto;
+  padding:28px;
   background:#0c0c14;
   border:1px solid #222;
-  padding:30px;
 }
 
 /* Header */
 .header{
-  margin-bottom:25px;
+  margin-bottom:22px;
 }
 .title{
   font-size:26px;
@@ -42,13 +43,13 @@ body{
 .sub{
   margin-top:6px;
   font-size:12px;
-  color:#9ca3af;
   letter-spacing:2px;
+  color:#9ca3af;
 }
 
-/* User situation */
+/* User context */
 .context{
-  margin-top:20px;
+  margin-top:16px;
   padding:14px;
   background:#050509;
   border:1px solid #333;
@@ -56,16 +57,16 @@ body{
   color:#d1d5db;
 }
 
-/* Rule card */
+/* Rule box */
 .rule-box{
-  margin-top:30px;
-  border:1px solid #333;
+  margin-top:28px;
   padding:22px;
+  border:1px solid #333;
   background:#07070d;
 }
 
-.rule-head{
-  font-size:13px;
+.rule-meta{
+  font-size:12px;
   letter-spacing:2px;
   color:#9ca3af;
   margin-bottom:10px;
@@ -73,11 +74,11 @@ body{
 
 .question{
   font-size:18px;
-  margin-bottom:18px;
   line-height:1.5;
+  margin-bottom:18px;
 }
 
-/* Case boxes */
+/* Cases */
 .case{
   border:1px solid #2a2a2a;
   padding:14px;
@@ -92,22 +93,21 @@ body{
   color:#6366f1;
 }
 
-/* Choice buttons */
+/* Actions */
 .actions{
   display:flex;
   gap:12px;
-  margin-top:18px;
+  margin-top:16px;
 }
 
 .btn{
   flex:1;
   padding:14px 0;
-  border:1px solid #6366f1;
   background:transparent;
+  border:1px solid #6366f1;
   color:#6366f1;
-  cursor:pointer;
   letter-spacing:2px;
-  transition:0.3s;
+  cursor:pointer;
 }
 
 .btn:hover{
@@ -115,15 +115,21 @@ body{
   color:#000;
 }
 
+.hint{
+  margin-top:10px;
+  font-size:12px;
+  color:#6b7280;
+}
+
 /* Result */
 .result{
-  margin-top:35px;
+  margin-top:34px;
 }
 
 .result h3{
   font-size:22px;
   letter-spacing:2px;
-  margin-bottom:15px;
+  margin-bottom:14px;
 }
 
 .note{
@@ -132,11 +138,11 @@ body{
   color:#d1d5db;
 }
 
-/* Table */
+/* Summary table */
 table{
   width:100%;
   border-collapse:collapse;
-  margin-top:25px;
+  margin-top:22px;
   font-size:13px;
 }
 
@@ -146,11 +152,12 @@ th, td{
   text-align:left;
 }
 
+/* Final lock */
 .lock{
-  margin-top:25px;
+  margin-top:24px;
   font-size:14px;
-  color:#9ca3af;
   line-height:1.6;
+  color:#9ca3af;
 }
 
 /* Hidden */
@@ -171,11 +178,14 @@ th, td{
   </div>
 
   <!-- USER CONTEXT -->
-  <div class="context" id="userContext"></div>
+  <div class="context" id="userContext">
+    Tum jis situation par decision lene ja rahe ho:
+  </div>
 
-  <!-- RULE RUNNER -->
+  <!-- RULE SECTION -->
   <div id="ruleSection" class="rule-box">
-    <div class="rule-head" id="ruleMeta"></div>
+    <div class="rule-meta" id="ruleMeta"></div>
+
     <div class="question" id="ruleQuestion"></div>
 
     <div class="case">
@@ -192,10 +202,18 @@ th, td{
       <button class="btn" onclick="choose(true)">YES</button>
       <button class="btn" onclick="choose(false)">NO</button>
     </div>
+
+    <div class="hint">
+      Har choice ko real decision ki tarah treat kiya jaata hai.
+    </div>
   </div>
 
-  <!-- RESULT -->
+  <!-- RESULT SECTION -->
   <div id="resultSection" class="result hidden">
+    <div class="note">
+      Ye system decision nahi leta, sirf clarity dikhata hai.
+    </div>
+
     <h3 id="finalVerdict"></h3>
     <div class="note" id="finalNote"></div>
 
@@ -213,30 +231,25 @@ th, td{
 
     <div class="lock">
       Decision tumhare haath me hai.<br>
-      Aisa decision lo jiske baad regret na ho.<br>
-      <br>
+      Aisa decision lo jiske baad regret na ho.<br><br>
       <strong>Jo hoga, dekha jayega.</strong>
     </div>
   </div>
 
 </div>
 
-<!-- DOMAIN FILE FIRST -->
-<!-- example -->
+<!-- DOMAIN FILE (example) -->
 <!-- <script src="domains/marriage.js"></script> -->
 
 <!-- ENGINE LOGIC -->
 <script src="engine.js"></script>
 
 <script>
-/* Load user situation */
+/* Show user-written situation */
 const situation = localStorage.getItem("decifix_situation");
-if(situation){
+if (situation) {
   document.getElementById("userContext").innerText =
-    "Tumhari situation: " + situation;
-}else{
-  document.getElementById("userContext").innerText =
-    "Tumhari situation define nahi ki gayi.";
+    "Tum jis situation par decision lene ja rahe ho: “" + situation + "”";
 }
 </script>
 
