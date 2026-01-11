@@ -779,3 +779,355 @@ const DECIFIX_DATABASE = {
             { q: "Kya aap apni galti manne ko taiyar hain?", o: ["Haan, agar logic sahi ho", "Nahi, main hi sahi hoon"] }
         ]}
     }, 
+        
+    "STARTUP_FUNDING": {
+        "keywords": ["PITCH DECK", "ANGEL INVESTOR", "VC", "EQUITY", "FUNDRAISING", "VALUATION", "SEED ROUND"],
+        "sub": { "CORE": [
+            { q: "Kya aapka business 'Revenue' generate kar raha hai?", o: ["Haan, cash flow hai", "Nahi, abhi sirf product hai"] },
+            { q: "Kya aap equity dene ke liye taiyar hain?", o: ["Haan, growth ke liye", "Nahi, control mera hona chahiye"] },
+            { q: "Kya aapne 100 investors ki list banayi?", o: ["Haan, research complete hai", "Nahi, abhi shuru karna hai"] },
+            { q: "Kya aapka 'Unit Economics' positive hai?", o: ["Haan", "Nahi, burn zyada hai"] },
+            { q: "Kya aap agle 18 mahine ka roadmap samjha sakte hain?", o: ["Haan, clear vision hai", "Nahi, abhi plan kar raha hoon"] }
+        ]}
+    },
+    "BODY_LANGUAGE": {
+        "keywords": ["GUESTURE", "EYE CONTACT", "POSTURE", "CONFIDENCE", "NON-VERBAL", "INTERVIEW TIPS"],
+        "sub": { "CORE": [
+            { q: "Kya aap baat karte waqt aankhon mein dekhte hain?", o: ["Haan, hamesha", "Nahi, niche/idhar-udhar dekhta hoon"] },
+            { q: "Kya aapke hath 'Pocket' mein rehte hain?", o: ["Nahi, open gestures hain", "Haan, aksar"] },
+            { q: "Kya aap 'Hunch' (jhuk kar) baithte hain?", o: ["Nahi, seedha baithta hoon", "Haan, aadat hai"] },
+            { q: "Kya aap bahut zyada 'Fidgeting' (hath-pair hilana) karte hain?", o: ["Nahi, calm hoon", "Haan, nervousness mein"] },
+            { q: "Kya aap samne wale ki body language 'Mirror' (copy) kar rahe hain?", o: ["Haan, rapport banane ke liye", "Nahi, dhyan nahi diya"] }
+        ]}
+    },
+    "PROPERTY_LEGAL_CHECK": {
+        "keywords": ["RERA", "POSSESSION", "TITLE DEED", "KHATA", "STAMP DUTY", "ENCUMBRANCE CERTIFICATE"],
+        "sub": { "CORE": [
+            { q: "Kya property RERA registered hai?", o: ["Haan, verified", "Nahi, builder bahana bana raha hai"] },
+            { q: "Kya land ka 'Title Deed' clear hai?", o: ["Haan, CA/Lawyer ne check kiya", "Nahi, sirf xerox dekhi hai"] },
+            { q: "Kya property par koi purana 'Loan' (Encumbrance) hai?", o: ["Nahi, EC certificate clean hai", "Pata nahi, check karna hai"] },
+            { q: "Kya possession ki date contract mein likhi hai?", o: ["Haan", "Nahi, verbal commitment hai"] },
+            { q: "Kya building plan approved hai?", o: ["Haan, local authority se", "Nahi, doubt hai"] }
+        ]}
+    },
+    "GOURMET_COOKING": {
+        "keywords": ["CHEF", "RECIPE", "KNIFE SKILLS", "BAKING", "PLATING", "FINE DINING"],
+        "sub": { "CORE": [
+            { q: "Kya aapne saari 'Mis-en-place' (taiyari) pehle kar li?", o: ["Haan, sab chopped/ready hai", "Nahi, saath-saath karunga"] },
+            { q: "Kya aapke paas sahi 'Knife' aur tools hain?", o: ["Haan, professional tools hain", "Nahi, normal household tools"] },
+            { q: "Kya aap 'Plating' (sajawat) par focus kar rahe hain?", o: ["Haan, presentation zaroori hai", "Nahi, sirf taste"] },
+            { q: "Kya aapne temperature (Meat/Oven) check kiya?", o: ["Haan, thermometer use kiya", "Nahi, andaze se"] },
+            { q: "Kya aap naye 'Ingredients' ke sath experiment kar rahe hain?", o: ["Haan", "Nahi, purani recipe hai"] }
+        ]}
+    },
+    "TIME_BLOCKING": {
+        "keywords": ["CALENDAR", "DEEP WORK", "FOCUS", "PRODUCTIVITY HACK", "TIME MANAGEMENT"],
+        "sub": { "CORE": [
+            { q: "Kya aapne 'Deep Work' ke liye 2-3 ghante block kiye?", o: ["Haan, zero distraction", "Nahi, beech mein breaks hain"] },
+            { q: "Kya aapne 'Shallow Work' (Emails/Admin) ke liye alag time rakha?", o: ["Haan", "Nahi, sab mix ho jata hai"] },
+            { q: "Kya aap calendar par 'Buffer Time' rakhte hain?", o: ["Haan, emergencies ke liye", "Nahi, pack schedule hai"] },
+            { q: "Kya aapne 'Digital Detox' ka time fix kiya?", o: ["Haan", "Nahi"] },
+            { q: "Kya aap har hafte apne schedule ko review karte hain?", o: ["Haan", "Nahi"] }
+        ]}
+    },
+        "SALES_PSYCHOLOGY": {
+        "keywords": ["SELLING", "CLOSING", "NEGOTIATION", "CLIENT", "MARKETING", "PERSUASION", "SALES PITCH"],
+        "sub": { "CORE": [
+            { q: "Kya aapne product ke 'Features' ke bajaye 'Benefits' bataye?", o: ["Haan, result par focus hai", "Nahi, sirf features bataye"] },
+            { q: "Kya aapne 'Scarcity' (limited time/offer) create ki?", o: ["Haan, urgency hai", "Nahi, hamesha available hai"] },
+            { q: "Kya aapne 'Social Proof' (Testimonials) dikhaye?", o: ["Haan, trust banaya", "Nahi, abhi nahi dikhaye"] },
+            { q: "Kya aap 'No' sunne ke liye taiyar hain?", o: ["Haan, objection handle karunga", "Nahi, bura lagta hai"] },
+            { q: "Kya aap client ki problem ka 'Solution' bech rahe hain?", o: ["Haan", "Nahi, sirf apna target poora karna hai"] }
+        ]}
+    },
+    "BIO_HACKING": {
+        "keywords": ["SLEEP", "DIET", "SUPPLEMENTS", "LONGEVITY", "FASTING", "ICE BATH", "HEALTH HACK"],
+        "sub": { "CORE": [
+            { q: "Kya aapne 'Intermittent Fasting' try ki?", o: ["Haan, energy badhi", "Nahi, himmat nahi hui"] },
+            { q: "Kya aap 'Blue Light' blocking glasses use karte hain?", o: ["Haan, raat ko", "Nahi, idea nahi tha"] },
+            { q: "Kya aapne 'Cold Shower' (thanda paani) shuru kiya?", o: ["Haan, resilience ke liye", "Nahi, bahut thand lagti hai"] },
+            { q: "Kya aap apni 'Deep Sleep' track karte hain?", o: ["Haan, smart watch se", "Nahi, bas so jata hoon"] },
+            { q: "Kya aapne supplements lene se pehle Blood Test karwaya?", o: ["Haan, certified hai", "Nahi, bas videos dekh kar le liye"] }
+        ]}
+    },
+    "ADVANCED_PHOTOGRAPHY": {
+        "keywords": ["ISO", "APERTURE", "SHUTTER SPEED", "DSLR", "RAW", "COMPOSITION", "LIGHTING"],
+        "sub": { "CORE": [
+            { q: "Kya aapne 'Rule of Thirds' follow kiya?", o: ["Haan, composition sahi hai", "Nahi, subject beech mein hai"] },
+            { q: "Kya aap 'Manual Mode' par shoot kar rahe hain?", o: ["Haan, full control hai", "Nahi, Auto mode par hoon"] },
+            { q: "Kya aapne 'Golden Hour' (sunset/sunrise) ka wait kiya?", o: ["Haan, lighting best hai", "Nahi, kabhi bhi le li"] },
+            { q: "Kya aap RAW format mein save kar rahe hain?", o: ["Haan, editing ke liye", "Nahi, sirf JPEG"] },
+            { q: "Kya aapka subject 'In Focus' hai?", o: ["Haan, sharp hai", "Nahi, thoda blurry hai"] }
+        ]}
+    },
+    "CONTENT_STRATEGY": {
+        "keywords": ["VIRAL", "HOOK", "STORYTELLING", "ALGORITHM", "NICHE", "ENGAGEMENT", "CONTENT CALENDAR"],
+        "sub": { "CORE": [
+            { q: "Kya pehle 3 second mein koi 'Hook' hai?", o: ["Haan, attention grabber hai", "Nahi, slow start hai"] },
+            { q: "Kya aap ek hi 'Niche' par focus kar rahe hain?", o: ["Haan, target clear hai", "Nahi, sab mix hai"] },
+            { q: "Kya aap 'Storytelling' ka use kar rahe hain?", o: ["Haan, connect hota hai", "Nahi, sirf info hai"] },
+            { q: "Kya aapne comments ka reply kiya?", o: ["Haan, community building", "Nahi, time nahi hai"] },
+            { q: "Kya aapka content 'Shareable' hai?", o: ["Haan, value/relatable hai", "Nahi, sirf mere liye hai"] }
+        ]}
+    },
+    "MENTAL_MODELS": {
+        "keywords": ["CRITICAL THINKING", "FIRST PRINCIPLES", "INVERSION", "PARETO PRINCIPLE", "OCCAMS RAZOR"],
+        "sub": { "CORE": [
+            { q: "Kya aapne '80/20 Rule' (Pareto) lagaya?", o: ["Haan, main results par focus hoon", "Nahi, sab kaam kar raha hoon"] },
+            { q: "Kya aap 'First Principles' (root cause) se soch rahe hain?", o: ["Haan, basic se", "Nahi, dusron ki copy hai"] },
+            { q: "Kya aapne 'Inversion' (ultha sochna) lagaya?", o: ["Haan, failure se bachne ke liye", "Nahi"] },
+            { q: "Kya sabse aasaan explanation (Occam's Razor) sahi hai?", o: ["Haan, shayad wahi sach hai", "Nahi, bahut complex hai"] },
+            { q: "Kya aapne 'Confirmation Bias' se bachne ki koshish ki?", o: ["Haan, opposites bhi check kiye", "Nahi, wahi dekha jo mujhe pasand hai"] }
+        ]}
+    },
+         "PHILOSOPHY_STOICISM": {
+        "keywords": ["STOIC", "MARCUS AURELIUS", "CONTROL", "EMOTIONS", "CALM", "SENECA", "MINDSET"],
+        "sub": { "CORE": [
+            { q: "Kya ye situation aapke control mein hai?", o: ["Nahi, par mera reaction control mein hai", "Haan, main ise badal sakta hoon"] },
+            { q: "Kya aap sirf imaginary dukh (overthinking) se darr rahe hain?", o: ["Haan, shayad", "Nahi, asli takleef hai"] },
+            { q: "Kya aapne 'Worst Case Scenario' accept kar liya hai?", o: ["Haan, ab darr nahi hai", "Nahi, abhi bhi darr lag raha hai"] },
+            { q: "Kya aap aaj mein jee rahe hain (Amor Fati)?", o: ["Haan", "Nahi, past/future mein hoon"] },
+            { q: "Kya aapka gussa kisi problem ko solve karega?", o: ["Nahi, sirf bigadega", "Nahi pata"] }
+        ]}
+    },
+    "CRISIS_MANAGEMENT": {
+        "keywords": ["EMERGENCY", "PANIC", "PROBLEM", "SCANDAL", "URGENT", "DAMAGE CONTROL"],
+        "sub": { "CORE": [
+            { q: "Kya aapne pehle 'Thanda Paani' piya aur shant hue?", o: ["Haan", "Nahi, panic mein hoon"] },
+            { q: "Kya aapne 'Core Problem' ko pehchan liya hai?", o: ["Haan, pata hai kya hua", "Nahi, sab uljha hua hai"] },
+            { q: "Kya aapne team/pariwar ko suchit (inform) kiya?", o: ["Haan, transparency hai", "Nahi, chhupa raha hoon"] },
+            { q: "Kya aapke paas 'Plan B' taiyar hai?", o: ["Haan", "Nahi, abhi soch raha hoon"] },
+            { q: "Kya aap apni galti maan rahe hain?", o: ["Haan, accountability hai", "Nahi, blame game khel raha hoon"] }
+        ]}
+    },
+    "PERSONAL_BRANDING": {
+        "keywords": ["LINKEDIN", "TWITTER", "INFLUENCE", "REPUTATION", "AUTHORITY", "EXPERT"],
+        "sub": { "CORE": [
+            { q: "Kya aapki profile picture professional hai?", o: ["Haan", "Nahi, casual hai"] },
+            { q: "Kya aap rozana value-add content post karte hain?", o: ["Haan", "Nahi, kabhi-kabhi"] },
+            { q: "Kya aapki 'Niche' (field) clear hai?", o: ["Haan, log mujhe jante hain", "Nahi, sab mix hai"] },
+            { q: "Kya aap dusron ke posts par meaningful engage karte hain?", o: ["Haan", "Nahi, sirf scroll karta hoon"] },
+            { q: "Kya aapki online image aapke asli kaam se milti hai?", o: ["Haan, authentic hai", "Nahi, thoda show-off hai"] }
+        ]}
+    },
+    "DIVIDEND_INVESTING": {
+        "keywords": ["PASSIVE INCOME", "DIVIDENDS", "STOCKS", "PORTFOLIO", "YIELD", "CASH FLOW"],
+        "sub": { "CORE": [
+            { q: "Kya company ka 'Dividend Yield' 3-5% se zyada hai?", o: ["Haan, achha hai", "Nahi, bahut kam hai"] },
+            { q: "Kya company pichle 10 saal se profit mein hai?", o: ["Haan, stable hai", "Nahi, loss mein thi"] },
+            { q: "Kya aap dividend ko 'Re-invest' karenge?", o: ["Haan, compounding ke liye", "Nahi, kharch kar dunga"] },
+            { q: "Kya ye sector 'Defensive' (Utility/FMCG) hai?", o: ["Haan, safe hai", "Nahi, risky/volatile hai"] },
+            { q: "Kya 'Payout Ratio' sustainable (60% se kam) hai?", o: ["Haan", "Nahi, bahut zyada hai"] }
+        ]}
+    },
+    "E-COMMERCE_STARTUP": {
+        "keywords": ["SHOPIFY", "AMAZON SELLER", "DROPSHIPPING", "INVENTORY", "LOGISTICS", "ONLINE STORE"],
+        "sub": { "CORE": [
+            { q: "Kya aapke paas product ka 'Unique Selling Point' (USP) hai?", o: ["Haan, sabse alag hai", "Nahi, normal product hai"] },
+            { q: "Kya aapne shipping/returns ka kharcha calculate kiya?", o: ["Haan", "Nahi, idea nahi hai"] },
+            { q: "Kya aapka ad-spend (CAC) profit se kam hai?", o: ["Haan, profitable hai", "Nahi, loss ho raha hai"] },
+            { q: "Kya aapne sample testing khud ki?", o: ["Haan, quality best hai", "Nahi, seedha order kiya"] },
+            { q: "Kya aapka packaging 'Instagrammable' (sundar) hai?", o: ["Haan", "Nahi, normal hai"] }
+        ]}
+    },
+         "SPACE_TOURISM": {
+        "keywords": ["SPACEX", "VIRGIN GALACTIC", "ORBIT", "ASTRONAUT", "ROCKET", "SPACE TRIP", "MARS"],
+        "sub": { "CORE": [
+            { q: "Kya aapki physical health G-force jhelne ke layak hai?", o: ["Haan, medical clear hai", "Nahi, heart/BP issue hai"] },
+            { q: "Kya aap 10-15 din ek band capsule mein reh sakte hain?", o: ["Haan, mentally ready hoon", "Nahi, claustrophobia hai"] },
+            { q: "Kya aapne insurance aur legal liability padhi?", o: ["Haan, risk pata hai", "Nahi, abhi nahi"] },
+            { q: "Kya ye sirf status ke liye hai ya science ke liye?", o: ["Dono", "Sirf dikhawe ke liye"] },
+            { q: "Kya aapki family is 'High Risk' ke liye taiyar hai?", o: ["Haan", "Nahi, wo darre hue hain"] }
+        ]}
+    },
+    "SPORTS_CAREER": {
+        "keywords": ["CRICKET", "FOOTBALL", "ATHLETE", "OLYMPICS", "ACADEMY", "SPORTS", "TRAINING"],
+        "sub": { "CORE": [
+            { q: "Kya aap rozana 6-8 ghante physical grind ke liye taiyar hain?", o: ["Haan, passion hai", "Nahi, kabhi-kabhi thak jata hoon"] },
+            { q: "Kya aapke paas backup education plan hai?", o: ["Haan, degree saath mein hai", "Nahi, sab kuch sports par hai"] },
+            { q: "Kya aap injury ke waqt mentally strong reh sakte hain?", o: ["Haan, comeback karunga", "Nahi, toot jata hoon"] },
+            { q: "Kya aapka coach/mentor certified hai?", o: ["Haan, experienced hai", "Nahi, bas local hai"] },
+            { q: "Kya aap 'Strict Diet' aur discipline follow kar rahe hain?", o: ["Haan, 100%", "Nahi, thoda cheat chalta hai"] }
+        ]}
+    },
+    "NFT_COLLECTOR": {
+        "keywords": ["NFT", "OPEN SEA", "DIGITAL ART", "BLOCKCHAIN ART", "WEB3", "METAMASK"],
+        "sub": { "CORE": [
+            { q: "Kya aap art ki wajah se kharid rahe hain ya 'Flip' (profit) ke liye?", o: ["Art/Utility ke liye", "Sirf paisa double karne ke liye"] },
+            { q: "Kya aapne creator ki roadmap check ki?", o: ["Haan, solid plan hai", "Nahi, bas hype dekhi"] },
+            { q: "Kya aap gas-fees aur volatility jhel sakte hain?", o: ["Haan", "Nahi, budget tight hai"] },
+            { q: "Kya ye project 'Rug Pull' (scam) toh nahi lag raha?", o: ["Nahi, community strong hai", "Shayad, darr hai"] },
+            { q: "Kya aapne hardware wallet use kiya?", o: ["Haan, safe hai", "Nahi, exchange par hai"] }
+        ]}
+    },
+    "GHOSTING_DYNAMICS": {
+        "keywords": ["GHOSTED", "NO REPLY", "DATING ADVICE", "TEXTING", "RELATIONSHIP STRESS"],
+        "sub": { "CORE": [
+            { q: "Kya unhone pichle 48 ghante se reply nahi kiya?", o: ["Haan", "Nahi, abhi kam time hua hai"] },
+            { q: "Kya aapne unhe baar-baar call/text karke 'Double Text' kiya?", o: ["Nahi, space di hai", "Haan, 5-10 baar"] },
+            { q: "Kya ye unki aadat hai ya pehli baar hua?", o: ["Pehli baar", "Aksar aisa karte hain"] },
+            { q: "Kya aapne 'Silence' ko answer maan liya hai?", o: ["Haan, self-respect hai", "Nahi, clarification chahiye"] },
+            { q: "Kya aapne unhe block karne ka socha?", o: ["Haan, move on karna hai", "Nahi, intezar karunga"] }
+        ]}
+    },
+    "REMOTE_TEAM_LEADERSHIP": {
+        "keywords": ["MANAGER", "TEAM LEAD", "SLACK", "ZOOM", "DELEGATION", "MANAGEMENT"],
+        "sub": { "CORE": [
+            { q: "Kya aap 'Micromanagement' (zyada interfere) kar rahe hain?", o: ["Nahi, trust karta hoon", "Haan, report har ghante chahiye"] },
+            { q: "Kya team ka 'Work-Life Balance' sahi hai?", o: ["Haan", "Nahi, sab burn-out ho rahe hain"] },
+            { q: "Kya aapne expectations (KPIs) clear rakhe hain?", o: ["Haan, document hai", "Nahi, sab verbal hai"] },
+            { q: "Kya aap 'One-on-One' feedback calls karte hain?", o: ["Haan, weekly", "Nahi, sirf group calls"] },
+            { q: "Kya team ko tools (software/hardware) sahi mile hain?", o: ["Haan", "Nahi, complain karte hain"] }
+        ]}
+    },
+        "AI_ETHICS_DEVELOPER": {
+        "keywords": ["AI MODEL", "DATA PRIVACY", "BIAS", "ALGORITHM ETHICS", "DEVELOPMENT", "OPEN SOURCE"],
+        "sub": { "CORE": [
+            { q: "Kya aapka training data diverse aur unbiased hai?", o: ["Haan, kaafi testing ki hai", "Nahi, thoda biased ho sakta hai"] },
+            { q: "Kya user ki privacy (GDPR) ka dhyan rakha gaya hai?", o: ["Haan, data encrypted hai", "Nahi, abhi pending hai"] },
+            { q: "Kya ye AI kisi ki job ko puri tarah khatam kar raha hai?", o: ["Nahi, ye sirf assist karta hai", "Haan, replace kar dega"] },
+            { q: "Kya 'Deepfake' banne ki gunjayish hai?", o: ["Nahi, guards lagaye hain", "Haan, thoda risk hai"] },
+            { q: "Kya algorithm 'Explainable' hai (kya aap bata sakte hain ye decision kyun liya)?", o: ["Haan", "Nahi, ye black-box hai"] }
+        ]}
+    },
+    "ORGANIC_FARMING": {
+        "keywords": ["ORGANIC", "FARMING", "K खेती", "KHETI", "PESTICIDE FREE", "SOIL HEALTH", "AGRICULTURE"],
+        "sub": { "CORE": [
+            { q: "Kya aapne mitti (soil) ka lab test karwaya?", o: ["Haan, nutrient rich hai", "Nahi, abhi karna hai"] },
+            { q: "Kya aapke paas organic certification hai?", o: ["Haan, official hai", "Nahi, sirf natural tareeka hai"] },
+            { q: "Kya aap market ke price fluctuations jhel sakte hain?", o: ["Haan, backup hai", "Nahi, risky lag raha hai"] },
+            { q: "Kya aapne 'Drip Irrigation' ka setup kiya?", o: ["Haan, paani bachta hai", "Nahi, normal flood irrigation hai"] },
+            { q: "Kya aap pests ko manage karne ke liye bio-fertilizers use kar rahe hain?", o: ["Haan", "Nahi, chemical ki aadat hai"] }
+        ]}
+    },
+    "INDEPENDENT_FILMMAKING": {
+        "keywords": ["FILM", "MOVIE", "SCRIPT", "DIRECTOR", "CINEMATOGRAPHY", "SHORT FILM", "PRODUCTION"],
+        "sub": { "CORE": [
+            { q: "Kya aapki script 'Character Driven' hai ya sirf budget par depend hai?", o: ["Character driven (Strong script)", "Budget heavy hai"] },
+            { q: "Kya aapne pre-production (storyboarding) complete ki?", o: ["Haan, sab ready hai", "Nahi, set par hi dekhunga"] },
+            { q: "Kya aapne sound quality par focus kiya?", o: ["Haan, external mic hai", "Nahi, camera mic hi use karunga"] },
+            { q: "Kya aapke paas distribution plan (YouTube/OTT/Festivals) hai?", o: ["Haan", "Nahi, bas bana raha hoon"] },
+            { q: "Kya aapki team passion se kaam kar rahi hai ya sirf paise ke liye?", o: ["Passion ke saath", "Sirf salary ke liye"] }
+        ]}
+    },
+    "HIGH_FASHION_BRAND": {
+        "keywords": ["CLOTHING BRAND", "FASHION", "DESIGNER", "BOUTIQUE", "APPAREL", "LUXURY WEAR"],
+        "sub": { "CORE": [
+            { q: "Kya aapka fabric 'Premium' aur durable hai?", o: ["Haan, best quality hai", "Nahi, normal fabric hai"] },
+            { q: "Kya aapka brand 'Story' communicate karta hai?", o: ["Haan, unique identity hai", "Nahi, bas design achha hai"] },
+            { q: "Kya aapne niche market (e.g., Streetwear/Ethnic) fix ki?", o: ["Haan", "Nahi, sab ke liye hai"] },
+            { q: "Kya aapka profit margin 40% se upar hai?", o: ["Haan", "Nahi, bahut kam hai"] },
+            { q: "Kya aapne influencer marketing ka plan banaya?", o: ["Haan", "Nahi"] }
+        ]}
+    },
+    "MENTAL_HEALTH_FIRST_AID": {
+        "keywords": ["SUPPORT", "LISTENING", "HELP FRIEND", "EMPATHY", "CRISIS", "MENTAL SUPPORT"],
+        "sub": { "CORE": [
+            { q: "Kya aap sirf sun rahe hain ya bina maange advice de rahe hain?", o: ["Sirf sun raha hoon (Active Listening)", "Advice de raha hoon"] },
+            { q: "Kya aapne unse pucha 'How can I support you right now?'", o: ["Haan", "Nahi, bas dilaasa diya"] },
+            { q: "Kya ye mamla medical professional ka hai?", o: ["Nahi, normal tension hai", "Haan, serious lag raha hai"] },
+            { q: "Kya aap unhe judge kar rahe hain?", o: ["Nahi, bilkul nahi", "Shayad, dimaag mein chal raha hai"] },
+            { q: "Kya aapne unki baat secret rakhne ka wada kiya?", o: ["Haan, trust hai", "Nahi, sabko bata diya"] }
+        ]}
+    },
+        "POLITICAL_CAMPAIGNING": {
+        "keywords": ["ELECTION STRATEGY", "VOTER BAASE", "RALLY", "POLITICAL PR", "BOOTH MANAGEMENT", "CAMPAIGN"],
+        "sub": { "CORE": [
+            { q: "Kya aapne booth-level data ka analysis kiya?", o: ["Haan, data-driven strategy hai", "Nahi, bas rallies par bharosa hai"] },
+            { q: "Kya aapka 'Voter Connect' emotional hai ya developmental?", o: ["Dono ka balance hai", "Sirf emotional/vocal hai"] },
+            { q: "Kya aapke paas social media 'IT Cell' active hai?", o: ["Haan, organized hai", "Nahi, organic chal raha hai"] },
+            { q: "Kya aap opposition ke negative campaign ko counter karne ke liye taiyar hain?", o: ["Haan, defense plan ready hai", "Nahi, hum ignore karenge"] },
+            { q: "Kya aapne 'Swing Voters' (jo confuse hain) ko target kiya?", o: ["Haan, unhi par focus hai", "Nahi, sirf loyal supporters par"] }
+        ]}
+    },
+    "ADVANCED_PRIVACY": {
+        "keywords": ["VPN", "TOR", "ENCRYPTION", "METADATA", "SURVEILLANCE", "PRIVACY HACK", "TRACKING"],
+        "sub": { "CORE": [
+            { q: "Kya aap ek No-Log VPN use kar rahe hain?", o: ["Haan, verified audit hai", "Nahi, free/random VPN hai"] },
+            { q: "Kya aapne browser mein 'Fingerprinting Protection' on ki hai?", o: ["Haan, Brave/Firefox settings se", "Nahi, default browser hai"] },
+            { q: "Kya aap sensitive baat ke liye 'Signal' (E2EE) use karte hain?", o: ["Haan, hamesha", "Nahi, normal SMS/Chat"] },
+            { q: "Kya aapke paas personal data ka physical backup (offline) hai?", o: ["Haan", "Nahi, sab cloud par hai"] },
+            { q: "Kya aapne apne purane accounts (unused) delete kiye?", o: ["Haan", "Nahi, abhi tak active hain"] }
+        ]}
+    },
+    "HOME_GARDENING_PRO": {
+        "keywords": ["HYDROPONICS", "KITCHEN GARDEN", "FERTILIZER", "PLANTS", "GARDENING TIPS", "ORGANIC VEGGIES"],
+        "sub": { "CORE": [
+            { q: "Kya aapne plants ke liye 'NPK' balance check kiya?", o: ["Haan, soil testing ke hisab se", "Nahi, bas pani de raha hoon"] },
+            { q: "Kya aap 'Companion Planting' (ek sath do faide) kar rahe hain?", o: ["Haan, research ki hai", "Nahi, idea nahi hai"] },
+            { q: "Kya aapke plants ko rozana 4-6 ghante dhoop milti hai?", o: ["Haan", "Nahi, balcony mein chhanya hai"] },
+            { q: "Kya aapne pest control ke liye 'Neem Oil' ka use kiya?", o: ["Haan, natural hai", "Nahi, chemicals use kiye"] },
+            { q: "Kya aap kitchen waste se 'Compost' khud bana rahe hain?", o: ["Haan", "Nahi, bahar se laata hoon"] }
+        ]}
+    },
+    "SPORTS_EVENT_MANAGEMENT": {
+        "keywords": ["TOURNAMENT", "STADIUM", "LOGISTICS", "SPONSORS", "SPORTS EVENT", "COORDINATION"],
+        "sub": { "CORE": [
+            { q: "Kya aapne players ki medical/injury insurance li hai?", o: ["Haan, safety first", "Nahi, zarurat nahi padegi"] },
+            { q: "Kya venue par emergency 'Ambulance' aur 'First Aid' ready hai?", o: ["Haan, standby par hai", "Nahi, bhool gaya"] },
+            { q: "Kya aapke paas sponsors ka commitment 'Written' hai?", o: ["Haan, contract sign hai", "Nahi, sirf verbal hai"] },
+            { q: "Kya aapne 'Crowd Control' ke liye security lagayi?", o: ["Haan", "Nahi, thode hi log aayenge"] },
+            { q: "Kya aapne digital tickets/entry ka setup kiya?", o: ["Haan", "Nahi, manual hai"] }
+        ]}
+    },
+    "BIO_TECHNOLOGY_CAREER": {
+        "keywords": ["GENETICS", "LAB", "RESEARCH", "BIOTECH", "PHARMA", "STEM CELL", "CRISPR"],
+        "sub": { "CORE": [
+            { q: "Kya aap R&D (Research) mein long-term rukne ke liye taiyar hain?", o: ["Haan, patience hai", "Nahi, jaldi corporate job chahiye"] },
+            { q: "Kya aapne latest 'CRISPR' ya Gene-editing tech ki padhai ki?", o: ["Haan, updated hoon", "Nahi, sirf basics pata hain"] },
+            { q: "Kya aap lab safety protocols (Biosafety Levels) ke baare mein jante hain?", o: ["Haan, certified hoon", "Nahi, seekhna hai"] },
+            { q: "Kya aapka focus 'Pharma' par hai ya 'Agriculture' Biotech par?", o: ["Pharma/Health", "Agriculture/Environment"] },
+            { q: "Kya aap PhD karne ka plan kar rahe hain?", o: ["Haan, zaroori hai", "Nahi, Masters karke kaam shuru karunga"] }
+        ]}
+    },
+        "ARCHITECTURE_DESIGN": {
+        "keywords": ["INTERIOR", "VILLA", "BLUEPRINT", "SKYSCRAPER", "URBAN PLANNING", "FAÇADE", "VASTU"],
+        "sub": { "CORE": [
+            { q: "Kya aapne 'Load Bearing' structure ka calculation check kiya?", o: ["Haan, engineer se verified hai", "Nahi, abhi design stage par hai"] },
+            { q: "Kya aapka design 'Sustainable' (Eco-friendly) hai?", o: ["Haan, solar aur water harvest hai", "Nahi, normal design hai"] },
+            { q: "Kya ventilation aur natural light ka dhyan rakha gaya?", o: ["Haan, cross-ventilation hai", "Nahi, artificial light par depend hai"] },
+            { q: "Kya aapne future extension (ek floor aur) ka provision rakha?", o: ["Haan", "Nahi, sirf aaj ka plan hai"] },
+            { q: "Kya design 'Vastu' ya 'Functional' logic par based hai?", o: ["Dono ka balance hai", "Sirf style/look par"] }
+        ]}
+    },
+    "ASTROPHYSICS_RESEARCH": {
+        "keywords": ["BLACK HOLE", "QUANTUM", "TELESCOPE", "NASA", "ISRO", "GALAXY", "COSMOLOGY"],
+        "sub": { "CORE": [
+            { q: "Kya aap 'Observational' data par kaam kar rahe hain?", o: ["Haan, telescope data hai", "Nahi, theoretical maths hai"] },
+            { q: "Kya aapne 'Relativity' aur 'Quantum Mechanics' ka conflict solve kiya?", o: ["Koshish jaari hai", "Nahi, ek hi domain mein hoon"] },
+            { q: "Kya aapka research peer-reviewed journals mein submit hua?", o: ["Haan", "Nahi, abhi draft hai"] },
+            { q: "Kya aapne 'Dark Matter' ka hisab lagaya?", o: ["Haan, models mein shamil hai", "Nahi"] },
+            { q: "Kya aap computer simulations (Python/MATLAB) use kar rahe hain?", o: ["Haan, hamesha", "Nahi, manual math hai"] }
+        ]}
+    },
+    "LUXURY_BRAND_MANAGEMENT": {
+        "keywords": ["ROLEX", "GUCCI", "HERMES", "EXCLUSIVITY", "HNI CLIENTS", "PREMIUM RETAIL"],
+        "sub": { "CORE": [
+            { q: "Kya aapka brand 'Scarcity' (kam supply) maintain kar raha hai?", o: ["Haan, waitlist system hai", "Nahi, sab ke liye available hai"] },
+            { q: "Kya aapka focus 'Craftsmanship' par hai ya 'Logos' par?", o: ["Craftsmanship (Quality)", "Logo (Brand Show-off)"] },
+            { q: "Kya aapke HNI clients ko 'Personalized' service milti hai?", o: ["Haan, dedicated manager hai", "Nahi, normal retail hai"] },
+            { q: "Kya aapka brand 'Story' sadiyon purani lagti hai?", o: ["Haan, heritage feel hai", "Nahi, naya brand hai"] },
+            { q: "Kya aap marketing par zyada kharch kar rahe hain ya experience par?", o: ["VVIP Experience par", "Mass Ads par"] }
+        ]}
+    },
+    "CRITICAL_NEGOTIATION": {
+        "keywords": ["HOSTAGE", "BUSINESS DEAL", "STAKEHOLDER", "BARGAINING", "CONFLICT RESOLUTION"],
+        "sub": { "CORE": [
+            { q: "Kya aapne samne wale ki 'Deepest Fear' ko pehchana?", o: ["Haan, leverage pata hai", "Nahi, sirf paise ki baat hai"] },
+            { q: "Kya aap 'No' kehne ke liye taiyar hain?", o: ["Haan, deal break kar sakta hoon", "Nahi, ye deal zaroori hai"] },
+            { q: "Kya aapne 'BATNA' (Best Alternative) taiyar rakha hai?", o: ["Haan, backup ready hai", "Nahi, sirf yahi ek rasta hai"] },
+            { q: "Kya aap 'Silence' (khamoshi) ko as a weapon use kar rahe hain?", o: ["Haan, pressure banane ke liye", "Nahi, main zyada bol raha hoon"] },
+            { q: "Kya ye 'Win-Win' hai ya sirf aapki jeet?", o: ["Win-Win (Long term)", "Sirf meri jeet (Short term)"] }
+        ]}
+    },
+    "CYBER_WARFARE_DEFENSE": {
+        "keywords": ["ETHICAL HACKING", "DDoS", "FIREWALL", "ZERO DAY", "INFRASTRUCTURE", "SECURITY"],
+        "sub": { "CORE": [
+            { q: "Kya aapka 'Air-Gapped' backup system ready hai?", o: ["Haan, offline copy hai", "Nahi, sab network par hai"] },
+            { q: "Kya aapne 'Zero Trust Architecture' lagaya hai?", o: ["Haan, har step par verification hai", "Nahi, normal password hai"] },
+            { q: "Kya aapne 'Zero Day' vulnerability scan kiya?", o: ["Haan, proactive hoon", "Nahi, patched version use kar raha hoon"] },
+            { q: "Kya team ko 'Social Engineering' attacks ki training hai?", o: ["Haan", "Nahi, log click kar dete hain"] },
+            { q: "Kya aapne critical infrastructure (Power/Water) ko isolate kiya?", o: ["Haan", "Nahi"] }
+        ]}
+    },
+            
