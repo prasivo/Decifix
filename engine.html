@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>DECIFIX ENGINE</title>
+<title>DECIFIX</title>
 
 <style>
 *{
@@ -22,7 +22,6 @@ body{
   align-items:flex-start;
 }
 
-/* Main container */
 .container{
   width:94%;
   max-width:760px;
@@ -78,7 +77,6 @@ body{
   margin-bottom:18px;
 }
 
-/* Cases */
 .case{
   border:1px solid #2a2a2a;
   padding:14px;
@@ -93,7 +91,6 @@ body{
   color:#6366f1;
 }
 
-/* Actions */
 .actions{
   display:flex;
   gap:12px;
@@ -174,7 +171,7 @@ th, td{
   <!-- HEADER -->
   <div class="header">
     <div class="title" id="domainTitle">DECIFIX</div>
-    <div class="sub">Decision filter in progress</div>
+    <div class="sub">Decision in progress</div>
   </div>
 
   <!-- USER CONTEXT -->
@@ -230,7 +227,6 @@ th, td{
     </table>
 
     <div class="lock">
-      Decision tumhare haath me hai.<br>
       Aisa decision lo jiske baad regret na ho.<br><br>
       <strong>Jo hoga, dekha jayega.</strong>
     </div>
@@ -238,15 +234,19 @@ th, td{
 
 </div>
 
-<!-- DOMAIN MAP -->
+<!-- ================= DOMAIN + ENGINE LOADER ================= -->
+
 <script src="domain-map.js"></script>
 
 <script>
+/* DOMAIN DETECTION */
 function detectDomain(userText){
   if(!userText) return "general";
+  const text = userText.toLowerCase();
+
   for (let domain in DOMAIN_MAP) {
     for (let alias of DOMAIN_MAP[domain]) {
-      if (userText.includes(alias)) {
+      if (text.includes(alias)) {
         return domain;
       }
     }
@@ -254,16 +254,19 @@ function detectDomain(userText){
   return "general";
 }
 
+/* USER CONTEXT */
 const situation = localStorage.getItem("decifix_situation") || "";
 if (situation) {
   document.getElementById("userContext").innerText =
     "Tum jis situation par decision lene ja rahe ho: “" + situation + "”";
 }
 
+/* LOAD DOMAIN FIRST */
 const domainName = detectDomain(situation);
 const domainScript = document.createElement("script");
 domainScript.src = `domains/${domainName}.js`;
 
+/* LOAD ENGINE AFTER DOMAIN */
 domainScript.onload = () => {
   const engineScript = document.createElement("script");
   engineScript.src = "engine.js";
