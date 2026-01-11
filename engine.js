@@ -1,121 +1,154 @@
 /* =====================================================
-   DECIFIX ENGINE — FINAL VERSION
-   Reality-based Decision Filter
-   ===================================================== */
+   DECIFIX — Decision Filter Engine
+   Logic: Reality > Count > Emotion
+===================================================== */
 
-/* DOMAIN DATA (must be loaded before this file) */
-const DOMAIN = window.DOMAIN_DATA;
+/*
+Expected DOMAIN_DATA structure:
 
-/* SAFETY CHECK */
-if (!DOMAIN || !DOMAIN.rules || DOMAIN.rules.length !== 10) {
+window.DOMAIN_DATA = {
+  id: "relationship",
+  title: "Relationship Decision",
+  rules: [
+    {
+      time: "past" | "present" | "future",
+      weight: "normal" | "critical",
+      safeChoice: "yes" | "no",
+      question: "",
+      positiveCase: "",
+      negativeCase: ""
+    }
+  ]
+}
+*/
+
+if (!window.DOMAIN_DATA || !DOMAIN_DATA.rules) {
   alert("Domain data missing or invalid.");
+  throw new Error("DOMAIN_DATA not found");
 }
 
-/* STATE */
-let currentIndex = 0;
-let answers = [];
-let decisionSafe = true;
-let clickLock = false;
+/* ================= STATE ================= */
 
-/* ELEMENTS */
-const domainTitleEl = document.getElementById("domainTitle");
-const ruleMetaEl = document.getElementById("ruleMeta");
-const questionEl = document.getElementById("ruleQuestion");
-const positiveEl = document.getElementById("positiveCase");
-const negativeEl = document.getElementById("negativeCase");
+let currentIndex = 0;
+const answers = [];
+
+/* ================= ELEMENTS ================= */
+
+const domainTitle = document.getElementById("domainTitle");
+const ruleMeta = document.getElementById("ruleMeta");
+const ruleQuestion = document.getElementById("ruleQuestion");
+const positiveEl = document.getElementById("positive");
+const negativeEl = document.getElementById("negative");
 
 const ruleSection = document.getElementById("ruleSection");
 const resultSection = document.getElementById("resultSection");
-const verdictEl = document.getElementById("finalVerdict");
-const noteEl = document.getElementById("finalNote");
-const tableBody = document.getElementById("summaryTable");
 
-/* INIT */
-domainTitleEl.innerText = DOMAIN.title;
-renderRule();
+const finalVerdict = document.getElementById("finalVerdict");
+const finalNote = document.getElementById("finalNote");
+const summaryTable = document.getElementById("summaryTable");
 
-/* =====================================================
-   RENDER CURRENT RULE
-   ===================================================== */
+/* ================= INIT ================= */
+
+domainTitle.innerText = DOMAIN_DATA.title || "Decision Filter";
+
+/* ================= RENDER RULE ================= */
+
 function renderRule() {
-  const rule = DOMAIN.rules[currentIndex];
+  const rule = DOMAIN_DATA.rules[currentIndex];
 
-  ruleMetaEl.innerText =
-    `Rule ${currentIndex + 1} • ${rule.time.toUpperCase()}`;
+  ruleMeta.innerText =
+    `Rule ${currentIndex + 1} / ${DOMAIN_DATA.rules.length} · ${rule.time.toUpperCase()}`;
 
-  questionEl.innerText = rule.question;
-  positiveEl.innerText = rule.positive;
-  negativeEl.innerText = rule.negative;
+  ruleQuestion.innerText = rule.question;
+  positiveEl.innerText = rule.positiveCase;
+  negativeEl.innerText = rule.negativeCase;
 }
 
-/* =====================================================
-   HANDLE USER CHOICE
-   ===================================================== */
-function choose(choice) {
-  if (clickLock) return;
+/* ================= USER CHOICE ================= */
 
-  clickLock = true;
-  setTimeout(() => (clickLock = false), 600);
+function choose(userYes) {
+  const rule = DOMAIN_DATA.rules[currentIndex];
 
-  const rule = DOMAIN.rules[currentIndex];
-
-  /* Store answer */
   answers.push({
     index: currentIndex + 1,
     time: rule.time,
     question: rule.question,
-    choice: choice ? "YES" : "NO",
+    userChoice: userYes ? "YES" : "NO",
+    safeChoice: rule.safeChoice.toUpperCase(),
     weight: rule.weight
   });
 
-  /* CRITICAL RULE CHECK */
-  if (rule.weight === "critical") {
-    const safe =
-      (choice === true && rule.safeChoice === "yes") ||
-      (choice === false && rule.safeChoice === "no");
-
-    if (!safe) {
-      decisionSafe = false;
-    }
-  }
-
   currentIndex++;
 
-  if (currentIndex < DOMAIN.rules.length) {
+  if (currentIndex < DOMAIN_DATA.rules.length) {
     renderRule();
   } else {
-    showResult();
+    finishDecision();
   }
 }
 
-/* =====================================================
-   FINAL RESULT
-   ===================================================== */
-function showResult() {
+/* ================= FINAL DECISION LOGIC ================= */
+
+function finishDecision() {
   ruleSection.classList.add("hidden");
   resultSection.classList.remove("hidden");
 
-  if (decisionSafe) {
-    verdictEl.innerText = "GO AHEAD (SAFE ENOUGH)";
-    noteEl.innerText =
-      "Is situation me koi major red flag clear nahi dikhta. " +
-      "Risk zero nahi hai, par decision lene layak clarity maujood hai.";
+  let criticalMismatch = false;
+  let safeMatches = 0;
+
+  answers.forEach(a => {
+    if (a.userChoice === a.safeChoice) {
+      safeMatches++;
+    } else if (a.weight === "critical") {
+      criticalMismatch = true;
+    }
+  });
+
+  let verdict;
+  let note;
+
+  if (criticalMismatch) {
+    verdict = "NOT NOW";
+    note =
+      "Is decision me kuch aise points hain jahan risk ignore ho raha hai. " +
+      "Aage badhne se pehle clarity aur stability zaroori hai.";
+  } else if (safeMatches >= Math.ceil(answers.length * 0.7)) {
+    verdict = "GO AHEAD";
+    note =
+      "Tumhare answers overall reality ke saath align kar rahe hain. " +
+      "Agar tum mentally ready ho, to aage badhna justified hai.";
   } else {
-    verdictEl.innerText = "NOT SAFE RIGHT NOW";
-    noteEl.innerText =
-      "Is situation me kuch aise points hain jo decision ko risky bana rahe hain. " +
-      "Decision phir bhi tumhara hi rahega.";
+    verdict = "RECONSIDER";
+    note =
+      "Decision galat nahi hai, par timing ya clarity incomplete lag rahi hai. " +
+      "Thoda rukna better ho sakta hai.";
   }
 
-  /* SUMMARY TABLE */
+  finalVerdict.innerText = verdict;
+  finalNote.innerText = note;
+
+  renderSummary();
+}
+
+/* ================= SUMMARY TABLE ================= */
+
+function renderSummary() {
+  summaryTable.innerHTML = "";
+
   answers.forEach(a => {
     const tr = document.createElement("tr");
+
     tr.innerHTML = `
       <td>${a.index}</td>
       <td>${a.time}</td>
       <td>${a.question}</td>
-      <td>${a.choice}</td>
+      <td>${a.userChoice}</td>
     `;
-    tableBody.appendChild(tr);
+
+    summaryTable.appendChild(tr);
   });
 }
+
+/* ================= START ================= */
+
+renderRule();
