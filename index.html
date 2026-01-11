@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DECIFIX</title>
+
+<style>
+body{
+  background:#0b0b0f;
+  color:#fff;
+  font-family:Arial;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  height:100vh;
+}
+.box{
+  width:90%;
+  max-width:500px;
+  border:1px solid #333;
+  padding:25px;
+}
+.hidden{display:none}
+.option{
+  border:1px solid #444;
+  padding:10px;
+  margin:10px 0;
+}
+</style>
+</head>
+
+<body>
+
+<div class="box">
+
+<h2>DECIFIX</h2>
+
+<div id="inputPhase">
+  <textarea id="userInput" placeholder="Write decision"></textarea>
+  <br><br>
+  <button onclick="start()">START FILTER</button>
+</div>
+
+<div id="questionPhase" class="hidden">
+  <div id="q"></div>
+  <div id="opts"></div>
+</div>
+
+<div id="resultPhase" class="hidden">
+  <h3 id="result"></h3>
+</div>
+
+</div>
+
+<script>
+/* 🔥 FORCE VERSION */
+alert("INLINE ENGINE 10 RULES LOADED");
+
+const RULES = [
+ "1. Kya ye decision gusse ya pressure me hai?",
+ "2. Kya iska worst case aap jhel sakte ho?",
+ "3. Kya ye irreversible hai?",
+ "4. Kya ye paison par zyada depend karta hai?",
+ "5. Kya poori information verify hai?",
+ "6. Kya kisi par dependency ban rahi hai?",
+ "7. Kya ye sirf short term relief hai?",
+ "8. Kya past me aisa decision fail hua?",
+ "9. Kya health / mental peace affect hogi?",
+ "10. Kya 6 mahine baad bhi ye sahi lagega?"
+];
+
+let i = 0;
+let risk = 0;
+
+function start(){
+  if(document.getElementById("userInput").value.length<2){
+    alert("Decision likho");
+    return;
+  }
+  document.getElementById("inputPhase").classList.add("hidden");
+  document.getElementById("questionPhase").classList.remove("hidden");
+  i=0; risk=0;
+  show();
+}
+
+function show(){
+  document.getElementById("q").innerText = RULES[i];
+  const o = document.getElementById("opts");
+  o.innerHTML="";
+  ["YES","NO"].forEach((t,idx)=>{
+    let d=document.createElement("div");
+    d.className="option";
+    d.innerText=t;
+    d.onclick=()=>ans(idx);
+    o.appendChild(d);
+  });
+}
+
+function ans(c){
+  if(c===0) risk++;
+  i++;
+  if(i<RULES.length) show();
+  else end();
+}
+
+function end(){
+  document.getElementById("questionPhase").classList.add("hidden");
+  document.getElementById("resultPhase").classList.remove("hidden");
+  let v="GO AHEAD";
+  if(risk>=3) v="USE CAUTION";
+  if(risk>=5) v="ABORT";
+  document.getElementById("result").innerText =
+    v+" | "+RULES.length+" RULES CHECKED";
+}
+</script>
+
+</body>
+</html>
