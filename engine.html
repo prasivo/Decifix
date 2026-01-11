@@ -1,109 +1,203 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>DECIFIX ENGINE</title>
 
 <style>
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
 body{
   background:#050509;
   color:#fff;
-  font-family:Arial, Helvetica, sans-serif;
   min-height:100vh;
   display:flex;
   justify-content:center;
-  align-items:center;
+  align-items:flex-start;
 }
-.box{
-  width:92%;
-  max-width:700px;
+
+.container{
+  width:94%;
+  max-width:760px;
+  margin:30px auto;
+  background:#0c0c14;
   border:1px solid #222;
   padding:30px;
-  background:#0c0c14;
 }
-.hidden{display:none}
 
-h2{
+/* Header */
+.header{
+  margin-bottom:25px;
+}
+.title{
+  font-size:26px;
   letter-spacing:3px;
-  margin-bottom:10px;
 }
 .sub{
+  margin-top:6px;
   font-size:12px;
   color:#9ca3af;
   letter-spacing:2px;
-  margin-bottom:20px;
+}
+
+/* User situation */
+.context{
+  margin-top:20px;
+  padding:14px;
+  background:#050509;
+  border:1px solid #333;
+  font-size:14px;
+  color:#d1d5db;
+}
+
+/* Rule card */
+.rule-box{
+  margin-top:30px;
+  border:1px solid #333;
+  padding:22px;
+  background:#07070d;
+}
+
+.rule-head{
+  font-size:13px;
+  letter-spacing:2px;
+  color:#9ca3af;
+  margin-bottom:10px;
 }
 
 .question{
   font-size:18px;
-  margin-bottom:10px;
-}
-.explain{
-  font-size:14px;
-  color:#d1d5db;
-  margin-bottom:20px;
+  margin-bottom:18px;
   line-height:1.5;
 }
 
-.option{
-  border:1px solid #333;
+/* Case boxes */
+.case{
+  border:1px solid #2a2a2a;
   padding:14px;
-  margin-bottom:12px;
-  cursor:pointer;
+  margin-bottom:14px;
+  font-size:14px;
+  line-height:1.5;
 }
-.option:hover{
-  border-color:#6366f1;
+
+.case strong{
+  display:block;
+  margin-bottom:6px;
   color:#6366f1;
 }
 
+/* Choice buttons */
+.actions{
+  display:flex;
+  gap:12px;
+  margin-top:18px;
+}
+
+.btn{
+  flex:1;
+  padding:14px 0;
+  border:1px solid #6366f1;
+  background:transparent;
+  color:#6366f1;
+  cursor:pointer;
+  letter-spacing:2px;
+  transition:0.3s;
+}
+
+.btn:hover{
+  background:#6366f1;
+  color:#000;
+}
+
+/* Result */
+.result{
+  margin-top:35px;
+}
+
+.result h3{
+  font-size:22px;
+  letter-spacing:2px;
+  margin-bottom:15px;
+}
+
+.note{
+  font-size:14px;
+  line-height:1.6;
+  color:#d1d5db;
+}
+
+/* Table */
 table{
   width:100%;
   border-collapse:collapse;
-  margin-top:20px;
+  margin-top:25px;
   font-size:13px;
 }
-th,td{
+
+th, td{
   border:1px solid #333;
   padding:8px;
   text-align:left;
 }
 
-.final{
-  margin-top:25px;
-  font-size:16px;
-  letter-spacing:2px;
-}
-
 .lock{
-  margin-top:15px;
+  margin-top:25px;
   font-size:14px;
   color:#9ca3af;
   line-height:1.6;
+}
+
+/* Hidden */
+.hidden{
+  display:none;
 }
 </style>
 </head>
 
 <body>
 
-<div class="box">
+<div class="container">
 
   <!-- HEADER -->
-  <h2 id="domainTitle">DECIFIX ENGINE</h2>
-  <div class="sub">Rule-by-rule decision filter</div>
+  <div class="header">
+    <div class="title" id="domainTitle">DECIFIX</div>
+    <div class="sub">Decision filter in progress</div>
+  </div>
+
+  <!-- USER CONTEXT -->
+  <div class="context" id="userContext"></div>
 
   <!-- RULE RUNNER -->
-  <div id="rulePhase">
-    <div class="question" id="qText"></div>
-    <div class="explain" id="explainText"></div>
+  <div id="ruleSection" class="rule-box">
+    <div class="rule-head" id="ruleMeta"></div>
+    <div class="question" id="ruleQuestion"></div>
 
-    <div class="option" onclick="answer(true)">YES</div>
-    <div class="option" onclick="answer(false)">NO</div>
+    <div class="case">
+      <strong>Agar tum YES choose karte ho:</strong>
+      <span id="positiveCase"></span>
+    </div>
+
+    <div class="case">
+      <strong>Agar tum NO choose karte ho:</strong>
+      <span id="negativeCase"></span>
+    </div>
+
+    <div class="actions">
+      <button class="btn" onclick="choose(true)">YES</button>
+      <button class="btn" onclick="choose(false)">NO</button>
+    </div>
   </div>
 
   <!-- RESULT -->
-  <div id="resultPhase" class="hidden">
-    <h3 id="finalResult"></h3>
+  <div id="resultSection" class="result hidden">
+    <h3 id="finalVerdict"></h3>
+    <div class="note" id="finalNote"></div>
 
     <table>
       <thead>
@@ -118,14 +212,33 @@ th,td{
     </table>
 
     <div class="lock">
-      Decision lene ke baad regret mat karna<br>
-      Jo hoga, dekha jayega
+      Decision tumhare haath me hai.<br>
+      Aisa decision lo jiske baad regret na ho.<br>
+      <br>
+      <strong>Jo hoga, dekha jayega.</strong>
     </div>
   </div>
 
 </div>
 
-<script src="domains/marriage.js"></script>
+<!-- DOMAIN FILE FIRST -->
+<!-- example -->
+<!-- <script src="domains/marriage.js"></script> -->
+
+<!-- ENGINE LOGIC -->
 <script src="engine.js"></script>
+
+<script>
+/* Load user situation */
+const situation = localStorage.getItem("decifix_situation");
+if(situation){
+  document.getElementById("userContext").innerText =
+    "Tumhari situation: " + situation;
+}else{
+  document.getElementById("userContext").innerText =
+    "Tumhari situation define nahi ki gayi.";
+}
+</script>
+
 </body>
 </html>
