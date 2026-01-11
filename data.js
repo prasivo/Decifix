@@ -1130,4 +1130,4 @@ const DECIFIX_DATABASE = {
             { q: "Kya aapne critical infrastructure (Power/Water) ko isolate kiya?", o: ["Haan", "Nahi"] }
         ]}
     },
-            
+  };  
