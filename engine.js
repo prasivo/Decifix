@@ -1,7 +1,7 @@
-/* ==================================================
-   DECIFIX ENGINE V2
+/* =====================================================
+   DECIFIX ENGINE — FINAL VERSION
    Reality-based Decision Filter
-   ================================================== */
+   ===================================================== */
 
 /* DOMAIN DATA (must be loaded before this file) */
 const DOMAIN = window.DOMAIN_DATA;
@@ -12,12 +12,13 @@ if (!DOMAIN || !DOMAIN.rules || DOMAIN.rules.length !== 10) {
 }
 
 /* STATE */
-let currentRule = 0;
+let currentIndex = 0;
 let answers = [];
-let decisionSafe = true; // overall safety flag
+let decisionSafe = true;
+let clickLock = false;
 
-/* UI ELEMENTS */
-const titleEl = document.getElementById("domainTitle");
+/* ELEMENTS */
+const domainTitleEl = document.getElementById("domainTitle");
 const ruleMetaEl = document.getElementById("ruleMeta");
 const questionEl = document.getElementById("ruleQuestion");
 const positiveEl = document.getElementById("positiveCase");
@@ -30,78 +31,80 @@ const noteEl = document.getElementById("finalNote");
 const tableBody = document.getElementById("summaryTable");
 
 /* INIT */
-titleEl.innerText = DOMAIN.title;
+domainTitleEl.innerText = DOMAIN.title;
 renderRule();
 
-/* ==================================================
-   RENDER RULE
-   ================================================== */
+/* =====================================================
+   RENDER CURRENT RULE
+   ===================================================== */
 function renderRule() {
-  const rule = DOMAIN.rules[currentRule];
+  const rule = DOMAIN.rules[currentIndex];
 
   ruleMetaEl.innerText =
-    `Rule ${currentRule + 1} • ${rule.time.toUpperCase()}`;
+    `Rule ${currentIndex + 1} • ${rule.time.toUpperCase()}`;
 
   questionEl.innerText = rule.question;
   positiveEl.innerText = rule.positive;
   negativeEl.innerText = rule.negative;
 }
 
-/* ==================================================
-   USER CHOICE
-   ================================================== */
+/* =====================================================
+   HANDLE USER CHOICE
+   ===================================================== */
 function choose(choice) {
-  const rule = DOMAIN.rules[currentRule];
+  if (clickLock) return;
+
+  clickLock = true;
+  setTimeout(() => (clickLock = false), 600);
+
+  const rule = DOMAIN.rules[currentIndex];
 
   /* Store answer */
   answers.push({
-    index: currentRule + 1,
+    index: currentIndex + 1,
     time: rule.time,
     question: rule.question,
     choice: choice ? "YES" : "NO",
-    weight: rule.weight || "normal",
-    safeChoice: rule.safeChoice // expected safe side
+    weight: rule.weight
   });
 
   /* CRITICAL RULE CHECK */
   if (rule.weight === "critical") {
-    const userSafe =
+    const safe =
       (choice === true && rule.safeChoice === "yes") ||
       (choice === false && rule.safeChoice === "no");
 
-    if (!userSafe) {
+    if (!safe) {
       decisionSafe = false;
     }
   }
 
-  /* NEXT */
-  currentRule++;
+  currentIndex++;
 
-  if (currentRule < DOMAIN.rules.length) {
+  if (currentIndex < DOMAIN.rules.length) {
     renderRule();
   } else {
     showResult();
   }
 }
 
-/* ==================================================
-   RESULT LOGIC
-   ================================================== */
+/* =====================================================
+   FINAL RESULT
+   ===================================================== */
 function showResult() {
   ruleSection.classList.add("hidden");
   resultSection.classList.remove("hidden");
 
-  /* FINAL VERDICT */
   if (decisionSafe) {
     verdictEl.innerText = "GO AHEAD (SAFE ENOUGH)";
     noteEl.innerText =
-      "Is situation me koi critical red flag detect nahi hua. " +
-      "Decision lene ka control tumhare haath me hai.";
+      "Is situation me koi major red flag clear nahi dikhta. " +
+      "Risk zero nahi hai, par decision lene layak clarity maujood hai.";
   } else {
     verdictEl.innerText = "NOT SAFE RIGHT NOW";
     noteEl.innerText =
-      "Is situation me kuch serious risks clear dikh rahe hain. " +
-      "Agar phir bhi decision lete ho, to responsibility tumhari hogi.";
+      "Is situation me kuch aise points hain jo decision ko risky bana rahe hain. " +
+      "Decision phir bhi tumhara hi rahega.";
   }
 
   /* SUMMARY TABLE */
