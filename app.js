@@ -1,112 +1,104 @@
 /**
- * DECIFIX ULTIMATE ENGINE
- * Zero Errors - Fully Synced
+ * DECIFIX CORE ENGINE 
+ * FIXED: Home, Loading, & Variable Sync
  */
 
 const ENGINE = {
     currentCategory: null,
-    userAnswers: [],
+    history: [],
 
-    // 1. Search Logic
-    initAudit() {
+    startAudit() {
         const input = document.getElementById('userInput').value.toUpperCase().trim();
-        
-        if (input.length < 2) {
-            alert("Bhai, kuch toh likho analyze karne ke liye!");
-            return;
-        }
+        if (input.length < 2) return alert("Please enter a valid decision.");
 
-        // Switch to Loading Screen
+        // UI Transition
         document.getElementById('phase-input').classList.add('hidden');
         document.getElementById('phase-loading').classList.remove('hidden');
 
         let bestMatch = null;
-        let highestScore = 0;
+        let topScore = 0;
 
-        // data.js se 'DECIFIX_DATABASE' dhoondna
+        // Searching through DECIFIX_DATABASE (from data.js)
         for (const key in DECIFIX_DATABASE) {
-            let currentScore = 0;
-            const data = DECIFIX_DATABASE[key];
-
-            // Direct Key Match
-            if (key.includes(input)) currentScore += 100;
-
-            // Keyword Deep Scan
-            data.keywords.forEach(word => {
-                if (input.includes(word.toUpperCase())) currentScore += 50;
+            let score = 0;
+            const category = DECIFIX_DATABASE[key];
+            
+            if (key.includes(input)) score += 100;
+            category.keywords.forEach(word => {
+                if (input.includes(word.toUpperCase())) score += 50;
             });
 
-            if (currentScore > highestScore) {
-                highestScore = currentScore;
+            if (score > topScore) {
+                topScore = score;
                 bestMatch = key;
             }
         }
 
-        // Professional Scanning Delay
+        // Animated delay for "Professional Feel"
         setTimeout(() => {
             if (bestMatch) {
                 this.currentCategory = DECIFIX_DATABASE[bestMatch];
-                this.userAnswers = [];
+                this.history = [];
                 document.getElementById('phase-loading').classList.add('hidden');
                 document.getElementById('phase-audit').classList.remove('hidden');
                 this.renderQuestion(0);
             } else {
-                alert("Topic not found in 1000 categories. Try 'Love', 'Business', or 'Career'.");
+                alert("Decision node not found. Try keywords like 'Relationship' or 'Business'.");
                 location.reload();
             }
         }, 2000);
     },
 
-    // 2. Question Rendering
     renderQuestion(index) {
         const qData = this.currentCategory.sub.CORE[index];
-        document.getElementById('q-header').innerText = `NODE ANALYSIS: ${index + 1} OF ${this.currentCategory.sub.CORE.length}`;
+        document.getElementById('q-header').innerText = `FILTERING RULE ${index + 1} / ${this.currentCategory.sub.CORE.length}`;
         document.getElementById('q-text').innerText = qData.q;
         
         const optCont = document.getElementById('q-options');
         optCont.innerHTML = '';
         
-        qData.o.forEach((optionText, i) => {
+        qData.o.forEach((text, i) => {
             const div = document.createElement('div');
             div.className = 'option-btn';
-            div.innerText = optionText;
-            div.onclick = () => this.captureAnswer(index, i);
+            div.innerText = text;
+            div.onclick = () => this.handleAnswer(index, i);
             optCont.appendChild(div);
         });
     },
 
-    // 3. Answer Capture
-    captureAnswer(qIndex, oIndex) {
-        this.userAnswers.push(oIndex);
-        
+    handleAnswer(qIndex, oIndex) {
+        this.history.push(oIndex);
         if (qIndex + 1 < this.currentCategory.sub.CORE.length) {
             this.renderQuestion(qIndex + 1);
         } else {
-            this.showVerdict();
+            this.showFinalReport();
         }
     },
 
-    // 4. Final Result Calculation
-    showVerdict() {
+    showFinalReport() {
         document.getElementById('phase-audit').classList.add('hidden');
         document.getElementById('phase-report').classList.remove('hidden');
 
-        const redFlags = this.userAnswers.filter(a => a === 1).length;
-        let resultHTML = "";
+        const redFlags = this.history.filter(a => a === 1).length;
+        let color = "#00FF41";
+        let verdict = "GO AHEAD";
 
-        if (redFlags === 0) {
-            resultHTML = `<h1 class="verdict" style="color:#00FF41">GO AHEAD</h1><p>Logic supports this decision 100%.</p>`;
-        } else if (redFlags <= 2) {
-            resultHTML = `<h1 class="verdict" style="color:#FFD700">CAUTION</h1><p>Minor risks detected. Proceed with care.</p>`;
-        } else {
-            resultHTML = `<h1 class="verdict" style="color:#FF3131">ABORT</h1><p>Critical failures detected in logic.</p>`;
+        if (redFlags > 0 && redFlags <= 2) {
+            color = "#FFD700";
+            verdict = "USE CAUTION";
+        } else if (redFlags > 2) {
+            color = "#FF3131";
+            verdict = "ABORT MISSION";
         }
 
-        document.getElementById('result-box').innerHTML = resultHTML + `<div class="status">RED FLAGS DETECTED: ${redFlags}</div>`;
+        document.getElementById('result-display').innerHTML = `
+            <h1 style="color: ${color}; letter-spacing: 10px; font-size: 32px; margin-bottom: 10px;">${verdict}</h1>
+            <p style="color: #666; font-size: 12px; letter-spacing: 2px;">LOGIC AUDIT COMPLETE // ${redFlags} RISKS DETECTED</p>
+        `;
     }
 };
 
-// Global Link for HTML Button
+// Global listener for the button
 function startEngine() {
-    ENGINE.initAudit();
-                                                 }
+    ENGINE.startAudit();
+}
