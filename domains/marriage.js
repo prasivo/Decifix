@@ -1,95 +1,109 @@
-// domains/marriage.js
-// DECIFIX DOMAIN — MARRIAGE (FINAL)
+/* =====================================================
+   DECIFIX — Marriage Domain
+   Nature: irreversible, long-term, life-structuring
+===================================================== */
 
 window.DOMAIN_DATA = {
   id: "marriage",
-  title: "Marriage Decision",
+  title: "Marriage Decision Filter",
 
   rules: [
-    // ===== PAST (1–3) =====
+
+    /* ---------- PAST ---------- */
+
     {
       time: "past",
-      weight: "normal",
+      weight: "critical",
       safeChoice: "no",
-      question: "Kya past me is relationship ya similar rishton me serious problems hui hain?",
-      positive: "Past problems ye signal deti hain ki same pattern dobara aa sakta hai.",
-      negative: "Past me strong negative pattern na hona risk ko kam karta hai."
-    },
-    {
-      time: "past",
-      weight: "normal",
-      safeChoice: "no",
-      question: "Kya pehle trust, commitment ya responsibility ko lekar issues rahe hain?",
-      positive: "Commitment issues ko ignore karna shaadi ke baad heavy pad sakta hai.",
-      negative: "Stable commitment history future stability ko support karti hai."
-    },
-    {
-      time: "past",
-      weight: "normal",
-      safeChoice: "no",
-      question: "Kya past me emotional ya mental damage hua hai jo abhi tak heal nahi hua?",
-      positive: "Unresolved damage future me daily conflict ban sakta hai.",
-      negative: "Resolved ya minimal damage pressure kam karta hai."
+      question: "Kya tum pehle kisi serious relationship ya engagement me emotionally damage ho chuke ho?",
+      positiveCase: "Purane wounds heal ho chuke ho to marriage decision zyada stable hota hai.",
+      negativeCase: "Unhealed emotional damage shaadi ke baad trust issues bana sakta hai."
     },
 
-    // ===== PRESENT (4–7) =====
     {
-      time: "present",
+      time: "past",
       weight: "normal",
       safeChoice: "yes",
-      question: "Kya aaj ki reality tumhari expectations se match karti hai?",
-      positive: "Reality aur expectations ka match decision ko grounded banata hai.",
-      negative: "Expectation–reality gap future disappointment la sakta hai."
-    },
-    {
-      time: "present",
-      weight: "critical",
-      safeChoice: "no",
-      question: "Kya ye shaadi ka decision family, society ya age pressure me liya ja raha hai?",
-      positive: "Pressure ke saath liya gaya decision long-term regret ka risk badhata hai.",
-      negative: "Internal clarity se liya gaya decision zyada stable hota hai."
-    },
-    {
-      time: "present",
-      weight: "critical",
-      safeChoice: "yes",
-      question: "Kya tumhe lagta hai ki is decision par tumhara control hai?",
-      positive: "Control tumhare haath me hona responsibility accept karne ka sign hai.",
-      negative: "External control future me resentment la sakta hai."
-    },
-    {
-      time: "present",
-      weight: "normal",
-      safeChoice: "yes",
-      question: "Kya is shaadi ke liye emotional aur practical support available hai?",
-      positive: "Support system future challenges me cushion ka kaam karta hai.",
-      negative: "Support ki kami stress aur isolation badha sakti hai."
+      question: "Kya tum shaadi ke matlab aur zimmedariyon ko pehle se samajhne ki koshish kar chuke ho?",
+      positiveCase: "Understanding se unrealistic expectations kam hoti hain.",
+      negativeCase: "Bina samajh ke shaadi future conflicts la sakti hai."
     },
 
-    // ===== FUTURE (8–10) =====
+    {
+      time: "past",
+      weight: "normal",
+      safeChoice: "yes",
+      question: "Kya tumne apni life priorities (career, health, family) pehle se clear kar rakhi hain?",
+      positiveCase: "Clear priorities marriage ke baad balance banane me madad karti hain.",
+      negativeCase: "Unclear priorities shaadi ke baad confusion laati hain."
+    },
+
+    /* ---------- PRESENT ---------- */
+
+    {
+      time: "present",
+      weight: "critical",
+      safeChoice: "yes",
+      question: "Kya tum apne partner ke saath emotionally, mentally aur values level par safe feel karte ho?",
+      positiveCase: "Safety aur shared values marriage ka foundation hoti hain.",
+      negativeCase: "Value mismatch shaadi ke baad daily friction create karta hai."
+    },
+
+    {
+      time: "present",
+      weight: "critical",
+      safeChoice: "no",
+      question: "Kya ye shaadi sirf family pressure, age pressure ya fear ki wajah se ho rahi hai?",
+      positiveCase: "Pressure-free decision long-term peace deta hai.",
+      negativeCase: "Pressure-based shaadi regret aur resentment la sakti hai."
+    },
+
+    {
+      time: "present",
+      weight: "normal",
+      safeChoice: "yes",
+      question: "Kya tum dono conflict hone par baat karke solution nikal paate ho?",
+      positiveCase: "Conflict handling marriage ko survive karata hai.",
+      negativeCase: "Unresolved conflicts shaadi ko emotionally drain kar dete hain."
+    },
+
+    {
+      time: "present",
+      weight: "normal",
+      safeChoice: "yes",
+      question: "Kya tum financial expectations aur lifestyle par open discussion kar chuke ho?",
+      positiveCase: "Financial clarity future stress kam karti hai.",
+      negativeCase: "Money issues shaadi ke baad major conflict ban sakte hain."
+    },
+
+    /* ---------- FUTURE ---------- */
+
     {
       time: "future",
       weight: "critical",
       safeChoice: "no",
-      question: "Kya is shaadi ke baad future me regret hone ka strong chance lagta hai?",
-      positive: "Strong regret ka signal decision ko daily burden bana sakta hai.",
-      negative: "Regret ka clear signal na hona decision ko safer banata hai."
+      question: "Kya tumhe lagta hai ki is shaadi ke baad future me regret ho sakta hai?",
+      positiveCase: "Regret ka honest assessment better timing ka signal hota hai.",
+      negativeCase: "Ignored regret shaadi ke baad guilt aur emotional distance laata hai."
     },
+
     {
       time: "future",
       weight: "critical",
       safeChoice: "yes",
-      question: "Worst case scenario (conflict, adjustment failure) hua to kya tum jhel paoge?",
-      positive: "Worst case ko handle kar pana responsibility accept karne ka sign hai.",
-      negative: "Worst case unacceptable lagna decision ko unsafe banata hai."
+      question: "Worst case scenario (conflict, compromise, change) me kya tum is marriage ko sambhaal paoge?",
+      positiveCase: "Prepared mindset shaadi ko long-term sustain karta hai.",
+      negativeCase: "Unprepared expectations future breakdown create kar sakti hain."
     },
+
     {
       time: "future",
-      weight: "critical",
+      weight: "normal",
       safeChoice: "yes",
-      question: "Agar sab plan ke hisaab se na bhi ho, to kya tum 'jo hoga dekha jayega' accept kar paoge?",
-      positive: "Acceptance mindset regret aur mental struggle ko kam karta hai.",
-      negative: "Acceptance ki kami future me constant stress la sakti hai."
+      question: "Jo bhi outcome ho, kya tum is shaadi ki zimmedari khud lene ke liye ready ho?",
+      positiveCase: "Responsibility acceptance regret-free life jeene me madad karta hai.",
+      negativeCase: "Responsibility se bhaagna blame aur dissatisfaction laata hai."
     }
+
   ]
 };
