@@ -1,83 +1,181 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DECIFIX — Decision Filter System</title>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;900&family=Inter:wght@300;600&display=swap" rel="stylesheet">
-    <style>
-        :root { --accent: #00FF41; --bg: #000000; --text: #ffffff; --glass: rgba(10, 10, 10, 0.9); }
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; height: 100vh; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>DECIFIX — Decision Filter System</title>
 
-        /* Background Animated Grid */
-        .bg-grid { position: absolute; width: 200%; height: 200%; background-image: linear-gradient(#111 1px, transparent 1px), linear-gradient(90deg, #111 1px, transparent 1px); background-size: 40px 40px; transform: perspective(500px) rotateX(60deg); top: -50%; animation: moveGrid 20s linear infinite; z-index: -1; opacity: 0.4; }
-        @keyframes moveGrid { from { background-position: 0 0; } to { background-position: 0 1000px; } }
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;500;700;900&display=swap" rel="stylesheet">
 
-        #main-container { width: 95%; max-width: 600px; background: var(--glass); border: 1px solid #222; padding: 60px 40px; position: relative; backdrop-filter: blur(10px); text-align: center; }
-        
-        /* Scanner Effect */
-        .scanner { position: absolute; top: 0; left: 0; width: 100%; height: 2px; background: var(--accent); box-shadow: 0 0 15px var(--accent); animation: scan 4s linear infinite; z-index: 5; }
-        @keyframes scan { 0% { top: 0; } 100% { top: 100%; } }
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', sans-serif;
+    }
 
-        /* Header Styles */
-        .logo { font-family: 'Orbitron', sans-serif; font-weight: 900; letter-spacing: 15px; font-size: 36px; cursor: pointer; transition: 0.3s; margin-bottom: 10px; }
-        .logo:hover { color: var(--accent); text-shadow: 0 0 10px var(--accent); }
-        .subtitle { font-size: 14px; letter-spacing: 5px; color: #888; text-transform: uppercase; margin-bottom: 50px; }
+    body {
+      background: #0B0B0F;
+      color: #ffffff;
+      height: 100vh;
+      overflow: hidden;
+    }
 
-        /* Input Styles */
-        textarea { width: 100%; background: transparent; border: none; border-left: 2px solid var(--accent); padding: 15px; color: white; font-size: 18px; outline: none; margin-bottom: 30px; height: 60px; resize: none; }
-        .btn { width: 100%; padding: 20px; border: 1px solid white; background: transparent; color: white; cursor: pointer; letter-spacing: 4px; font-weight: bold; transition: 0.4s; text-transform: uppercase; }
-        .btn:hover { background: white; color: black; box-shadow: 0 0 20px rgba(255,255,255,0.4); }
+    /* Background grid */
+    body::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px);
+      background-size: 40px 40px;
+      opacity: 0.25;
+    }
 
-        /* Founder Tag */
-        .founder { position: absolute; bottom: 20px; left: 0; width: 100%; font-size: 10px; letter-spacing: 3px; color: #444; text-transform: uppercase; }
+    .container {
+      position: relative;
+      z-index: 2;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
 
-        /* Quiz UI */
-        .option-btn { border: 1px solid #333; padding: 15px; margin-bottom: 12px; cursor: pointer; font-size: 13px; letter-spacing: 1px; transition: 0.3s; text-align: left; }
-        .option-btn:hover { border-color: var(--accent); color: var(--accent); background: rgba(0,255,65,0.05); }
+    .card {
+      width: 100%;
+      max-width: 600px;
+      background: rgba(10,10,15,0.9);
+      border: 1px solid #222;
+      padding: 50px 40px;
+      text-align: center;
+    }
 
-        .hidden { display: none !important; }
-        .blink { animation: blinker 1s linear infinite; }
-        @keyframes blinker { 50% { opacity: 0; } }
+    h1 {
+      font-size: 48px;
+      font-weight: 900;
+      letter-spacing: 4px;
+    }
 
-        #q-text { font-size: 20px; line-height: 1.5; margin-bottom: 30px; font-weight: 600; }
-    </style>
+    .subtitle {
+      margin-top: 8px;
+      font-size: 14px;
+      color: #9CA3AF;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+    }
+
+    .divider {
+      margin: 30px auto;
+      width: 120px;
+      height: 1px;
+      background: linear-gradient(to right, transparent, #6366F1, transparent);
+    }
+
+    textarea {
+      width: 100%;
+      background: transparent;
+      border: 1px solid #333;
+      padding: 14px;
+      color: #fff;
+      font-size: 16px;
+      resize: none;
+      outline: none;
+    }
+
+    button {
+      margin-top: 20px;
+      width: 100%;
+      padding: 14px;
+      background: transparent;
+      border: 1px solid #6366F1;
+      color: #6366F1;
+      font-size: 14px;
+      letter-spacing: 3px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #6366F1;
+      color: #000;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    /* Question UI */
+    #q-text {
+      font-size: 20px;
+      margin-bottom: 25px;
+      line-height: 1.5;
+    }
+
+    .option-btn {
+      border: 1px solid #333;
+      padding: 14px;
+      margin-bottom: 12px;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .option-btn:hover {
+      border-color: #6366F1;
+      color: #6366F1;
+      background: rgba(99,102,241,0.1);
+    }
+
+    footer {
+      position: absolute;
+      bottom: 15px;
+      width: 100%;
+      text-align: center;
+      font-size: 11px;
+      color: #6B7280;
+      letter-spacing: 2px;
+    }
+  </style>
 </head>
+
 <body>
-    <div class="bg-grid"></div>
 
-    <div id="main-container">
-        <div class="scanner"></div>
-        
-        <div class="logo" onclick="location.reload()">DECIFIX</div>
-        <div class="subtitle">Decision Filter System</div>
+  <div class="container">
+    <div class="card">
 
-        <div id="phase-input">
-            <textarea id="userInput" placeholder="WHAT IS THE DECISION?"></textarea>
-            <button class="btn" onclick="startEngine()">Initialize Audit</button>
-        </div>
+      <!-- HEADER -->
+      <h1>DECIFIX</h1>
+      <div class="subtitle">Decision Filter System</div>
+      <div class="divider"></div>
 
-        <div id="phase-loading" class="hidden">
-            <h2 style="letter-spacing: 8px;" class="blink">ANALYZING NODES...</h2>
-            <p style="font-size: 10px; color: #555; margin-top: 15px;">SCRUBBING EMOTIONAL DATA_</p>
-        </div>
+      <!-- INPUT PHASE -->
+      <div id="phase-input">
+        <textarea
+          id="userInput"
+          rows="3"
+          placeholder="WHAT IS THE DECISION?"
+        ></textarea>
+        <button onclick="startEngine()">START FILTER</button>
+      </div>
 
-        <div id="phase-audit" class="hidden">
-            <div id="q-header" style="font-size: 10px; color: var(--accent); margin-bottom: 20px; text-align: left; letter-spacing: 2px;"></div>
-            <div id="q-text"></div>
-            <div id="q-options"></div>
-        </div>
+      <!-- AUDIT PHASE -->
+      <div id="phase-audit" class="hidden">
+        <div id="q-text"></div>
+        <div id="q-options"></div>
+      </div>
 
-        <div id="phase-report" class="hidden">
-            <div id="result-display"></div>
-            <button class="btn" onclick="location.reload()" style="margin-top: 30px;">Restart System</button>
-        </div>
-
-        <div class="founder">Founder: Prasoon Gupta</div>
     </div>
+  </div>
 
-    <script src="data.js"></script> 
-    <script src="app.js"></script>
+  <footer>
+    DECIFIX © Rule-Driven Decision Authority
+  </footer>
+
+  <!-- SCRIPTS (ORDER MAT TODNA) -->
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+
 </body>
 </html>
