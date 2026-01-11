@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>DECIFIX</title>
+
+<style>
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+body{
+  background:#050509;
+  color:#fff;
+  height:100vh;
+  overflow:hidden;
+}
+
+/* Background animated grid */
+.grid{
+  position:absolute;
+  inset:0;
+  background:
+    linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px);
+  background-size:40px 40px;
+  animation: move 20s linear infinite;
+}
+
+@keyframes move{
+  from{background-position:0 0, 0 0;}
+  to{background-position:400px 400px, 400px 400px;}
+}
+
+/* Center system */
+.center{
+  position:relative;
+  z-index:2;
+  height:100%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.card{
+  text-align:center;
+  padding:60px 40px;
+  border:1px solid #222;
+  background:rgba(10,10,20,0.9);
+  width:90%;
+  max-width:520px;
+}
+
+/* DECIFIX */
+.logo{
+  font-size:52px;
+  letter-spacing:6px;
+  font-weight:700;
+}
+
+/* Subtitle */
+.sub{
+  margin-top:10px;
+  font-size:12px;
+  letter-spacing:4px;
+  color:#9ca3af;
+}
+
+/* Divider */
+.line{
+  width:120px;
+  height:1px;
+  background:linear-gradient(to right, transparent, #6366f1, transparent);
+  margin:30px auto;
+}
+
+/* System text */
+.system-text{
+  font-size:14px;
+  line-height:1.6;
+  color:#d1d5db;
+}
+
+/* Button */
+.btn{
+  margin-top:35px;
+  padding:14px 0;
+  width:100%;
+  background:transparent;
+  border:1px solid #6366f1;
+  color:#6366f1;
+  letter-spacing:3px;
+  cursor:pointer;
+  transition:0.3s;
+}
+
+.btn:hover{
+  background:#6366f1;
+  color:#000;
+}
+
+/* Footer rule */
+.footer{
+  position:absolute;
+  bottom:18px;
+  width:100%;
+  text-align:center;
+  font-size:11px;
+  letter-spacing:2px;
+  color:#6b7280;
+}
+</style>
+</head>
+
+<body>
+
+<div class="grid"></div>
+
+<div class="center">
+  <div class="card">
+    <div class="logo">DECIFIX</div>
+    <div class="sub">DECISION FILTER SYSTEM</div>
+
+    <div class="line"></div>
+
+    <div class="system-text">
+      This system does not give advice.<br>
+      It filters decisions through rules.<br>
+      Responsibility stays with you.
+    </div>
+
+    <button class="btn" onclick="enterSystem()">
+      START FILTER
+    </button>
+  </div>
+</div>
+
+<div class="footer">
+  RULE-DRIVEN • NO REGRET • NO ADVICE
+</div>
+
+<script>
+function enterSystem(){
+  // next screen (engine UI)
+  window.location.href = "engine.html";
+}
+</script>
+
+</body>
+</html>
