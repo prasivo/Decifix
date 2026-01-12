@@ -1,6 +1,10 @@
 /* =====================================================
-   DECIFIX — FINAL ENGINE
-   CORE + UX + SAFETY + ANTI-DEPENDENCY + FINAL COPY
+   DECIFIX — ENGINE V2 (FINAL)
+   CORE + UX + SAFETY + ANTI-DEPENDENCY
+   + Confidence Score
+   + Action Gate
+   + Contradiction Detector
+   + Evidence Prompt
 ===================================================== */
 
 /* =====================================================
@@ -55,6 +59,7 @@ if (!window.DOMAIN_DATA || !Array.isArray(DOMAIN_DATA.rules)) {
 
 let currentIndex = 0;
 const answers = [];
+let evidenceAsked = false;
 
 /* DOM */
 const domainTitle   = document.getElementById("domainTitle");
@@ -91,6 +96,17 @@ function choose(userYes) {
   if (locked) return;
   lockButtons(true);
 
+  // Evidence prompt (once, mid-flow)
+  if (!evidenceAsked && currentIndex >= 2 && currentIndex <= 5) {
+    evidenceAsked = true;
+    showEvidencePrompt(() => proceed(userYes));
+    return;
+  }
+
+  proceed(userYes);
+}
+
+function proceed(userYes) {
   const r = DOMAIN_DATA.rules[currentIndex];
 
   answers.push({
@@ -122,8 +138,11 @@ function finishDecision() {
   let safeMatches = 0;
 
   answers.forEach(a => {
-    if (a.userChoice === a.safeChoice) safeMatches++;
-    else if (a.weight === "critical") criticalMismatch = true;
+    if (a.userChoice === a.safeChoice) {
+      safeMatches++;
+    } else if (a.weight === "critical") {
+      criticalMismatch = true;
+    }
   });
 
   let verdict = "";
@@ -150,6 +169,9 @@ function finishDecision() {
   finalNote.innerText = note;
 
   renderSummary();
+  renderConfidence();
+  renderActionGate(verdict);
+  renderContradictionNote();
   applyAntiDependency();
 }
 
@@ -194,7 +216,96 @@ function fadeOutIn(fn) {
 }
 
 /* =====================================================
-   ANTI-DEPENDENCY LAYER
+   ENGINE V2 ADDITIONS
+===================================================== */
+
+function computeConfidence() {
+  let score = 0;
+  answers.forEach(a => {
+    if (a.userChoice === a.safeChoice) {
+      score += (a.weight === "critical") ? 30 : 7;
+    }
+  });
+  return Math.min(100, score);
+}
+
+function renderConfidence() {
+  const c = document.createElement("div");
+  c.style.marginTop = "10px";
+  c.style.fontSize = "14px";
+  c.style.color = "#9ca3af";
+  c.innerText = `Clarity strength: ${computeConfidence()}/100`;
+  resultSection.appendChild(c);
+}
+
+function renderActionGate(verdict) {
+  const g = document.createElement("div");
+  g.style.marginTop = "16px";
+  g.style.padding = "12px";
+  g.style.border = "1px solid #2a2a2a";
+  g.style.borderRadius = "8px";
+  g.style.fontSize = "14px";
+  g.style.color = "#d1d5db";
+
+  if (verdict === "GO AHEAD") {
+    g.innerHTML = "<strong>Next step:</strong> Agle 7 din me kaunsa chhota action test karoge?";
+  } else if (verdict === "NOT NOW") {
+    g.innerHTML = "<strong>Pause condition:</strong> Kaunsa ek factor clear hote hi tum wapas aoge?";
+  } else {
+    g.innerHTML = "<strong>Wait signals:</strong> Kaunse 2 signals milne par picture clear hogi?";
+  }
+
+  resultSection.appendChild(g);
+}
+
+function detectContradiction() {
+  const byTime = { past: [], present: [], future: [] };
+  answers.forEach(a => byTime[a.time]?.push(a.userChoice));
+  if (byTime.past.includes("YES") && byTime.present.includes("NO") && byTime.future.includes("YES")) return true;
+  if (byTime.past.includes("NO") && byTime.present.includes("YES") && byTime.future.includes("NO")) return true;
+  return false;
+}
+
+function renderContradictionNote() {
+  if (!detectContradiction()) return;
+  const n = document.createElement("div");
+  n.style.marginTop = "8px";
+  n.style.fontSize = "13px";
+  n.style.color = "#9ca3af";
+  n.innerText = "Kuch answers aapas me contradict kar rahe hain.";
+  resultSection.appendChild(n);
+}
+
+function showEvidencePrompt(callback) {
+  const o = document.createElement("div");
+  o.style.position = "fixed";
+  o.style.inset = "0";
+  o.style.background = "rgba(0,0,0,.6)";
+  o.style.display = "flex";
+  o.style.alignItems = "center";
+  o.style.justifyContent = "center";
+
+  o.innerHTML = `
+    <div style="background:#111;padding:18px;border-radius:10px;max-width:420px">
+      <div style="margin-bottom:12px">
+        Is answer ke peeche koi real incident ya proof hai?
+      </div>
+      <button class="btn ev">YES</button>
+      <button class="btn ev">NO</button>
+    </div>
+  `;
+
+  document.body.appendChild(o);
+  o.querySelectorAll(".ev").forEach(b => {
+    b.onclick = () => {
+      document.body.removeChild(o);
+      callback();
+    };
+  });
+}
+
+/* =====================================================
+   ANTI-DEPENDENCY
 ===================================================== */
 
 function applyAntiDependency() {
@@ -205,13 +316,13 @@ function applyAntiDependency() {
   localStorage.setItem("decifix_last_run", now);
 
   if (now - last < 5 * 60 * 1000) {
-    const warn = document.createElement("div");
-    warn.style.marginTop = "14px";
-    warn.style.fontSize = "13px";
-    warn.style.color = "#9ca3af";
-    warn.innerText =
+    const w = document.createElement("div");
+    w.style.marginTop = "14px";
+    w.style.fontSize = "13px";
+    w.style.color = "#9ca3af";
+    w.innerText =
       "Is decision ko baar-baar repeat karna soch ko aur uljha sakta hai.";
-    resultSection.appendChild(warn);
+    resultSection.appendChild(w);
   }
 
   const own = document.createElement("div");
