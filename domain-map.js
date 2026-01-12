@@ -1,125 +1,118 @@
 /* =====================================================
-   DECIFIX — DOMAIN MAP (INDIA OPTIMIZED)
+   DECIFIX — DOMAIN MAP (INTENT FIRST)
    Rule:
-   - English + Hinglish + Hindi
-   - Common spelling mistakes
-   - Real spoken phrases
-   - Top domains first, generic last
+   1. Intent phrases > Keywords
+   2. Specific domains first
+   3. General always last
 ===================================================== */
 
 const DOMAIN_MAP = {
 
   /* =================================================
-     CAREER (India-first)
+     CAREER
   ================================================= */
 
-  career: [
-    // Core
-    "career","job","work","profession","occupation",
-
-    // Hinglish / Hindi
-    "naukri","kaam","job nahi lag rahi","job chhod du",
-    "job change","job switch","career change","career switch",
-    "resign","resignation",
-
-    // Salary / income (career-linked in India)
-    "salary","package","ctc","paisa","income","kamai","earning",
-
-    // Growth / office
-    "growth","promotion","increment","appraisal",
-    "boss","manager","office pressure","toxic office",
-
-    // Job types
-    "private job","government job","govt job",
-    "sarkari naukri","sarkari job",
-    "corporate","startup","freelance","freelancing",
-
-    // Exams (India reality)
-    "exam","competitive exam","upsc","ssc",
-    "bank exam","railway","government exam",
-
-    // Emotional phrases
-    "career ka tension","future ka tension",
-    "job ka stress","career confuse",
-    "career ka decision","samajh nahi aa raha kya karu",
-
-    // Spelling mistakes
-    "carrer","carier","carear"
-  ],
+  career: {
+    intent: [
+      "job change","job switch","switch karu",
+      "naukri","naukri chhod","job chhod",
+      "career decision","career ka decision",
+      "promotion","increment","growth",
+      "office pressure","toxic office",
+      "boss","manager",
+      "exam","competitive exam","upsc","ssc",
+      "govt job","sarkari naukri"
+    ],
+    keywords: [
+      "career","job","work","profession",
+      "salary","package","ctc","paisa"
+    ]
+  },
 
   /* =================================================
-     LOVE (Pre-relationship)
+     MONEY
   ================================================= */
 
-  love: [
-    "love","pyar","pyaar","crush","like",
-    "attraction","feelings","ishq","mohabbat",
-    "infatuation","one sided","situationship"
-  ],
+  money: {
+    intent: [
+      "invest","investment","sip","mutual fund",
+      "loan","emi","udhaar","debt",
+      "share","stock","trading","crypto","bitcoin",
+      "saving","bachat","budget",
+      "paisa lagau","risk lena",
+      "loss","profit","return"
+    ],
+    keywords: [
+      "money","paisa","paise",
+      "finance","financial","salary"
+    ]
+  },
 
   /* =================================================
-     RELATIONSHIP (Ongoing)
+     LOVE (Attraction / Feelings)
   ================================================= */
 
-  relationship: [
-    "relationship","relation","rishta","bond",
-    "partner","dating","boyfriend","girlfriend",
-    "bf","gf","couple","together","commitment",
-    "breakup","break up","separation",
-    "patch up","patchup","toxic relationship",
-    "trust issue","cheating"
-  ],
+  love: {
+    intent: [
+      "crush","like someone","attraction",
+      "feelings","one sided",
+      "pyar ho gaya","pyaar ho gaya",
+      "love ho gaya","situationship"
+    ],
+    keywords: [
+      "love","pyar","pyaar","ishq","mohabbat"
+    ]
+  },
+
+  /* =================================================
+     RELATIONSHIP (Ongoing bond)
+  ================================================= */
+
+  relationship: {
+    intent: [
+      "relationship me rehna",
+      "breakup","break up","separation",
+      "patch up","patchup",
+      "trust issue","cheating",
+      "toxic relationship",
+      "dating problem","commitment issue"
+    ],
+    keywords: [
+      "relationship","partner",
+      "boyfriend","girlfriend",
+      "bf","gf","couple"
+    ]
+  },
 
   /* =================================================
      MARRIAGE (Irreversible)
   ================================================= */
 
-  marriage: [
-    "marriage","marry","shaadi","shadi",
-    "shaadi karni","vivah","vivaah","nikah",
-    "engagement","engage","wedding","sadi",
-    "arranged marriage","love marriage",
-    "divorce","separation","married life"
-  ],
-
-   money: [
-  // Core
-  "money","paisa","paise","finance","financial",
-
-  // Indian usage
-  "loan","emi","debt","udhaar",
-  "investment","invest","sip","mutual fund",
-  "share","stock","trading","crypto","bitcoin",
-  "saving","savings","bachat",
-  "expense","kharcha","budget",
-
-  // Income / stress
-  "salary ka paisa","paise ki tension","financial stress",
-  "loss","nuksaan","profit","return",
-
-  // Decisions Indians ask
-  "loan le lu","invest karu","paise lagau",
-  "risk lena sahi hai","paisa dub jayega kya",
-
-  // Spelling mistakes
-  "mony","moeny","finence"
-],
+  marriage: {
+    intent: [
+      "shaadi karni","marriage decision",
+      "arranged marriage","love marriage",
+      "vivah","nikaah","nikah",
+      "engagement","wedding",
+      "divorce","married life"
+    ],
+    keywords: [
+      "marriage","marry","shaadi","shadi","sadi"
+    ]
+  },
 
   /* =================================================
-     GENERAL (Fallback – LAST ONLY)
+     GENERAL (Fallback — LAST ONLY)
   ================================================= */
 
-  general: [
-    "decision","confused","confusion","problem",
-    "issue","life","future","choice","faisla",
-    "soch","samajh nahi aa raha","kya karu"
-  ]
+  general: {
+    intent: [],
+    keywords: [
+      "decision","confused","confusion",
+      "problem","issue","life","future",
+      "choice","faisla",
+      "samajh nahi aa raha","kya karu"
+    ]
+  }
 
 };
-
-/* =====================================================
-   NOTES (READ ONCE, THEN IGNORE)
-   - Order matters: specific → generic
-   - First matched domain is selected
-   - Add new domains ABOVE general
-===================================================== */
