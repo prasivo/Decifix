@@ -222,18 +222,33 @@ th, td{
 <script src="domain-map.js"></script>
 
 <script>
-/* ===== DOMAIN DETECTION ===== */
-function detectDomain(userText){
-  if(!userText) return "general";
-  const text = userText.toLowerCase();
+/* =====================================================
+   DOMAIN DETECTION (INTENT → KEYWORDS)
+===================================================== */
+function detectDomain(text){
+  if(!text) return "general";
+  const t = text.toLowerCase();
 
+  // 1️⃣ Intent-based (strong)
   for (let domain in DOMAIN_MAP) {
-    for (let alias of DOMAIN_MAP[domain]) {
-      if (text.includes(alias)) {
-        return domain;
+    const d = DOMAIN_MAP[domain];
+    if (d.intent) {
+      for (let phrase of d.intent) {
+        if (t.includes(phrase)) return domain;
       }
     }
   }
+
+  // 2️⃣ Keyword-based (fallback)
+  for (let domain in DOMAIN_MAP) {
+    const d = DOMAIN_MAP[domain];
+    if (d.keywords) {
+      for (let word of d.keywords) {
+        if (t.includes(word)) return domain;
+      }
+    }
+  }
+
   return "general";
 }
 
@@ -244,8 +259,8 @@ if (situation) {
     "Tum jis situation par decision lene ja rahe ho: “" + situation + "”";
 }
 
-/* ===== BASE PATH (OPTION B) ===== */
-const basePath = location.pathname.split("/")[1];
+/* ===== GITHUB PAGES SAFE BASE PATH ===== */
+const basePath = location.pathname.split("/")[1] || "";
 
 /* ===== LOAD DOMAIN FIRST ===== */
 const domainName = detectDomain(situation);
