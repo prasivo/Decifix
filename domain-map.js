@@ -82,16 +82,6 @@ const DOMAIN_MAP = {
     "divorce","separation","married life"
   ],
 
-  /* =================================================
-     GENERAL (Fallback – LAST ONLY)
-  ================================================= */
-
-  general: [
-    "decision","confused","confusion","problem",
-    "issue","life","future","choice","faisla",
-    "soch","samajh nahi aa raha","kya karu"
-  ],
-
    money: [
   // Core
   "money","paisa","paise","finance","financial",
@@ -113,13 +103,19 @@ const DOMAIN_MAP = {
 
   // Spelling mistakes
   "mony","moeny","finence"
- ],
+],
+
+  /* =================================================
+     GENERAL (Fallback – LAST ONLY)
+  ================================================= */
+
+  general: [
+    "decision","confused","confusion","problem",
+    "issue","life","future","choice","faisla",
+    "soch","samajh nahi aa raha","kya karu"
+  ]
 
 };
-
-
-
-
 
 /* =====================================================
    NOTES (READ ONCE, THEN IGNORE)
