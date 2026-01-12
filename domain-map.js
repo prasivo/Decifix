@@ -90,9 +90,36 @@ const DOMAIN_MAP = {
     "decision","confused","confusion","problem",
     "issue","life","future","choice","faisla",
     "soch","samajh nahi aa raha","kya karu"
-  ]
+  ],
+
+   money: [
+  // Core
+  "money","paisa","paise","finance","financial",
+
+  // Indian usage
+  "loan","emi","debt","udhaar",
+  "investment","invest","sip","mutual fund",
+  "share","stock","trading","crypto","bitcoin",
+  "saving","savings","bachat",
+  "expense","kharcha","budget",
+
+  // Income / stress
+  "salary ka paisa","paise ki tension","financial stress",
+  "loss","nuksaan","profit","return",
+
+  // Decisions Indians ask
+  "loan le lu","invest karu","paise lagau",
+  "risk lena sahi hai","paisa dub jayega kya",
+
+  // Spelling mistakes
+  "mony","moeny","finence"
+ ],
 
 };
+
+
+
+
 
 /* =====================================================
    NOTES (READ ONCE, THEN IGNORE)
