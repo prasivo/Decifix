@@ -1,16 +1,10 @@
 /* =====================================================
-   DECIFIX — ENGINE V2 (FINAL)
+   DECIFIX — ENGINE V2 (ANIMATED & REFINED)
    CORE + UX + SAFETY + ANTI-DEPENDENCY
-   + Confidence Score
-   + Action Gate
-   + Contradiction Detector
-   + Evidence Prompt
+   Founder: Prasoon Gupta
 ===================================================== */
 
-/* =====================================================
-   EDGE-CASE SAFETY (PRE-CHECK)
-===================================================== */
-
+/* 1. EDGE-CASE SAFETY (PRE-CHECK) */
 const DANGEROUS_KEYWORDS = [
   "suicide","kill myself","end my life","self harm",
   "mar dunga","marna chahta","khud ko nuksan",
@@ -29,39 +23,31 @@ const userSituation = localStorage.getItem("decifix_situation") || "";
 
 if (detectDangerousIntent(userSituation)) {
   document.body.innerHTML = `
-    <div style="padding:32px;max-width:640px;margin:auto;color:#ddd">
-      <h2>Pause.</h2>
-      <p>Ye situation serious lag rahi hai.</p>
-      <p>Is waqt clarity se zyada safety zaroori lagti hai.</p>
-      <p style="opacity:.8">
-        Agar immediate danger ho, to kisi trusted insaan
-        ya professional tak pahunchna zyada madadgar hota hai.
-      </p>
-      <p style="opacity:.6">Yahan decision lena theek nahi lagta.</p>
+    <div style="padding:60px 20px; max-width:600px; margin:auto; text-align:center; animation: fadeIn 1s ease;">
+      <h2 style="color:#ff4444; letter-spacing:2px;">PAUSE.</h2>
+      <div style="height:1px; width:100px; background:#ff4444; margin:20px auto;"></div>
+      <p style="font-size:18px; line-height:1.6; color:#ddd">Ye situation serious lag rahi hai.</p>
+      <p style="opacity:.8; margin-top:15px;">Is waqt clarity se zyada safety zaroori hai.</p>
+      <p style="opacity:.6; margin-top:20px; font-size:14px;">Agar immediate danger ho, to kisi trusted insaan ya professional tak pahunchna zyada madadgar hota hai.</p>
+      <button onclick="location.href='index.html'" style="margin-top:30px; padding:10px 20px; background:none; border:1px solid #444; color:#aaa; cursor:pointer;">Back to Start</button>
     </div>
   `;
-  throw new Error("Dangerous intent");
+  throw new Error("Dangerous intent detected");
 }
 
-/* =====================================================
-   DOMAIN SAFETY
-===================================================== */
-
+/* 2. DOMAIN DATA VALIDATION */
 if (!window.DOMAIN_DATA || !Array.isArray(DOMAIN_DATA.rules)) {
-  document.body.innerHTML =
-    "<div style='padding:24px;color:#aaa'>Clarity unavailable right now.</div>";
+  document.body.innerHTML = "<div style='padding:40px; text-align:center; color:#6366f1;'>System calibrating... Please refresh.</div>";
   throw new Error("DOMAIN_DATA missing");
 }
 
-/* =====================================================
-   ENGINE CORE
-===================================================== */
-
+/* 3. ENGINE CORE STATE */
 let currentIndex = 0;
 const answers = [];
 let evidenceAsked = false;
+let locked = false;
 
-/* DOM */
+/* DOM ELEMENTS */
 const domainTitle   = document.getElementById("domainTitle");
 const ruleMeta      = document.getElementById("ruleMeta");
 const ruleQuestion  = document.getElementById("ruleQuestion");
@@ -73,31 +59,32 @@ const finalVerdict  = document.getElementById("finalVerdict");
 const finalNote     = document.getElementById("finalNote");
 const summaryTable  = document.getElementById("summaryTable");
 
-domainTitle.innerText = DOMAIN_DATA.title || "Decision";
+domainTitle.innerText = DOMAIN_DATA.title || "DECIFIX";
 
-/* ================= RENDER RULE ================= */
-
+/* 4. RENDER RULE WITH ANIMATION */
 function renderRule() {
   const r = DOMAIN_DATA.rules[currentIndex];
 
-  ruleMeta.innerText =
-    `Step ${currentIndex + 1} of ${DOMAIN_DATA.rules.length} · ${capitalize(r.time)}`;
-
+  ruleMeta.innerText = `PHASE: ${r.time.toUpperCase()} • STEP ${currentIndex + 1}/${DOMAIN_DATA.rules.length}`;
   ruleQuestion.innerText = r.question;
   positiveEl.innerText   = r.positiveCase;
   negativeEl.innerText   = r.negativeCase;
 
+  // Add a slight entry pulse to the question
+  ruleQuestion.style.animation = 'none';
+  ruleQuestion.offsetHeight; /* trigger reflow */
+  ruleQuestion.style.animation = 'fadeIn 0.5s ease-out';
+  
   lockButtons(false);
 }
 
-/* ================= USER ACTION ================= */
-
+/* 5. USER ACTION */
 function choose(userYes) {
   if (locked) return;
   lockButtons(true);
 
   // Evidence prompt (once, mid-flow)
-  if (!evidenceAsked && currentIndex >= 2 && currentIndex <= 5) {
+  if (!evidenceAsked && currentIndex >= 2 && currentIndex <= 4) {
     evidenceAsked = true;
     showEvidencePrompt(() => proceed(userYes));
     return;
@@ -105,6 +92,9 @@ function choose(userYes) {
 
   proceed(userYes);
 }
+
+// Attach globally for the HTML button
+window.engineChoose = choose;
 
 function proceed(userYes) {
   const r = DOMAIN_DATA.rules[currentIndex];
@@ -118,18 +108,24 @@ function proceed(userYes) {
     weight: r.weight
   });
 
+  // Smooth UI transition
+  ruleSection.style.opacity = '0';
+  ruleSection.style.transform = 'translateY(-10px)';
+
   setTimeout(() => {
     currentIndex++;
     if (currentIndex < DOMAIN_DATA.rules.length) {
-      fadeOutIn(renderRule);
+      ruleSection.style.transform = 'translateY(10px)';
+      renderRule();
+      ruleSection.style.opacity = '1';
+      ruleSection.style.transform = 'translateY(0)';
     } else {
       finishDecision();
     }
-  }, 300);
+  }, 400);
 }
 
-/* ================= FINAL DECISION ================= */
-
+/* 6. FINAL DECISION LOGIC */
 function finishDecision() {
   ruleSection.classList.add("hidden");
   resultSection.classList.remove("hidden");
@@ -147,25 +143,24 @@ function finishDecision() {
 
   let verdict = "";
   let note = "";
+  let themeColor = "#6366f1"; // Default Indigo
 
   if (criticalMismatch) {
     verdict = "NOT NOW";
-    note =
-      "Kuch aise points hain jahan risk ko lightly liya ja raha hai.\n" +
-      "Abhi rukna future ke liye behtar lagta hai.";
+    note = "Kuch aise points hain jahan risk ko lightly liya ja raha hai. Abhi rukna future ke liye behtar lagta hai.";
+    themeColor = "#ff4b2b"; // Red
   } else if (safeMatches >= Math.ceil(answers.length * 0.7)) {
     verdict = "GO AHEAD";
-    note =
-      "Tumhare answers zameeni reality ke saath align kar rahe hain.\n" +
-      "Is direction me aage badhna samajhdari lagti hai.";
+    note = "Tumhare answers zameeni reality ke saath align kar rahe hain. Is direction me aage badhna samajhdari lagti hai.";
+    themeColor = "#00f2fe"; // Cyan/Blue
   } else {
     verdict = "RECONSIDER";
-    note =
-      "Decision galat nahi hai,\n" +
-      "par picture abhi poori clear nahi lag rahi.";
+    note = "Decision galat nahi hai, par picture abhi poori clear nahi lag rahi.";
+    themeColor = "#f9d423"; // Yellow
   }
 
   finalVerdict.innerText = verdict;
+  finalVerdict.style.color = themeColor;
   finalNote.innerText = note;
 
   renderSummary();
@@ -175,177 +170,114 @@ function finishDecision() {
   applyAntiDependency();
 }
 
-/* ================= SUMMARY ================= */
-
+/* 7. UI HELPERS & ADD-ONS */
 function renderSummary() {
   summaryTable.innerHTML = "";
   answers.forEach(a => {
     const tr = document.createElement("tr");
+    tr.style.animation = `fadeIn 0.5s ease forwards`;
     tr.innerHTML = `
       <td>${a.index}</td>
-      <td>${capitalize(a.time)}</td>
-      <td>${a.question}</td>
-      <td>${a.userChoice}</td>
+      <td style="color:#6366f1">${a.question}</td>
+      <td style="font-weight:bold">${a.userChoice}</td>
     `;
     summaryTable.appendChild(tr);
   });
 }
 
-/* =====================================================
-   ENGINE UX
-===================================================== */
-
-let locked = false;
-const yesBtn = document.querySelector(".btn:nth-child(1)");
-const noBtn  = document.querySelector(".btn:nth-child(2)");
-
-function lockButtons(state) {
-  locked = state;
-  yesBtn.disabled = state;
-  noBtn.disabled  = state;
-  yesBtn.style.opacity = state ? .5 : 1;
-  noBtn.style.opacity  = state ? .5 : 1;
-}
-
-function fadeOutIn(fn) {
-  ruleSection.style.opacity = 0;
-  setTimeout(() => {
-    fn();
-    ruleSection.style.opacity = 1;
-  }, 200);
-}
-
-/* =====================================================
-   ENGINE V2 ADDITIONS
-===================================================== */
-
-function computeConfidence() {
+function renderConfidence() {
   let score = 0;
   answers.forEach(a => {
     if (a.userChoice === a.safeChoice) {
       score += (a.weight === "critical") ? 30 : 7;
     }
   });
-  return Math.min(100, score);
-}
-
-function renderConfidence() {
+  const finalScore = Math.min(100, score);
+  
   const c = document.createElement("div");
-  c.style.marginTop = "10px";
-  c.style.fontSize = "14px";
-  c.style.color = "#9ca3af";
-  c.innerText = `Clarity strength: ${computeConfidence()}/100`;
+  c.className = "context";
+  c.style.marginTop = "20px";
+  c.innerHTML = `Clarity Strength: <strong style="color:#6366f1">${finalScore}%</strong>`;
   resultSection.appendChild(c);
 }
 
 function renderActionGate(verdict) {
   const g = document.createElement("div");
-  g.style.marginTop = "16px";
-  g.style.padding = "12px";
-  g.style.border = "1px solid #2a2a2a";
-  g.style.borderRadius = "8px";
-  g.style.fontSize = "14px";
-  g.style.color = "#d1d5db";
+  g.style.cssText = "margin-top:20px; padding:20px; border:1px dashed #333; font-size:14px; color:#d1d5db; background:rgba(255,255,255,0.02);";
 
-  if (verdict === "GO AHEAD") {
-    g.innerHTML = "<strong>Next step:</strong> Agle 7 din me kaunsa chhota action test karoge?";
-  } else if (verdict === "NOT NOW") {
-    g.innerHTML = "<strong>Pause condition:</strong> Kaunsa ek factor clear hote hi tum wapas aoge?";
-  } else {
-    g.innerHTML = "<strong>Wait signals:</strong> Kaunse 2 signals milne par picture clear hogi?";
-  }
+  let gateText = "";
+  if (verdict === "GO AHEAD") gateText = "<strong>NEXT ACTION:</strong> Agle 7 din me kaunsa chhota step test karoge?";
+  else if (verdict === "NOT NOW") gateText = "<strong>PAUSE CONDITION:</strong> Kaunsa ek factor clear hote hi tum wapas aoge?";
+  else gateText = "<strong>WAIT SIGNALS:</strong> Kaunse 2 signals milne par picture clear hogi?";
 
+  g.innerHTML = gateText;
   resultSection.appendChild(g);
-}
-
-function detectContradiction() {
-  const byTime = { past: [], present: [], future: [] };
-  answers.forEach(a => byTime[a.time]?.push(a.userChoice));
-  if (byTime.past.includes("YES") && byTime.present.includes("NO") && byTime.future.includes("YES")) return true;
-  if (byTime.past.includes("NO") && byTime.present.includes("YES") && byTime.future.includes("NO")) return true;
-  return false;
-}
-
-function renderContradictionNote() {
-  if (!detectContradiction()) return;
-  const n = document.createElement("div");
-  n.style.marginTop = "8px";
-  n.style.fontSize = "13px";
-  n.style.color = "#9ca3af";
-  n.innerText = "Kuch answers aapas me contradict kar rahe hain.";
-  resultSection.appendChild(n);
 }
 
 function showEvidencePrompt(callback) {
   const o = document.createElement("div");
-  o.style.position = "fixed";
-  o.style.inset = "0";
-  o.style.background = "rgba(0,0,0,.6)";
-  o.style.display = "flex";
-  o.style.alignItems = "center";
-  o.style.justifyContent = "center";
+  o.style.cssText = "position:fixed; inset:0; background:rgba(5,5,9,0.9); display:flex; align-items:center; justify-content:center; z-index:100; backdrop-filter:blur(10px); animation:fadeIn 0.4s ease;";
 
   o.innerHTML = `
-    <div style="background:#111;padding:18px;border-radius:10px;max-width:420px">
-      <div style="margin-bottom:12px">
-        Is answer ke peeche koi real incident ya proof hai?
+    <div style="background:#0c0c14; padding:40px; border:1px solid #6366f1; text-align:center; max-width:400px; border-radius:4px;">
+      <div style="font-size:11px; letter-spacing:3px; color:#6366f1; margin-bottom:15px;">PROMPT CHECK</div>
+      <div style="margin-bottom:25px; line-height:1.5; font-size:16px;">Is answer ke peeche koi <strong>real incident</strong> ya strong proof hai?</div>
+      <div style="display:flex; gap:10px;">
+        <button class="btn ev" style="flex:1">YES, PROVED</button>
+        <button class="btn ev" style="flex:1">NO, FEELING</button>
       </div>
-      <button class="btn ev">YES</button>
-      <button class="btn ev">NO</button>
     </div>
   `;
 
   document.body.appendChild(o);
   o.querySelectorAll(".ev").forEach(b => {
     b.onclick = () => {
-      document.body.removeChild(o);
-      callback();
+      o.style.opacity = '0';
+      setTimeout(() => {
+        document.body.removeChild(o);
+        callback();
+      }, 300);
     };
   });
 }
 
-/* =====================================================
-   ANTI-DEPENDENCY
-===================================================== */
+function lockButtons(state) {
+  locked = state;
+  const btns = document.querySelectorAll(".btn");
+  btns.forEach(b => {
+    b.disabled = state;
+    b.style.opacity = state ? "0.3" : "1";
+  });
+}
 
 function applyAntiDependency() {
-  try { localStorage.removeItem("decifix_last_verdict"); } catch(e){}
-
   const now = Date.now();
   const last = Number(localStorage.getItem("decifix_last_run") || 0);
   localStorage.setItem("decifix_last_run", now);
 
   if (now - last < 5 * 60 * 1000) {
     const w = document.createElement("div");
-    w.style.marginTop = "14px";
-    w.style.fontSize = "13px";
-    w.style.color = "#9ca3af";
-    w.innerText =
-      "Is decision ko baar-baar repeat karna soch ko aur uljha sakta hai.";
+    w.style.cssText = "margin-top:15px; font-size:12px; color:#ff4b2b; text-align:center;";
+    w.innerText = "Repeated testing se clarity nahi, confusion badhti hai.";
     resultSection.appendChild(w);
   }
-
-  const own = document.createElement("div");
-  own.style.marginTop = "18px";
-  own.style.fontSize = "14px";
-  own.style.lineHeight = "1.6";
-  own.style.color = "#d1d5db";
-  own.innerHTML =
-    "Decision tumhara hai.<br>Yeh sirf ek mirror tha.<br><br>" +
-    "<strong>Uske baad regret nahi — jo hoga, dekha jayega.</strong>";
-  resultSection.appendChild(own);
 }
 
-/* =====================================================
-   HELPERS
-===================================================== */
+function renderContradictionNote() {
+  const byTime = { past: [], present: [], future: [] };
+  answers.forEach(a => byTime[a.time]?.push(a.userChoice));
+  
+  const logicJump = (byTime.past.includes("YES") && byTime.present.includes("NO") && byTime.future.includes("YES")) ||
+                    (byTime.past.includes("NO") && byTime.present.includes("YES") && byTime.future.includes("NO"));
 
-function capitalize(t) {
-  return t ? t.charAt(0).toUpperCase() + t.slice(1) : "";
+  if (logicJump) {
+    const n = document.createElement("div");
+    n.style.cssText = "margin-top:10px; font-size:13px; color:#9ca3af; font-style:italic;";
+    n.innerText = "Notice: Kuch answers logic gaps suggest kar rahe hain.";
+    resultSection.appendChild(n);
+  }
 }
 
-/* =====================================================
-   START
-===================================================== */
-
+// Kickstart
 renderRule();
+  
