@@ -1,268 +1,250 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>DECIFIX</title>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>DECIFIX | Clarity Filter</title>
 
-  <style>
-    *{
-      margin:0;
-      padding:0;
-      box-sizing:border-box;
-      font-family: Arial, Helvetica, sans-serif;
-    }
+<style>
+/* Base Reset */
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family: 'Segoe UI', Roboto, Arial, sans-serif;
+}
 
-    body{
-      background:#050509;
-      color:#fff;
-      min-height:100vh;
-    }
+body{
+  background:#050509;
+  color:#ffffff;
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  overflow: hidden; /* Clean look */
+}
 
-    .container{
-      width:94%;
-      max-width:760px;
-      margin:24px auto;
-      padding:24px;
-      background:#0c0c14;
-      border:1px solid #222;
-    }
+/* Background Animation */
+body::before {
+  content: "";
+  position: absolute;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle at center, #1a1a2e 0%, #050509 70%);
+  animation: pulseBg 10s ease-in-out infinite alternate;
+  z-index: -1;
+}
 
-    .header{
-      margin-bottom:20px;
-    }
-    .title{
-      font-size:26px;
-      letter-spacing:3px;
-    }
-    .sub{
-      font-size:12px;
-      letter-spacing:2px;
-      color:#9ca3af;
-      margin-top:6px;
-    }
+@keyframes pulseBg {
+  0% { transform: scale(1); opacity: 0.5; }
+  100% { transform: scale(1.1); opacity: 0.8; }
+}
 
-    .context{
-      margin-top:14px;
-      padding:14px;
-      background:#050509;
-      border:1px solid #333;
-      font-size:14px;
-      color:#d1d5db;
-    }
+/* Card Entry Animation */
+.card{
+  width:92%;
+  max-width:560px;
+  padding:50px 40px;
+  background: rgba(12, 12, 20, 0.8);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  text-align:center;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+  border-radius: 4px;
+  animation: slideUp 1s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
 
-    .rule-box{
-      margin-top:26px;
-      padding:20px;
-      border:1px solid #333;
-      background:#07070d;
-    }
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
 
-    .rule-meta{
-      font-size:12px;
-      letter-spacing:2px;
-      color:#9ca3af;
-      margin-bottom:10px;
-    }
+/* Logo Styling */
+.logo{
+  font-size:52px;
+  letter-spacing:10px;
+  font-weight:800;
+  background: linear-gradient(to bottom, #fff, #6366f1);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: fadeIn 2s ease-out;
+}
 
-    .question{
-      font-size:18px;
-      line-height:1.5;
-      margin-bottom:18px;
-    }
+.sub{
+  margin-top:12px;
+  font-size:12px;
+  letter-spacing:5px;
+  color:#9ca3af;
+  text-transform: uppercase;
+  animation: fadeIn 2.5s ease-out;
+}
 
-    .case{
-      border:1px solid #2a2a2a;
-      padding:14px;
-      margin-bottom:14px;
-      font-size:14px;
-      line-height:1.5;
-    }
+/* Divider with Pulse */
+.line{
+  width:160px;
+  height:1px;
+  background: linear-gradient(to right, transparent, #6366f1, transparent);
+  margin:32px auto;
+  position: relative;
+  overflow: hidden;
+}
 
-    .case strong{
-      display:block;
-      margin-bottom:6px;
-      color:#6366f1;
-    }
+.line::after {
+  content: "";
+  position: absolute;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to right, transparent, #fff, transparent);
+  animation: lightSweep 3s infinite;
+}
 
-    .actions{
-      display:flex;
-      gap:12px;
-      margin-top:16px;
-    }
+@keyframes lightSweep {
+  0% { left: -100%; }
+  50% { left: 100%; }
+  100% { left: 100%; }
+}
 
-    .btn{
-      flex:1;
-      padding:14px 0;
-      background:transparent;
-      border:1px solid #6366f1;
-      color:#6366f1;
-      letter-spacing:2px;
-      cursor:pointer;
-    }
+/* Input Fields */
+.info{
+  font-size:15px;
+  line-height:1.6;
+  color:#d1d5db;
+  margin-bottom: 10px;
+}
 
-    .btn:hover{
-      background:#6366f1;
-      color:#000;
-    }
+input{
+  width:100%;
+  margin-top:22px;
+  padding:16px;
+  background: rgba(5, 5, 9, 0.6);
+  border:1px solid #333;
+  color:#fff;
+  font-size:14px;
+  outline:none;
+  transition: all 0.3s ease;
+  border-radius: 2px;
+}
 
-    .hint{
-      margin-top:10px;
-      font-size:12px;
-      color:#6b7280;
-    }
+input:focus{
+  border-color: #6366f1;
+  box-shadow: 0 0 15px rgba(99, 102, 241, 0.2);
+}
 
-    .result{
-      margin-top:34px;
-    }
+/* Button Animation */
+button{
+  margin-top:28px;
+  width:100%;
+  padding:16px 0;
+  background:transparent;
+  border:1px solid #6366f1;
+  color:#6366f1;
+  font-weight: 600;
+  letter-spacing:4px;
+  cursor:pointer;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
 
-    .result h3{
-      font-size:22px;
-      letter-spacing:2px;
-      margin-bottom:14px;
-    }
+button:hover{
+  background:#6366f1;
+  color:#000;
+  box-shadow: 0 0 25px rgba(99, 102, 241, 0.4);
+}
 
-    .note{
-      font-size:14px;
-      line-height:1.6;
-      color:#d1d5db;
-    }
+/* Footer & Founder Info */
+.footer-group {
+  margin-top:30px;
+  animation: fadeIn 3.5s ease-out;
+}
 
-    table{
-      width:100%;
-      border-collapse:collapse;
-      margin-top:22px;
-      font-size:13px;
-    }
+.footer{
+  font-size:10px;
+  letter-spacing:3px;
+  color:#4b5563;
+  margin-bottom: 15px;
+}
 
-    th, td{
-      border:1px solid #333;
-      padding:8px;
-      text-align:left;
-    }
+.founder {
+  font-size: 11px;
+  letter-spacing: 2px;
+  color: #6366f1;
+  text-transform: uppercase;
+  opacity: 0.8;
+}
 
-    .lock{
-      margin-top:24px;
-      font-size:14px;
-      line-height:1.6;
-      color:#9ca3af;
-    }
+/* Global Keyframes */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
 
-    .hidden{
-      display:none;
-    }
-  </style>
+</style>
 </head>
 
 <body>
 
-<div class="container">
+<div class="card">
+  <div class="logo">DECIFIX</div>
+  <div class="sub">A CLEARER WAY TO DECIDE</div>
 
-  <div class="header">
-    <div class="title" id="domainTitle">DECIFIX</div>
-    <div class="sub">Decision in progress</div>
+  <div class="line"></div>
+
+  <div class="info">
+    Decision se pehle clarity.
   </div>
 
-  <div class="context" id="userContext">
-    Tum jis situation par decision lene ja rahe ho:
-  </div>
+  <input
+    id="situation"
+    type="text"
+    placeholder="Apni situation ek line me likho"
+    autocomplete="off"
+  />
 
-  <div id="ruleSection" class="rule-box">
-    <div class="rule-meta" id="ruleMeta"></div>
+  <button onclick="startFilter()">
+    START FILTER
+  </button>
 
-    <div class="question" id="ruleQuestion"></div>
-
-    <div class="case">
-      <strong>Agar tum YES choose karte ho:</strong>
-      <span id="positive"></span>
+  <div class="footer-group">
+    <div class="footer">
+      CALM DOWN • LETS CLEAR • YOUR POINT
     </div>
-
-    <div class="case">
-      <strong>Agar tum NO choose karte ho:</strong>
-      <span id="negative"></span>
-    </div>
-
-    <div class="actions">
-      <button class="btn" onclick="engineChoose(true)">YES</button>
-      <button class="btn" onclick="engineChoose(false)">NO</button>
-    </div>
-
-    <div class="hint">
-      Har choice ko real decision ki tarah treat kiya jaata hai.
+    <div class="founder">
+      Founder: Prasoon Gupta
     </div>
   </div>
-
-  <div id="resultSection" class="result hidden">
-    <h3 id="finalVerdict"></h3>
-    <div class="note" id="finalNote"></div>
-
-    <table>
-      <thead>
-        <tr>
-          <th>#</th>
-          <th>Time</th>
-          <th>Question</th>
-          <th>Your Choice</th>
-        </tr>
-      </thead>
-      <tbody id="summaryTable"></tbody>
-    </table>
-
-    <div class="lock">
-      Decision tumhara hai.  
-      Uske baad regret nahi —  
-      <strong>jo hoga, dekha jayega.</strong>
-    </div>
-  </div>
-
 </div>
 
-<!-- ================= DOMAIN + ENGINE LOADER ================= -->
-
-<script src="domain-map.js"></script>
-
 <script>
-/* ========= DOMAIN DETECTION ========= */
-function detectDomain(userText){
-  if(!userText) return "general";
-  const text = userText.toLowerCase();
+// Logic remains identical to your original code
+function normalizeText(text){
+  return text
+    .toLowerCase()
+    .replace(/[^a-z0-9\s]/gi, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+}
 
-  for (let domain in DOMAIN_MAP) {
-    for (let alias of DOMAIN_MAP[domain]) {
-      if (text.includes(alias)) {
-        return domain;
-      }
-    }
+function startFilter(){
+  let text = document.getElementById("situation").value;
+
+  if(!text || text.trim().length < 5){
+    alert("Apni situation thodi clear likho.");
+    return;
   }
-  return "general";
+
+  // Smooth fade out effect before redirect
+  document.querySelector('.card').style.opacity = '0';
+  document.querySelector('.card').style.transition = '0.5s';
+
+  text = normalizeText(text);
+  localStorage.setItem("decifix_situation", text);
+  
+  setTimeout(() => {
+    window.location.href = "engine.html";
+  }, 500);
 }
-
-/* ========= USER CONTEXT ========= */
-const situation = localStorage.getItem("decifix_situation") || "";
-if (situation) {
-  document.getElementById("userContext").innerText =
-    "Tum jis situation par decision lene ja rahe ho: “" + situation + "”";
-}
-
-/* ========= LOAD DOMAIN → THEN ENGINE ========= */
-const domainName = detectDomain(situation);
-
-// load domain js (RELATIVE PATH — GitHub Pages safe)
-const domainScript = document.createElement("script");
-domainScript.src = `domains/${domainName}.js`;
-
-domainScript.onload = () => {
-  const engineScript = document.createElement("script");
-  engineScript.src = `engine.js`;
-  document.body.appendChild(engineScript);
-};
-
-domainScript.onerror = () => {
-  document.body.innerHTML =
-    "<div style='padding:40px;color:#f87171'>Domain file load failed</div>";
-};
-
-document.body.appendChild(domainScript);
 </script>
 
 </body>
