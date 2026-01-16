@@ -1,12 +1,11 @@
 /* =====================================================
-   DECIFIX — ENGINE V3
-   FLOW + UX + SAFETY
-   BRAIN: decision-core.js (SINGLE SOURCE)
+   DECIFIX — ENGINE (STABLE CORE)
+   Rule-Based • Deterministic • No Advice Illusion
    Founder: Prasoon Gupta
 ===================================================== */
 
 /* =====================================================
-   1. EDGE-CASE SAFETY (PRE-CHECK)
+   1. SAFETY PRE-CHECK
 ===================================================== */
 
 const DANGEROUS_KEYWORDS = [
@@ -27,25 +26,28 @@ const userSituation = localStorage.getItem("decifix_situation") || "";
 
 if (detectDangerousIntent(userSituation)) {
   document.body.innerHTML = `
-    <div style="padding:60px 20px; max-width:600px; margin:auto; text-align:center;">
-      <h2 style="color:#ff4444; letter-spacing:2px;">PAUSE.</h2>
-      <p style="margin-top:20px;">Is situation me clarity se pehle safety zaroori hai.</p>
+    <div style="padding:60px 20px;max-width:600px;margin:auto;text-align:center">
+      <h2 style="color:#ff4b2b">PAUSE</h2>
+      <p style="margin-top:20px">
+        Ye situation serious lag rahi hai.<br>
+        Is waqt decision lena theek nahi.
+      </p>
       <button onclick="location.href='index.html'"
-        style="margin-top:30px; padding:10px 20px; background:none; border:1px solid #444; color:#aaa;">
-        Back to Start
+        style="margin-top:30px;padding:10px 20px;background:none;border:1px solid #444;color:#aaa">
+        Back
       </button>
     </div>
   `;
-  throw new Error("Dangerous intent detected");
+  throw new Error("Dangerous intent");
 }
 
 /* =====================================================
-   2. DOMAIN DATA VALIDATION
+   2. DOMAIN VALIDATION
 ===================================================== */
 
 if (!window.DOMAIN_DATA || !Array.isArray(DOMAIN_DATA.rules)) {
   document.body.innerHTML =
-    "<div style='padding:40px;text-align:center;color:#6366f1;'>System calibrating…</div>";
+    "<div style='padding:40px;text-align:center;color:#6366f1'>System calibrating…</div>";
   throw new Error("DOMAIN_DATA missing");
 }
 
@@ -54,7 +56,7 @@ if (!window.DOMAIN_DATA || !Array.isArray(DOMAIN_DATA.rules)) {
 ===================================================== */
 
 let currentIndex = 0;
-const answers = [];          // true = YES, false = NO
+const answers = []; // true = YES, false = NO
 let locked = false;
 
 /* DOM */
@@ -81,17 +83,10 @@ function renderRule() {
   ruleMeta.innerText =
     `STEP ${currentIndex + 1} / ${DOMAIN_DATA.rules.length}`;
 
-  ruleQuestion.innerText = r.question;
+  ruleQuestion.innerText = r.question || "";
 
-  positiveEl.innerText =
-    `Probability: ${Math.round(r.yes.probability * 100)}% · Impact: ${r.yes.impact}`;
-
-  negativeEl.innerText =
-    `Probability: ${Math.round(r.no.probability * 100)}% · Impact: ${r.no.impact}`;
-
-  ruleQuestion.style.animation = "none";
-  ruleQuestion.offsetHeight;
-  ruleQuestion.style.animation = "fadeIn 0.4s ease";
+  positiveEl.innerText = r.positiveCase || "YES";
+  negativeEl.innerText = r.negativeCase || "NO";
 
   lockButtons(false);
 }
@@ -104,45 +99,69 @@ function choose(userYes) {
   if (locked) return;
   lockButtons(true);
 
-  answers.push(userYes === true);
+  const r = DOMAIN_DATA.rules[currentIndex];
+
+  answers.push({
+    index: currentIndex + 1,
+    time: r.time || "-",
+    question: r.question,
+    userChoice: userYes ? "YES" : "NO",
+    safeChoice: (r.safeChoice || "").toUpperCase(),
+    weight: r.weight || "normal"
+  });
 
   ruleSection.style.opacity = "0";
-  ruleSection.style.transform = "translateY(-10px)";
 
   setTimeout(() => {
     currentIndex++;
     if (currentIndex < DOMAIN_DATA.rules.length) {
-      ruleSection.style.transform = "translateY(10px)";
       renderRule();
       ruleSection.style.opacity = "1";
-      ruleSection.style.transform = "translateY(0)";
     } else {
       finishDecision();
     }
-  }, 350);
+  }, 300);
 }
 
 window.engineChoose = choose;
 
 /* =====================================================
-   6. FINAL DECISION (🔥 ONLY PLACE USING BRAIN)
+   6. FINAL DECISION (RULE-BASED)
 ===================================================== */
 
 function finishDecision() {
   ruleSection.classList.add("hidden");
   resultSection.classList.remove("hidden");
 
-  /* 🔥 SINGLE SOURCE OF TRUTH */
-  const result = calculateDecision(
-    DOMAIN_DATA.rules,
-    answers
-  );
+  let criticalFail = false;
+  let alignCount = 0;
 
-  finalVerdict.innerText = result.verdict;
-  finalNote.innerText =
-    `Decision score: ${result.score}`;
+  answers.forEach(a => {
+    if (a.safeChoice && a.userChoice === a.safeChoice) {
+      alignCount++;
+    } else if (a.weight === "critical" && a.safeChoice) {
+      criticalFail = true;
+    }
+  });
 
-  renderSummary(result.breakdown);
+  let verdict = "";
+  let note = "";
+
+  if (criticalFail) {
+    verdict = "NOT NOW";
+    note = "Kuch critical points par risk ignore ho raha hai.";
+  } else if (alignCount >= Math.ceil(answers.length * 0.7)) {
+    verdict = "GO AHEAD";
+    note = "Decision reality ke saath align karta hai.";
+  } else {
+    verdict = "RECONSIDER";
+    note = "Picture abhi clear nahi lag rahi.";
+  }
+
+  finalVerdict.innerText = verdict;
+  finalNote.innerText = note;
+
+  renderSummary();
   applyAntiDependency();
 }
 
@@ -150,15 +169,16 @@ function finishDecision() {
    7. SUMMARY
 ===================================================== */
 
-function renderSummary(breakdown) {
+function renderSummary() {
   summaryTable.innerHTML = "";
-  breakdown.forEach((b, i) => {
+
+  answers.forEach(a => {
     const tr = document.createElement("tr");
     tr.innerHTML = `
-      <td>${i + 1}</td>
-      <td>${DOMAIN_DATA.rules[i].question}</td>
-      <td>${b.choice}</td>
-      <td>${b.ev}</td>
+      <td>${a.index}</td>
+      <td>${a.time}</td>
+      <td>${a.question}</td>
+      <td>${a.userChoice}</td>
     `;
     summaryTable.appendChild(tr);
   });
@@ -185,9 +205,9 @@ function applyAntiDependency() {
     const w = document.createElement("div");
     w.style.marginTop = "14px";
     w.style.fontSize = "12px";
-    w.style.color = "#ff4b2b";
+    w.style.color = "#9ca3af";
     w.innerText =
-      "Same decision ko baar-baar test karna clarity nahi badhata.";
+      "Same decision ko baar-baar repeat karna clarity kam karta hai.";
     resultSection.appendChild(w);
   }
 }
